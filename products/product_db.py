@@ -20,7 +20,8 @@ db = SQLAlchemy(app)
 class Stores(db.Model):
     store_id: int = db.Column(db.Integer, primary_key=True)
     store_name: str = db.Column(db.String(40), unique=True, nullable=False)
-    store_id_relationships = db.relationship('StoreProducts', secondary='Prices', lazy=True)
+    store = db.relationship('StoreProducts', backref='store', lazy=True)
+    price = db.relationship('Prices', backref='store', lazy=True)
 
 
 class Products(db.Model):
@@ -28,7 +29,8 @@ class Products(db.Model):
     product_name = db.Column(db.String(60), nullable=False)
     unit_of_measure = db.Column(db.String(15), nullable=False)
     unit_of_measure_size = db.Column(db.Float, nullable=False)
-    p_id_relationships = db.relationship('Prices', secondary='StoreProducts', lazy=True)
+    p_store = db.relationship('StoreProducts', backref='product', lazy=True)
+    p_price = db.relationship('Prices', backref='product', lazy=True)
 
 
 class StoreProducts(db.Model):
@@ -50,4 +52,10 @@ class Prices(db.Model):
 
 # db.create_all()
 
-
+countdown = Stores(store_name='countdown')
+db.session.add(countdown)
+milk = Products(product_name='milk', unit_of_measure='L', unit_of_measure_size=3.0)
+db.session.add(milk)
+c_milk = StoreProducts(store_product_code='abc123', store=countdown, product=milk)
+db.session.add(c_milk)
+db.session.commit()
