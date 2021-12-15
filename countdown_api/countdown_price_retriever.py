@@ -9,11 +9,15 @@ COMPANY_PACKNSAVE = 'packnsave'
 
 class CountdownPriceRetriever:
 
-    def __init__(self, product_id: str, company_product_id: str):
+    def __init__(self, product_id: int, company_product_id: str):
         self.company_product_id = company_product_id
         self.product_id = product_id
 
     def get_product_price(self):
+        """
+        Retrieve product price from countdown api for provided product code and return price of product along
+        with the provided product code, date retrieved, company name and sale price is applicable.
+        """
         url = f'https://shop.countdown.co.nz/api/v1/products/{self.company_product_id}'
         headers = {
             # pretend to be chrome
@@ -31,15 +35,19 @@ class CountdownPriceRetriever:
             response.raise_for_status()
 
         response_object = response.json()
-        print(response_object["name"])
+        # print(response_object["name"])
 
         # set price with other details
         price = Price(self.product_id, self.company_product_id, COMPANY_COUNTDOWN,
                       datetime.date.today(), response_object["price"]["salePrice"])
 
+        # print(price.product_id)
+
         return price
 
 
 print(datetime.date.today())
-c = CountdownPriceRetriever('1',  '282819')
-c.get_product_price()
+c = CountdownPriceRetriever(1,  '282819')
+# c.get_product_price()
+
+
