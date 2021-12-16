@@ -22,8 +22,8 @@ date_now = datetime.now().date()
 class Stores(db.Model):
     store_id: int = db.Column(db.Integer, primary_key=True)
     store_name: str = db.Column(db.String(40), unique=True, nullable=False)
-    store = db.relationship('StoreProducts', backref='store', lazy=True)
-    price = db.relationship('Prices', backref='store', lazy=True)
+    store = db.relationship('StoreProducts', cascade='all, delete-orphan', backref='store', lazy=True)
+    price = db.relationship('Prices', cascade='all, delete-orphan', backref='store', lazy=True)
 
 
 class Products(db.Model):
@@ -31,21 +31,21 @@ class Products(db.Model):
     product_name: str = db.Column(db.String(60), nullable=False)
     unit_of_measure: str = db.Column(db.String(15), nullable=False)
     unit_of_measure_size: float = db.Column(db.Float, nullable=False)
-    p_store = db.relationship('StoreProducts', backref='product', lazy=True)
-    p_price = db.relationship('Prices', backref='product', lazy=True)
+    p_store = db.relationship('StoreProducts', cascade='all, delete-orphan', backref='product', lazy=True)
+    p_price = db.relationship('Prices', cascade='all, delete-orphan', backref='product', lazy=True)
 
 
 class StoreProducts(db.Model):
     store_product_id: int = db.Column(db.Integer, primary_key=True)
-    store_id: int = db.Column(db.Integer, db.ForeignKey('stores.store_id'), nullable=False)
-    product_id: int = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
+    store_id: int = db.Column(db.Integer, db.ForeignKey('stores.store_id', ondelete='CASCADE'), nullable=False)
+    product_id: int = db.Column(db.Integer, db.ForeignKey('products.product_id', ondelete='CASCADE'), nullable=False)
     store_product_code: str = db.Column(db.String(40), nullable=False)
 
 
 class Prices(db.Model):
     price_id: int = db.Column(db.Integer, primary_key=True)
-    product_id: int = db.Column(db.Integer, db.ForeignKey('products.product_id'), nullable=False)
-    store_id: int = db.Column(db.Integer, db.ForeignKey('stores.store_id'), nullable=False)
+    product_id: int = db.Column(db.Integer, db.ForeignKey('products.product_id', ondelete='CASCADE'), nullable=False)
+    store_id: int = db.Column(db.Integer, db.ForeignKey('stores.store_id', ondelete='CASCADE'), nullable=False)
     price_date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     price: float = db.Column(db.Float, nullable=False)
     is_onsale: bool = db.Column(db.Boolean, default=False)
