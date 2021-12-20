@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
+from countdown_api.countdown_price_retriever import product_price
 import os
 
 COMPANY_COUNTDOWN = 'countdown'
@@ -14,8 +15,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{USER}:{PASSWORD}@localhost/pr
 
 # SQLAlchemy database instance
 db = SQLAlchemy(app)
-
-date_now = datetime.now().date()
 
 
 # Create table in database
@@ -54,12 +53,16 @@ class Prices(db.Model):
 
 # db.create_all()
 #
-# countdown = Stores(store_name='countdown')
+# countdown = Stores(store_name=product_price.company_name)
 # db.session.add(countdown)
-# milk = Products(product_name='milk', unit_of_measure='L', unit_of_measure_size=3.0)
-# db.session.add(milk)
-# c_milk = StoreProducts(store_product_code='abc123', store=countdown, product=milk)
-# db.session.add(c_milk)
-# price1 = Prices(price_date=date_now, price=5.50, is_onsale=False, store=countdown, product=milk)
-# db.session.add(price1)
+# countdown_product = Products(product_name="Test Milk",
+#                              unit_of_measure="L",
+#                              unit_of_measure_size=3.0)
+# db.session.add(countdown_product)
+# countdown_store_product = StoreProducts(store_product_code=product_price.company_product_id, store=countdown,
+#                                         product=countdown_product)
+# db.session.add(countdown_store_product)
+# countdown_price = Prices(price_date=product_price.price_date, price=product_price.price, is_onsale=False,
+#                          store=countdown, product=countdown_product)
+# db.session.add(countdown_price)
 # db.session.commit()

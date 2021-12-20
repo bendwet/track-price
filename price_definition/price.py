@@ -10,3 +10,4 @@ class Price:
         self.company_name = company_name
         self.price_date = price_date
         self.price = price
+
