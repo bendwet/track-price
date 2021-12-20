@@ -1,4 +1,3 @@
-import datetime
 import requests
 import re
 from product_definition.product import Product
