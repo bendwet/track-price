@@ -1,6 +1,6 @@
 import requests
 import re
-from product_definition.product import Product
+from define_product.product import Product
 
 # temp variables
 COMPANY_COUNTDOWN = 'countdown'
@@ -53,4 +53,4 @@ class CountdownProductRetriever:
 c = CountdownProductRetriever(1,  '148425')
 countdown_product = c.get_product_details()
 
-print(countdown_product.product_name)
+# print(countdown_product.product_name)

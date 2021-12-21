@@ -52,7 +52,7 @@ class Prices(db.Model):
 
 
 # db.create_all()
-#
+
 # countdown = Stores(store_name=product_price.company_name)
 # db.session.add(countdown)
 # countdown_product = Products(product_name="Test Milk",
