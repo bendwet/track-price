@@ -40,13 +40,5 @@ class CountdownPriceRetriever:
         price = Price(self.product_id, self.company_product_id, COMPANY_COUNTDOWN,
                       datetime.date.today(), response_object["price"]["salePrice"])
 
-        # print(price.product_id)
-
         return price
 
-
-# print(datetime.date.today())
-c = CountdownPriceRetriever(1,  '148425')
-product_price = c.get_product_price()
-
-# print(product_price.price)

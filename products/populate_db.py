@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from countdown_api.countdown_product_retriever import countdown_product
-from product_db import db, Stores, StoreProducts, Products, Prices
+from products.product_db import db, Stores, StoreProducts, Products, Prices
 from sqlalchemy import select
 
 TABLE_NAMES = ['stores', 'products', 'store_products', 'prices']
@@ -31,7 +30,6 @@ class InsertProduct:
         # scalars() to return single element rather than row object, returns columns value instead of the column itself
         store_id_result = result.scalars().all()[0].store_id
         self.new_store_id = store_id_result
-        print(self.new_store_id)
 
     def new_product(self):
         """
@@ -40,9 +38,8 @@ class InsertProduct:
         insert_new_product = Products(product_name=self.new_product_name, unit_of_measure=self.new_unit_of_measure,
                                       unit_of_measure_size=self.new_size)
         db.session.add(insert_new_product)
-        db.commit()
+        db.session.commit()
         self.new_product_id = insert_new_product.product_id
-        print(self.new_product_id)
 
     def new_store_product(self):
         """
@@ -51,12 +48,12 @@ class InsertProduct:
         insert_new_store_product = StoreProducts(store_product_code=self.new_product_code, store_id=self.new_product_id,
                                                  product_id=self.new_product_id)
         db.session.add(insert_new_store_product)
-        db.commit()
+        db.session.commit()
 
     def product_run_all(self):
         self.get_store()
         self.new_product()
-        self.new_product()
+        self.new_store_product()
 
 
 class InsertPrice:
@@ -93,7 +90,7 @@ class InsertPrice:
 
         db.session.add(insert_new_price)
         db.session.commit()
-        
+
     def price_run_all(self):
         self.get_id()
         self.new_price()

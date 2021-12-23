@@ -50,7 +50,7 @@ class CountdownProductRetriever:
         return product_details
 
 
-c = CountdownProductRetriever(1,  '148425')
-countdown_product = c.get_product_details()
+# c = CountdownProductRetriever(1,  '148425')
+# countdown_product = c.get_product_details()
 
 # print(countdown_product.product_name)

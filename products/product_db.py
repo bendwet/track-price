@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
-from countdown_api.countdown_price_retriever import product_price
 import os
 
 COMPANY_COUNTDOWN = 'countdown'
@@ -53,8 +52,9 @@ class Prices(db.Model):
 
 # db.create_all()
 
-# countdown = Stores(store_name=product_price.company_name)
+# countdown = Stores(store_name='countdown')
 # db.session.add(countdown)
+# db.session.commit()
 # countdown_product = Products(product_name="Test Milk",
 #                              unit_of_measure="L",
 #                              unit_of_measure_size=3.0)
