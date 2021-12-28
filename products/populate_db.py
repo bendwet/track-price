@@ -30,6 +30,7 @@ class InsertProduct:
         # scalars() to return single element rather than row object, returns columns value instead of the column itself
         store_id_result = result.scalars().all()[0].store_id
         self.new_store_id = store_id_result
+        # TODO: check if store exists, if not, create new store with provided name
 
     def new_product(self):
         """
@@ -45,8 +46,8 @@ class InsertProduct:
         """
         Insert a new store product
         """
-        insert_new_store_product = StoreProducts(store_product_code=self.new_product_code, store_id=self.new_product_id,
-                                                 product_id=self.new_product_id)
+        insert_new_store_product = StoreProducts(store_id=self.new_store_id, product_id=self.new_product_id,
+                                                 store_product_code=self.new_product_code)
         db.session.add(insert_new_store_product)
         db.session.commit()
 
@@ -58,6 +59,7 @@ class InsertProduct:
 
 class InsertPrice:
 
+    # id variables
     new_store_id = 0
     new_product_id = 0
 

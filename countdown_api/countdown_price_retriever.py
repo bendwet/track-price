@@ -4,14 +4,12 @@ from price_definition.price import Price
 
 # temp variables
 COMPANY_COUNTDOWN = 'countdown'
-COMPANY_PACKNSAVE = 'packnsave'
 
 
 class CountdownPriceRetriever:
 
-    def __init__(self, product_id: int, company_product_id: str):
+    def __init__(self, company_product_id: str):
         self.company_product_id = company_product_id
-        self.product_id = product_id
 
     def get_product_price(self):
         """
@@ -37,8 +35,7 @@ class CountdownPriceRetriever:
         response_object = response.json()
 
         # set price with other details
-        price = Price(self.product_id, self.company_product_id, COMPANY_COUNTDOWN,
-                      datetime.date.today(), response_object["price"]["salePrice"])
+        price = Price(self.company_product_id, COMPANY_COUNTDOWN, datetime.date.today(),
+                      response_object["price"]["salePrice"])
 
         return price
-

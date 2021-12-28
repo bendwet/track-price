@@ -16,7 +16,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{USER}:{PASSWORD}@localhost/pr
 db = SQLAlchemy(app)
 
 
-# Create table in database
+# Create tables in database
+
+# Stores table
 class Stores(db.Model):
     store_id: int = db.Column(db.Integer, primary_key=True)
     store_name: str = db.Column(db.String(40), unique=True, nullable=False)
@@ -24,6 +26,7 @@ class Stores(db.Model):
     price = db.relationship('Prices', cascade='all, delete-orphan', backref='store', lazy=True)
 
 
+# Products table
 class Products(db.Model):
     product_id: int = db.Column(db.Integer, primary_key=True)
     product_name: str = db.Column(db.String(60), nullable=False)
@@ -33,6 +36,7 @@ class Products(db.Model):
     p_price = db.relationship('Prices', cascade='all, delete-orphan', backref='product', lazy=True)
 
 
+# Store product table
 class StoreProducts(db.Model):
     store_product_id: int = db.Column(db.Integer, primary_key=True)
     store_id: int = db.Column(db.Integer, db.ForeignKey('stores.store_id', ondelete='CASCADE'), nullable=False)
@@ -40,6 +44,7 @@ class StoreProducts(db.Model):
     store_product_code: str = db.Column(db.String(40), nullable=False)
 
 
+# Price table
 class Prices(db.Model):
     price_id: int = db.Column(db.Integer, primary_key=True)
     product_id: int = db.Column(db.Integer, db.ForeignKey('products.product_id', ondelete='CASCADE'), nullable=False)
@@ -48,10 +53,11 @@ class Prices(db.Model):
     price: float = db.Column(db.Float, nullable=False)
     is_onsale: bool = db.Column(db.Boolean, default=False)
     price_sale: float = db.Column(db.Float)
+    __table_args__ = (db.UniqueConstraint('product_id', 'store_id', 'price_date'),)
 
 
 # db.create_all()
-
+#
 # countdown = Stores(store_name='countdown')
 # db.session.add(countdown)
 # db.session.commit()

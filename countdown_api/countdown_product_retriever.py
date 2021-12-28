@@ -4,14 +4,12 @@ from define_product.product import Product
 
 # temp variables
 COMPANY_COUNTDOWN = 'countdown'
-COMPANY_PACKNSAVE = 'packnsave'
 
 
 class CountdownProductRetriever:
 
-    def __init__(self, product_id: int, company_product_id: str):
+    def __init__(self, company_product_id: str):
         self.company_product_id = company_product_id
-        self.product_id = product_id
 
     def get_product_details(self):
         """
@@ -40,11 +38,10 @@ class CountdownProductRetriever:
 
         # split object quantity into unit of measurement and size
         product_size = response_object["size"]["volumeSize"]
+        # split where there is a number 0-9 (and a '.' if there is one)
         split_size = re.split('([0-9.]+)', product_size)
-        # print(split_size)
-
         # set price with other details
-        product_details = Product(self.product_id, self.company_product_id, COMPANY_COUNTDOWN, response_object["name"],
+        product_details = Product(self.company_product_id, COMPANY_COUNTDOWN, response_object["name"],
                                   split_size[2], split_size[1])
 
         return product_details
