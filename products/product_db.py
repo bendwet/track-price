@@ -3,8 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
 import os
 
+# Temporary code
 COMPANY_COUNTDOWN = 'countdown'
 COMPANY_PACKNSAVE = 'packnsave'
+# end temporary code
 
 USER = os.environ['MYSQLUSER']
 PASSWORD = os.environ['MYSQLPASSWORD']
@@ -19,25 +21,28 @@ db = SQLAlchemy(app)
 # Create tables in database
 
 # Stores table
-class Stores(db.Model):
+class Store(db.Model):
+    __tablename__: str = 'stores'
     store_id: int = db.Column(db.Integer, primary_key=True)
     store_name: str = db.Column(db.String(40), unique=True, nullable=False)
-    store = db.relationship('StoreProducts', cascade='all, delete-orphan', backref='store', lazy=True)
-    price = db.relationship('Prices', cascade='all, delete-orphan', backref='store', lazy=True)
+    store_products = db.relationship('StoreProduct', cascade='all, delete-orphan', backref='store', lazy=True)
+    prices = db.relationship('Price', cascade='all, delete-orphan', backref='store', lazy=True)
 
 
 # Products table
-class Products(db.Model):
+class Product(db.Model):
+    __tablename__: str = 'products'
     product_id: int = db.Column(db.Integer, primary_key=True)
     product_name: str = db.Column(db.String(60), nullable=False)
     unit_of_measure: str = db.Column(db.String(15), nullable=False)
     unit_of_measure_size: float = db.Column(db.Float, nullable=False)
-    p_store = db.relationship('StoreProducts', cascade='all, delete-orphan', backref='product', lazy=True)
-    p_price = db.relationship('Prices', cascade='all, delete-orphan', backref='product', lazy=True)
+    store_products = db.relationship('StoreProduct', cascade='all, delete-orphan', backref='product', lazy=True)
+    prices = db.relationship('Price', cascade='all, delete-orphan', backref='product', lazy=True)
 
 
 # Store product table
-class StoreProducts(db.Model):
+class StoreProduct(db.Model):
+    __tablename__: str = 'store_products'
     store_product_id: int = db.Column(db.Integer, primary_key=True)
     store_id: int = db.Column(db.Integer, db.ForeignKey('stores.store_id', ondelete='CASCADE'), nullable=False)
     product_id: int = db.Column(db.Integer, db.ForeignKey('products.product_id', ondelete='CASCADE'), nullable=False)
@@ -45,7 +50,8 @@ class StoreProducts(db.Model):
 
 
 # Price table
-class Prices(db.Model):
+class Price(db.Model):
+    __tablename__: str = 'prices'
     price_id: int = db.Column(db.Integer, primary_key=True)
     product_id: int = db.Column(db.Integer, db.ForeignKey('products.product_id', ondelete='CASCADE'), nullable=False)
     store_id: int = db.Column(db.Integer, db.ForeignKey('stores.store_id', ondelete='CASCADE'), nullable=False)
@@ -58,7 +64,7 @@ class Prices(db.Model):
 
 # db.create_all()
 #
-# countdown = Stores(store_name='countdown')
+# countdown = Store(store_name='countdown')
 # db.session.add(countdown)
 # db.session.commit()
 # countdown_product = Products(product_name="Test Milk",
