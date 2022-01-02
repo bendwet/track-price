@@ -1,5 +1,5 @@
 from countdown_api.countdown_product_retriever import CountdownProductRetriever
-from products.populate_db import DatabasePopulator
+from products.database_populator import DatabasePopulator
 
 
 def save_countdown_product():

@@ -20,21 +20,14 @@ class DatabasePopulator:
 
         product = product_repository.get_by_name(store_product.product_name)
 
-        print(product)
-
         if product is None:
             product = Product()
-            print(product)
             product.product_name = store_product.product_name
-
-        print(product.product_id)
 
         product.unit_of_measure = store_product.unit_of_measure
         product.unit_of_measure_size = store_product.unit_of_measure_size
 
         product_repository.save(product)
-
-        print(product.product_id)
 
         store_product_repository.create_store_product(product.product_id, store.store_id,
                                                       store_product.store_product_code)

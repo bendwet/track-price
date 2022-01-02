@@ -1,5 +1,5 @@
 from countdown_api.countdown_price_retriever import CountdownPriceRetriever
-from products.populate_db import InsertPrice
+from products.database_populator import InsertPrice
 from sqlalchemy import select
 from products.product_db import db, StoreProducts
 
