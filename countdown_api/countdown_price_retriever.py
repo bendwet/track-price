@@ -1,22 +1,17 @@
 import datetime
 import requests
-from price_definition.price import Price
-
-# temp variables
-COMPANY_COUNTDOWN = 'countdown'
+from price_definition.price import ProductPriceModel
 
 
 class CountdownPriceRetriever:
 
-    def __init__(self, company_product_id: str):
-        self.company_product_id = company_product_id
-
-    def get_product_price(self):
+    @staticmethod
+    def get_product_price(store_product_code: str):
         """
         Retrieve product price from countdown api for provided product code and return price of product along
         with the provided product code, date retrieved, company name and sale price.
         """
-        url = f'https://shop.countdown.co.nz/api/v1/products/{self.company_product_id}'
+        url = f'https://shop.countdown.co.nz/api/v1/products/{store_product_code}'
         headers = {
             # pretend to be chrome
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -45,8 +40,8 @@ class CountdownPriceRetriever:
             product_on_sale = False
 
         # set price with other details
-        price = Price(self.company_product_id, COMPANY_COUNTDOWN, datetime.date.today(),
-                      original_price, sale_price, product_on_sale)
+        price = ProductPriceModel(datetime.date.today(), original_price, sale_price,
+                                  product_on_sale)
 
         return price
 

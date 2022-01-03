@@ -17,7 +17,7 @@ class StoreProductRepository:
 
         existing_store_product.store_product_code = store_product_code
 
-        db.session.merge(existing_store_product)
+        db.session.add(existing_store_product)
         db.session.commit()
 
     """def delete()"""

@@ -67,14 +67,3 @@ class Price(db.Model):
 # countdown = Store(store_name='countdown')
 # db.session.add(countdown)
 # db.session.commit()
-# countdown_product = Products(product_name="Test Milk",
-#                              unit_of_measure="L",
-#                              unit_of_measure_size=3.0)
-# db.session.add(countdown_product)
-# countdown_store_product = StoreProducts(store_product_code=product_price.company_product_id, store=countdown,
-#                                         product=countdown_product)
-# db.session.add(countdown_store_product)
-# countdown_price = Prices(price_date=product_price.price_date, price=product_price.price, is_onsale=False,
-#                          store=countdown, product=countdown_product)
-# db.session.add(countdown_price)
-# db.session.commit()

@@ -2,12 +2,9 @@ from datetime import datetime
 
 
 # holds a price definition
-class Price:
-    def __init__(self, company_product_id: str, company_name: str, price_date: datetime.date,
-                 original_price: float, sale_price: float, is_on_sale: bool):
-        self.company_product_id = company_product_id
-        self.company_name = company_name
+class ProductPriceModel:
+    def __init__(self, price_date: datetime.date, price: float, price_sale: float, is_onsale: bool):
         self.price_date = price_date
-        self.original_price = original_price
-        self.sale_price = sale_price
-        self.is_on_sale = is_on_sale
+        self.price = price
+        self.price_sale = price_sale
+        self.is_onsale = is_onsale
