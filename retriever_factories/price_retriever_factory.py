@@ -1,7 +1,7 @@
 from countdown_api.countdown_price_retriever import CountdownPriceRetriever
 from products.database_populator import DatabasePopulator
 from sqlalchemy import select
-from products.product_db import db, Price, StoreProduct, Store
+from products.product_db import db, StoreProduct, Store
 
 
 def save_countdown_price():
@@ -15,13 +15,10 @@ def save_countdown_price():
         .filter(Store.store_name == 'countdown') \
         .one_or_none()[0]
 
-    # select store_product_code from store_products table if the store is countdown
-    select_store_product_codes = select(StoreProduct.store_product_code) \
-        .where(StoreProduct.store_id == countdown_store_id)
-    # execute the select
-    result = db.session.execute(select_store_product_codes)
-    # scalars to return single element rather than column row
-    store_product_codes = result.scalars().all()
+    # get store product codes where the store id corresponds to countdown
+    store_product_codes = [store_product_code for store_product_code, in
+                           db.session.query(StoreProduct.store_product_code).filter(
+                               StoreProduct.store_id == countdown_store_id)]
 
     countdown_price_retriever = CountdownPriceRetriever()
     database_populator = DatabasePopulator()
