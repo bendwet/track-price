@@ -59,11 +59,12 @@ class Price(db.Model):
     price: float = db.Column(db.Float, nullable=False)
     is_onsale: bool = db.Column(db.Boolean, default=False)
     price_sale: float = db.Column(db.Float)
+    # comma at end to create tuple with 1 item
     __table_args__ = (db.UniqueConstraint('product_id', 'store_id', 'price_date'),)
 
 
 # db.create_all()
-#
-# countdown = Store(store_name='countdown')
-# db.session.add(countdown)
+
+# paknsave = Store(store_name='paknsave')
+# db.session.add(paknsave)
 # db.session.commit()

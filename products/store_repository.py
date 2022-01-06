@@ -1,5 +1,4 @@
 from products.product_db import Store, db
-from sqlalchemy import select
 
 
 class StoreRepository:

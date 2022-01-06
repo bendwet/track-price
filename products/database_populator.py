@@ -45,8 +45,6 @@ class DatabasePopulator:
         price_repository.create_price(store_product.product_id, store_product.store_id, product_price.price_date,
                                       product_price.price, product_price.is_onsale, product_price.price_sale)
 
-        pass
-
 
 # class InsertPrice:
 #
