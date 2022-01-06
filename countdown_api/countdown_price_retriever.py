@@ -1,15 +1,18 @@
 import datetime
 import requests
+from requests.exceptions import HTTPError
 from price_definition.price import ProductPriceModel
+from retrying import retry
 
 
 class CountdownPriceRetriever:
 
     @staticmethod
-    def get_product_price(store_product_code: str):
+    @retry(stop_max_attempt_number=20, wait_random_min=10000, wait_random_max=60000)
+    def request_product_price(store_product_code: str):
         """
-        Retrieve product price from countdown api for provided product code and return price of product along
-        with the provided product code, date retrieved, company name and sale price.
+        Retrieve product price from countdown api for provided product code and return json object of response. Retry
+        request after a period of time if request fails.
         """
         url = f'https://shop.countdown.co.nz/api/v1/products/{store_product_code}'
         headers = {
@@ -21,6 +24,7 @@ class CountdownPriceRetriever:
             'Content-Type': 'application/json',
             'X-Requested-With': 'OnlineShopping.WebApp'
         }
+
         response = requests.get(url, headers=headers)
 
         # if the response failed, raise an error
@@ -29,6 +33,14 @@ class CountdownPriceRetriever:
 
         response_object = response.json()
 
+        return response_object
+
+    @staticmethod
+    def create_price(response_object):
+        """
+        Return an instance of ProductPriceModel with appropriate details such as original price, sale price, date, if
+        the product is on sale or not
+        """
         # get original price and sale price
         original_price = response_object["price"]["originalPrice"]
         sale_price = response_object["price"]["salePrice"]

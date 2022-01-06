@@ -37,7 +37,8 @@ def save_price():
         # call price retriever and send price to database for each store product code
         for store_product_code in store_product_codes:
             try:
-                product_price = price_retriever.get_product_price(store_product_code)
+                response_object = price_retriever.request_product_price(store_product_code)
+                product_price = price_retriever.create_price(response_object)
                 database_populator.save_price(product_price, store_product_code)
             except requests.exceptions.HTTPError as err:
                 print(f'Error number when retrieving price: {store_product_code} for {store[1]}: {err}')

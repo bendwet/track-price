@@ -17,6 +17,7 @@ class PriceRepository:
         price_exists = db.session.query(Price).filter(Price.product_id == product_id, Price.store_id == store_id,
                                                       Price.price_date == price_date).one_or_none()
 
+        # Check if price exists and update or add new price if does not exist
         if price_exists is None:
             product_price = Price()
             product_price.product_id = product_id
