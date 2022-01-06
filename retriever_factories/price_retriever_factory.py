@@ -1,5 +1,3 @@
-import sqlalchemy
-from sqlalchemy import exc
 from countdown_api.countdown_price_retriever import CountdownPriceRetriever
 from products.database_populator import DatabasePopulator
 from products.product_db import db, StoreProduct, Store
@@ -10,11 +8,6 @@ def save_price():
     """
     Get price of provided store product code and send relevant details to database.
     """
-
-    # for each store
-        # get store price retriever
-    # for each store product
-    # get price for product and save to database
 
     # get store_id and store_name for each store in Store table
     get_stores = [store_row for store_row in db.session.query(Store.store_id, Store.store_name)]

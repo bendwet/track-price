@@ -1,6 +1,5 @@
 import datetime
 import requests
-from requests.exceptions import HTTPError
 from price_definition.price import ProductPriceModel
 from retrying import retry
 
