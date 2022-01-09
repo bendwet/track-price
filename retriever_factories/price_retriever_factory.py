@@ -2,6 +2,9 @@ from countdown_api.countdown_price_retriever import CountdownPriceRetriever
 from products.database_populator import DatabasePopulator
 from products.product_db import db, StoreProduct, Store
 import requests
+import os
+
+print(os.environ)
 
 
 def save_price():

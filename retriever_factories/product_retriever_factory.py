@@ -8,8 +8,8 @@ def save_countdown_product():
     product name, unit of measurement, company name etc.
     """
     product_retriever = CountdownProductRetriever()
-    response_object = product_retriever.request_company_product('282819')
-    countdown_product = product_retriever.create_product('282819', response_object)
+    response_object = product_retriever.request_company_product('827847')
+    countdown_product = product_retriever.create_product('827847', response_object)
 
     # Send product details to database
     database_populator = DatabasePopulator()
