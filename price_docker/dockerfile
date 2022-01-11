@@ -1,12 +1,16 @@
 FROM python:3.9
 
 WORKDIR /app
+
+RUN apt-get update
+RUN apt-get install libaio1
+
 COPY ../requirements.txt /app
 RUN pip install -r requirements.txt
 
 COPY ./ /app
-
 ENV PYTHONPATH "${PYTHONPATH}:/app"
-
+ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:instantclient-linux/instantclient_21_4"
 EXPOSE 5000
+
 CMD ["python", "retriever_factories/price_retriever_factory.py"]

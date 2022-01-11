@@ -4,7 +4,7 @@ from products.product_db import db, StoreProduct, Store
 import requests
 import os
 
-print(os.environ)
+# print(os.environ)
 
 
 def save_price():
@@ -39,6 +39,4 @@ def save_price():
             except requests.exceptions.HTTPError as err:
                 print(f'Error number when retrieving price: {store_product_code} for {store[1]}: {err}')
 
-
-save_price()
 
