@@ -12,8 +12,13 @@ def save_price():
     Get price of provided store product code and send relevant details to database.
     """
 
+    tns_admin_folder = os.environ["TNS_ADMIN"]
+    print(f"test tns_admin folder = {tns_admin_folder}")
+
     # get store_id and store_name for each store in Store table
     get_stores = [store_row for store_row in db.session.query(Store.store_id, Store.store_name)]
+
+    print(get_stores)
 
     for store in get_stores:
 
@@ -38,5 +43,3 @@ def save_price():
                 database_populator.save_price(product_price, store_product_code)
             except requests.exceptions.HTTPError as err:
                 print(f'Error number when retrieving price: {store_product_code} for {store[1]}: {err}')
-
-
