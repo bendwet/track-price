@@ -13,8 +13,8 @@ COMPANY_PACKNSAVE = 'packnsave'
 # USER = os.environ['MYSQLUSER']
 # PASSWORD = os.environ['MYSQLPASSWORD']
 
-# ORCL_USER = os.environ['ORCLUSER']
-# ORCL_PASSWORD = os.environ['ORCLPASSWORD']
+ORCL_USER = os.environ['ORCLUSER']
+ORCL_PASSWORD = os.environ['ORCLPASSWORD']
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{USER}:{PASSWORD}@localhost/pricedb'
