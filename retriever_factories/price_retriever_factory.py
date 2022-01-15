@@ -12,8 +12,8 @@ def save_price():
     Get price of provided store product code and send relevant details to database.
     """
 
-    tns_admin_folder = os.environ["TNS_ADMIN"]
-    print(f"test tns_admin folder = {tns_admin_folder}")
+    # tns_admin_folder = os.environ["TNS_ADMIN"]
+    # print(f"test tns_admin folder = {tns_admin_folder}")
 
     # get store_id and store_name for each store in Store table
     get_stores = [store_row for store_row in db.session.query(Store.store_id, Store.store_name)]

@@ -2,16 +2,17 @@ FROM python:3.9
 
 WORKDIR /app
 
-RUN apt-get update
+RUN apt-get update -y
 RUN apt-get install libaio1
-RUN e
 
 COPY ../requirements.txt /app
 RUN pip install -r requirements.txt
 
 COPY ./ /app
 ENV PYTHONPATH "${PYTHONPATH}:/app"
-ENV LD_LIBRARY_PATH "${LD_LIBRARY_PATH}:instantclient-linux/instantclient_21_4"
+ENV PATH "${PATH}:/app"
+ENV LD_LIBRARY_PATH=/app/oracle_lib/instantclient_21_4:$LD_LIBRARY_PATH
+
 EXPOSE 5000
 
-CMD ["python", "entrypoint.py"]
+CMD ["python", "/app/entrypoint.py"]

@@ -119,5 +119,6 @@ dmypy.json
 /instantclient_21_4
 /Oracle
 **/.idea
-
+/oracle_config
+/oracle_lib
 .env

@@ -13,16 +13,16 @@ COMPANY_PACKNSAVE = 'packnsave'
 # USER = os.environ['MYSQLUSER']
 # PASSWORD = os.environ['MYSQLPASSWORD']
 
-ORCL_USER = os.environ['ORCLUSER']
-ORCL_PASSWORD = os.environ['ORCLPASSWORD']
+# ORCL_USER = os.environ['ORCLUSER']
+# ORCL_PASSWORD = os.environ['ORCLPASSWORD']
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{USER}:{PASSWORD}@localhost/pricedb'
-
 # locate database wallet files
-# cx_Oracle.init_oracle_client(config_dir=r"opt/oracle/instantclient_21_4")
+cx_Oracle.init_oracle_client(lib_dir="/app/oracle_lib/instantclient_21_4",
+                             config_dir="/app/oracle_config/Wallet_pricedb")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f'oracle://{ORCL_USER}:{ORCL_PASSWORD}@pricedb_high'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'oracle+cx_oracle://admin:Silvermoshi1@pricedb_high'
 
 # SQLAlchemy database instance
 db = SQLAlchemy(app)
