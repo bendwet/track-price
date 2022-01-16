@@ -29,3 +29,5 @@ windows:
 linux:
     export ORACLE_HOME=/opt/oracle/instantclient_21_4
     export TNS_ADMIN=/mnt/e/OracleCloudWallet/Wallet_pricedb
+
+Edit sqlnet.ora with path to instant client
