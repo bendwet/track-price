@@ -4,7 +4,6 @@ from datetime import datetime, date
 import cx_Oracle
 import os
 
-
 # Temporary code
 COMPANY_COUNTDOWN = 'countdown'
 COMPANY_PACKNSAVE = 'packnsave'
@@ -19,8 +18,8 @@ ORCL_PASSWORD = os.environ['ORCLPASSWORD']
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{USER}:{PASSWORD}@localhost/pricedb'
 # locate database wallet files
-cx_Oracle.init_oracle_client(lib_dir="/app/oracle_lib/instantclient_21_4",
-                             config_dir="/app/oracle_config/Wallet_pricedb")
+cx_Oracle.init_oracle_client(lib_dir="oracle_lib/instantclient_21_4",
+                             config_dir="oracle_config/Wallet_pricedb")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'oracle+cx_oracle://{ORCL_USER}:{ORCL_PASSWORD}@pricedb_high'
 
