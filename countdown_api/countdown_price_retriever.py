@@ -50,9 +50,14 @@ class CountdownPriceRetriever:
         else:
             product_on_sale = False
 
+        if original_price == 0:
+            is_available = False
+        else:
+            is_available = True
+
         # set price with other details
         price = ProductPriceModel(datetime.date.today(), original_price, sale_price,
-                                  product_on_sale)
+                                  product_on_sale, is_available)
 
         return price
 

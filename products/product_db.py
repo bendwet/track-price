@@ -18,7 +18,7 @@ ORCL_PASSWORD = os.environ['ORCLPASSWORD']
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{USER}:{PASSWORD}@localhost/pricedb'
 # locate database wallet files
-cx_Oracle.init_oracle_client(lib_dir="oracle_lib/instantclient_21_4",
+cx_Oracle.init_oracle_client(lib_dir="E:\OracleInstantClient\instantclient\instantclient_21_3",
                              config_dir="oracle_config/Wallet_pricedb")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'oracle+cx_oracle://{ORCL_USER}:{ORCL_PASSWORD}@pricedb_high'
@@ -68,12 +68,13 @@ class Price(db.Model):
     price: float = db.Column(db.Float, nullable=False)
     is_onsale: bool = db.Column(db.Boolean, default=False)
     price_sale: float = db.Column(db.Float)
+    is_available: bool = db.Column(db.Boolean, default=True)
     # comma at end to create tuple with 1 item
     __table_args__ = (db.UniqueConstraint('product_id', 'store_id', 'price_date'),)
 
 
 # db.create_all()
 #
-# paknsave = Store(store_name='pavknsave')
-# db.session.add(paknsave)
+# countdown = Store(store_name='countdown')
+# db.session.add(countdown)
 # db.session.commit()

@@ -2,9 +2,6 @@ from countdown_api.countdown_price_retriever import CountdownPriceRetriever
 from products.database_populator import DatabasePopulator
 from products.product_db import db, StoreProduct, Store
 import requests
-import os
-
-# print(os.environ)
 
 
 def save_price():
@@ -12,13 +9,8 @@ def save_price():
     Get price of provided store product code and send relevant details to database.
     """
 
-    # tns_admin_folder = os.environ["TNS_ADMIN"]
-    # print(f"test tns_admin folder = {tns_admin_folder}")
-
     # get store_id and store_name for each store in Store table
     get_stores = [store_row for store_row in db.session.query(Store.store_id, Store.store_name)]
-
-    print(get_stores)
 
     for store in get_stores:
 
