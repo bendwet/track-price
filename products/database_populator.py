@@ -46,39 +46,3 @@ class DatabasePopulator:
                                       product_price.price, product_price.is_onsale, product_price.price_sale,
                                       product_price.is_available)
 
-
-# class InsertPrice:
-#
-#     # id variables
-#     price_store_id = 0
-#     price_product_id = 0
-#
-#     def __init__(self, new_product_price, new_price_date, new_is_onsale, new_price_sale, store_item_code):
-#         self.new_price_date = new_price_date
-#         self.new_product_price = new_product_price
-#         self.new_is_onsale = new_is_onsale
-#         self.new_price_sale = new_price_sale
-#         self.store_item_code = store_item_code
-#
-#     def get_id(self):
-#         """
-#         Get product_id and store_id from store_products table, raise error if provided product code does not exist
-#         in the table.
-#         """
-#         get_ids = select(StoreProducts.store_id, StoreProducts.product_id).where(StoreProducts.store_product_code ==
-#                                                                                  self.store_item_code)
-#         result = db.session.execute(get_ids)
-#         id_result = result.all()[0]
-#         self.price_store_id = id_result[0]
-#         self.price_product_id = id_result[1]
-#
-#     def new_price(self):
-#         """
-#         Insert new price of product into price table.
-#         """
-#         insert_new_price = Prices(product_id=self.price_product_id, store_id=self.price_store_id,
-#                                   price_date=self.new_price_date, price=self.new_product_price,
-#                                   is_onsale=self.new_is_onsale)
-#
-#         db.session.add(insert_new_price)
-#         db.session.commit()

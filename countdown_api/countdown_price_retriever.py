@@ -13,6 +13,7 @@ class CountdownPriceRetriever:
         Retrieve product price from countdown api for provided product code and return json object of response. Retry
         request after a period of time if request fails.
         """
+
         url = f'https://shop.countdown.co.nz/api/v1/products/{store_product_code}'
         headers = {
             # pretend to be chrome
@@ -24,8 +25,8 @@ class CountdownPriceRetriever:
             'X-Requested-With': 'OnlineShopping.WebApp'
         }
 
-        response = requests.get(url, headers=headers)
-
+        print(f'url = {url}')
+        response = requests.get(url, headers=headers, timeout=60)
         # if the response failed, raise an error
         if response.status_code != requests.codes.ok:
             response.raise_for_status()
@@ -40,6 +41,7 @@ class CountdownPriceRetriever:
         Return an instance of ProductPriceModel with appropriate details such as original price, sale price, date, if
         the product is on sale or not
         """
+
         # get original price and sale price
         original_price = response_object["price"]["originalPrice"]
         sale_price = response_object["price"]["salePrice"]
@@ -58,6 +60,5 @@ class CountdownPriceRetriever:
         # set price with other details
         price = ProductPriceModel(datetime.date.today(), original_price, sale_price,
                                   product_on_sale, is_available)
-
         return price
 

@@ -13,18 +13,15 @@ def save_price():
     get_stores = [store_row for store_row in db.session.query(Store.store_id, Store.store_name)]
 
     for store in get_stores:
-
         # get store product codes where the store id corresponds to countdown
         store_product_codes = [store_product_code for store_product_code, in
                                db.session.query(StoreProduct.store_product_code).filter(
                                    StoreProduct.store_id == store[0])]
 
         price_retriever = CountdownPriceRetriever()
-
         if store[1] == "paknsave":
             # price_retriever = PaknsavePriceRetriever()
             pass
-
         database_populator = DatabasePopulator()
 
         # call price retriever and send price to database for each store product code
@@ -35,3 +32,4 @@ def save_price():
                 database_populator.save_price(product_price, store_product_code)
             except requests.exceptions.HTTPError as err:
                 print(f'Error number when retrieving price: {store_product_code} for {store[1]}: {err}')
+

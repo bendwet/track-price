@@ -121,4 +121,5 @@ dmypy.json
 **/.idea
 /oracle_config
 /oracle_lib
+/oracle_lib32bit
 .env
