@@ -87,13 +87,14 @@ celerybeat-schedule
 *.sage.py
 
 # Environments
-.env
+price_docker/.env
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+.vscode/
 
 # Spyder project settings
 .spyderproject
@@ -112,3 +113,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Directories
+/OracleInstantClient
+/instantclient_21_4
+/Oracle
+**/.idea
+/oracle_config
+/oracle_lib
+/oracle_lib32bit
+.env
