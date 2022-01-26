@@ -7,8 +7,8 @@ export const SidebarData = [
         className: 'sidebar-text'
     },
     {
-        title: 'Food Basket',
-        path: '/FoodBasket',
+        title: 'Item Basket',
+        path: '/ItemBasket',
         className: 'sidebar-text'
     },
 ]

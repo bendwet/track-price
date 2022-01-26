@@ -2,7 +2,7 @@ import React from 'react';
 import './css/main.css';
 import Sidebar from './components/sidebar';
 import {BrowserRouter, Routes, Link, Route} from "react-router-dom";
-import FoodBasket from './pages/FoodBasket';
+import ItemBasket from './pages/ItemBasket';
 import Home from './pages/Home';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path="/" element={<Home/>}/>
-          <Route path="/FoodBasket" element={<FoodBasket/>}/>
+          <Route path="/ItemBasket" element={<ItemBasket/>}/>
         </Routes>
       </BrowserRouter>
     </div>
