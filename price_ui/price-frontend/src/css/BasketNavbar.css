@@ -1,0 +1,26 @@
+/* .BasketNavbarContainer {
+
+} */
+
+.BasketNavbar {
+    display: flex;
+}
+
+.BasketNavbarItems {
+    display: flex;
+    color: white;
+    margin: 25px;
+    margin-left: 300px;
+    border-bottom: 1px solid rgb(100, 100, 100);
+    padding: 1px;
+    padding-bottom: 15px;
+    list-style-type: none;
+}
+
+li {
+    margin-right: 100px;
+}
+
+.SearchItem {
+    margin-right: 500px;
+}

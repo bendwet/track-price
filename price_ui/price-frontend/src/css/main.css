@@ -1,5 +1,5 @@
 body {
-    background: #181712;
+    background: #0f0f0f;
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -7,27 +7,27 @@ body {
     margin:0;
   }
   
-.web-title {
+.WebTitle {
     color: #ff5233;
     text-align: left;
     font-size: 20px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: #1f1b1a;
+    background-color: #181818;
     outline-style: solid;
-    outline-width: 1px;
+    outline-width: 3px;
     outline-color: rgb(56, 56, 56);
-    width: 250px;
+    width: auto;
 }
 
-.title-text {
+.TitleText {
   padding-left: 5px;
 }
 
-.Home-text{
+.HomeText{
   color: white;
 }
 
-.ItemBasket-text {
+.ItemBasketText {
   color: white;
 }
 

@@ -1,0 +1,11 @@
+.ItemContainer {
+    display: flex;
+    background: #1a1a1a;
+    color: white;
+    width: 890px;
+    height: 75vh;
+    margin-left: 550px;
+    border: 1px solid rgb(100, 100, 100);
+
+}
+
