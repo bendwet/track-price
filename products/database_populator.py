@@ -21,8 +21,13 @@ class DatabasePopulator:
         # Map the company product model to a product
 
         product = product_repository.get_by_name(store_product.product_name)
-
+        # check if product does not exist already
         if product is None:
+            product = Product()
+            product.product_name = store_product.product_name
+
+        # if product exists check if quantity size differs
+        if product is not None and float(store_product.unit_of_measure_size) != product.unit_of_measure_size:
             product = Product()
             product.product_name = store_product.product_name
 
