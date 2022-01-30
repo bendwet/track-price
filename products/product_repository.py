@@ -7,7 +7,7 @@ class ProductRepository:
 
     @staticmethod
     def get_by_name(name: str) -> Product:
-        return db.session.query(Product).filter(Product.product_name == name).all()[0]
+        return db.session.query(Product).filter(Product.product_name == name).first()
 
     @staticmethod
     def save(product: Product):
