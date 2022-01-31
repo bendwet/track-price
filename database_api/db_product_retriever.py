@@ -17,7 +17,7 @@ def retrieve_product():
 
     # convert to json object
     json_object = json.dumps(item_list)
-    
+
     return json_object
 
 
