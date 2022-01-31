@@ -19,6 +19,3 @@ def retrieve_product():
     json_object = json.dumps(item_list)
 
     return json_object
-
-
-app.run()
