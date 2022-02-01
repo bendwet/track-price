@@ -1,6 +1,9 @@
 import json
+from flask_cors import CORS 
 from products.product_db import db, app, Store, Product, StoreProduct
 
+
+CORS(app)
 
 @app.route('/retrieve_product', methods=['GET'])
 def retrieve_product():
