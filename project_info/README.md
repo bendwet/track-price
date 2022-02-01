@@ -35,3 +35,7 @@ or set lib_dir = oracle_lib/instantclient_21_4
 config_dir = oracle_config/wallet_pricedb
 
 Edit sqlnet.ora with path to instant client
+
+## Frontend
+
+useEffect() https://www.digitalocean.com/community/tutorials/how-to-handle-async-data-loading-lazy-loading-and-code-splitting-with-react

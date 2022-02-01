@@ -13,10 +13,20 @@ function ItemListData() {
 
 	console.log(products)
 
+  let jsonString = JSON.parse(JSON.stringify(products));
+
+  console.log(jsonString[0]['product_name'])
+
   return (
     <div>
-      <h1>test</h1>
-			<h2>{ JSON.stringify(products[0]) }</h2>
+      <div className='Refresh'>
+        <button className='RefreshButton' onClick={() => dispatch(getProduct())}>
+          refresh
+        </button>
+      </div>
+        <div>
+          <h2>{ JSON.stringify(products[0]) }</h2>
+        </div>
     </div>
     );
 }

@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios';
 
 export const getProduct: any = createAsyncThunk(
   'databaseProductApi/getProduct',
@@ -10,27 +9,6 @@ export const getProduct: any = createAsyncThunk(
     return response
   }
 );
-    
-
-//       // retrieve product name, size and store name
-//       const response = axios({
-//         method: 'get',
-//         url: 'http://127.0.0.1:5000/retrieve_product',
-//     })
-//     // Log returned result
-//     .then((res) => {
-//       console.log(res.data);
-//       return res.data
-//     })
-//   // Otherwise log error
-//     .catch((err) => {
-//       console.log(err);
-//       return err
-//     });
-  
-//     console.log('retrieved product info');
-//     return response
-
 
 export const productApiSlice = createSlice({
 	name: 'productApi',
@@ -57,4 +35,4 @@ export const productApiSlice = createSlice({
   },
 });
 
-export default productApiSlice.reducer
+export default productApiSlice.reducer;
