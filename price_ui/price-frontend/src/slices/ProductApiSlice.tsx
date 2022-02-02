@@ -25,7 +25,7 @@ export const productApiSlice = createSlice({
     },
 
 		[getProduct.pending]: (state) => {
-			state.products = 'loading';
+			state.status = 'loading';
 		},
 
 		[getProduct.rejected]: (state) => {

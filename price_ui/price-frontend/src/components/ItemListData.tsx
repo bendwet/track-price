@@ -5,17 +5,19 @@ import { getProduct } from '../slices/ProductApiSlice';
 
 function ItemListData() {
 	const dispatch = useDispatch();
-	const { products } = useSelector((state: RootState) => state.products) 
-
+	const { products, status } = useSelector((state: RootState) => state.products) 
+  
 	useEffect(() => {
 		dispatch(getProduct())
 	}, [dispatch]);
 
-	console.log(products)
-
-  let jsonString = JSON.parse(JSON.stringify(products));
-
-  console.log(jsonString[0]['product_name'])
+  // parse products into usable format
+  let productList = JSON.parse(JSON.stringify(products));
+  // check if correct state of array has updated and converted needed info into array
+  if (Array.isArray(productList)){
+    productList = productList.map(product => (product['product_name'] + ' ' + product['unit_of_measure_size'] + product['unit_of_measure']));
+    console.log(productList)
+  };
 
   return (
     <div>
@@ -24,8 +26,15 @@ function ItemListData() {
           refresh
         </button>
       </div>
-        <div>
-          <h2>{ JSON.stringify(products[0]) }</h2>
+        <div className='ItemListContainer'>
+          <h1>{ JSON.stringify(status) }</h1>
+          {/* only render productlist if it is an array */}
+          { Array.isArray(productList) && 
+            productList.map(product => 
+              <ul className='ItemDisplay'>
+                <li className='Items' key={product}>{product}</li>
+              </ul>)
+          }
         </div>
     </div>
     );
