@@ -9,9 +9,7 @@ function ItemList() {
 
   return (
     <div className='ItemContainer'>
-      <div className='RefreshButtonContainer'>
-        <button className='RefreshButton' onClick={() => dispatch(getProduct())}>Refresh</button>
-      </div>
+      
       <ItemListData />
     </div>
   );

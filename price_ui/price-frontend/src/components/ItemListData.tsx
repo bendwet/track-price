@@ -21,6 +21,9 @@ function ItemListData() {
 
   return (
     <div className='ItemListContainer'>
+      <div className='RefreshButtonContainer'>
+        <button className='RefreshButton' onClick={() => dispatch(getProduct())}>Refresh</button>
+      </div>
       <div className='ItemListData'>
         <h1>{ JSON.stringify(status) }</h1>
         {/* only render productlist if it is an array */}

@@ -10,13 +10,19 @@
     
 }
 
+.RefreshButtonContainer {
+    position: absolute;
+    height: 25px;
+    margin-left: 925px;
+}
+
 .ItemListContainer  {
     overflow-x: auto;
     width: auto;
 }
 
 .Items {
-    font-size: 25px;
+    font-size: 20px;
     text-align: left;
     outline-style: solid;
     outline-width: 1px;
@@ -25,6 +31,8 @@
     outline-color: rgb(56, 56, 56);
     padding-left: 5px;
     margin-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     width: 900px;
 }
 
