@@ -26,10 +26,12 @@ export const productApiSlice = createSlice({
 
 		[getProduct.pending]: (state) => {
 			state.status = 'loading';
+      state.products = 'loading';
 		},
 
 		[getProduct.rejected]: (state) => {
 			state.status = 'failed';
+      state.products = 'failed';
 		}
 
   },

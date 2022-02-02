@@ -16,26 +16,21 @@ function ItemListData() {
   // check if correct state of array has updated and converted needed info into array
   if (Array.isArray(productList)){
     productList = productList.map(product => (product['product_name'] + ' ' + product['unit_of_measure_size'] + product['unit_of_measure']));
-    console.log(productList)
+    // console.log(productList)
   };
 
   return (
-    <div>
-      <div className='Refresh'>
-        <button className='RefreshButton' onClick={() => dispatch(getProduct())}>
-          refresh
-        </button>
+    <div className='ItemListContainer'>
+      <div className='ItemListData'>
+        <h1>{ JSON.stringify(status) }</h1>
+        {/* only render productlist if it is an array */}
+        <ul className='ItemDisplay'>
+        { Array.isArray(productList) && 
+          productList.map(product => 
+            <li className='Items' key={product}>{product}</li>
+          )}
+        </ul>
       </div>
-        <div className='ItemListContainer'>
-          <h1>{ JSON.stringify(status) }</h1>
-          {/* only render productlist if it is an array */}
-          { Array.isArray(productList) && 
-            productList.map(product => 
-              <ul className='ItemDisplay'>
-                <li className='Items' key={product}>{product}</li>
-              </ul>)
-          }
-        </div>
     </div>
     );
 }

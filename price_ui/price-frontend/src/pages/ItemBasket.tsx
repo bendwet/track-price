@@ -6,20 +6,20 @@ import AddItem from "../components/AddItem";
 
 function ItemBasket() {
     return (
-        <div className="ItemBasket">
-            <h1 className="ItemBasketText">ItemBasket</h1>
-            <div className="TopBarContainer">
-                <div className="AddItemButton">
-                    <AddItem />
-                </div>
-                <div className="BasketNavbar"> 
-                    <BasketNavbar />
-                </div>
-            </div>
-            <div>
-                <ItemList />
-            </div>
+      <div className="ItemBasket">
+        <h1 className="ItemBasketText">ItemBasket</h1>
+        <div className="TopBarContainer">
+          <div className="AddItemButton">
+            <AddItem />
+          </div>
+          <div className="BasketNavbar"> 
+            <BasketNavbar />
+          </div>
         </div>
+        <div>
+          <ItemList />
+        </div>
+      </div>
     );
 }
 
