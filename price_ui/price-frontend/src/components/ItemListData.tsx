@@ -1,7 +1,17 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../stores/store';
+import { RootState, store } from '../stores/store';
 import { getProduct } from '../slices/ProductApiSlice';
+
+
+const splitString = (stringToSplit: string) => {
+  let storeName = stringToSplit.split(' ')[0];
+  let productInfo = stringToSplit.slice(storeName.length, stringToSplit.indexOf('$'));
+  let productPrice = stringToSplit.slice(stringToSplit.indexOf('$'));
+  return [storeName, productInfo, productPrice];
+}
+
+
 
 function ItemListData() {
 	const dispatch = useDispatch();
@@ -15,7 +25,8 @@ function ItemListData() {
   let productList = JSON.parse(JSON.stringify(products));
   // check if correct state of array has updated and converted needed info into array
   if (Array.isArray(productList)){
-    productList = productList.map(product => (product['product_name'] + ' ' + product['unit_of_measure_size'] + product['unit_of_measure']));
+    productList = productList.map(product => (product['store_name'] + ' ' + product['product_name'] + ' ' + product['unit_of_measure_size'] + product['unit_of_measure'] + 
+    ' ' + '$' + product['price_sale']));
     // console.log(productList)
   };
 
@@ -29,9 +40,14 @@ function ItemListData() {
         {/* only render productlist if it is an array */}
         <ul className='ItemDisplay'>
         { Array.isArray(productList) && 
-          productList.map(product => 
-            <li className='Items' key={product}>{product}</li>
+          productList.map((product, index) => 
+            <li className='Items' key={index}>
+              <span>{splitString(product)[0]}</span>
+              <span>{splitString(product)[1]}</span>
+              <span>{splitString(product)[2]}</span>
+            </li>
           )}
+          {console.log(productList)}
         </ul>
       </div>
     </div>
