@@ -1,5 +1,5 @@
-from database_dto.item_list_dto import app
+from database_dto.item_list_dto import app, retrieve_product
 
-app.run()
+# app.run()
 
-# testrun()
+retrieve_product()
