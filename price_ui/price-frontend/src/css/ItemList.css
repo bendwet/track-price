@@ -1,0 +1,44 @@
+.ItemContainer {
+    display: flex;
+    color: white;
+    width: auto;
+    height: 75vh;
+    margin-left: 300px;
+    margin-right: 40px;
+    /* border: 1px solid rgb(100, 100, 100); */
+    /* overflow-x: auto; */
+    
+}
+
+.RefreshButtonContainer {
+    position: absolute;
+    height: 25px;
+    margin-left: 925px;
+}
+
+.ItemListContainer  {
+    overflow-x: auto;
+    width: auto;
+}
+
+.Items {
+    font-size: 20px;
+    text-align: left;
+    outline-style: solid;
+    outline-width: 1px;
+    border-radius: 5px;
+    /* border: 1px solid white; */
+    outline-color: rgb(56, 56, 56);
+    padding-left: 5px;
+    margin-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 900px;
+}
+
+.ItemDisplay {
+    margin-left: 1px;
+    list-style-type: none;
+    text-align: left;
+    padding-left: 0px;
+}

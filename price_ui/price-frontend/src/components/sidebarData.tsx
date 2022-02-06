@@ -4,11 +4,11 @@ export const SidebarData = [
     {
         title: 'Home',
         path: '/',
-        className: 'sidebar-text'
+        className: 'SidebarText'
     },
     {
         title: 'Item Basket',
         path: '/ItemBasket',
-        className: 'sidebar-text'
+        className: 'SidebarText'
     },
 ]

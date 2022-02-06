@@ -45,6 +45,11 @@ class CountdownProductRetriever:
         """
         # split object quantity into unit of measurement and size
         product_size = response_object["size"]["volumeSize"]
+
+        # check if volume = "per kg" for fruits and vegetables and convert to 1kg
+        if product_size == "per kg":
+            product_size = "1kg"
+
         # split where there is a number 0-9 (and a '.' if there is one)
         split_size = re.split('([0-9.]+)', product_size)
         # set price with other details

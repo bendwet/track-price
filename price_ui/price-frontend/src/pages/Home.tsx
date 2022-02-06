@@ -5,7 +5,7 @@ import {BrowserRouter, Routes, Link, Route} from "react-router-dom";
 function Home() {
   return (
     <div className="Home">
-      <h1 className='Home-text'>Home</h1>
+      <h1 className='HomeText'>Home</h1>
     </div>
   );
 }
