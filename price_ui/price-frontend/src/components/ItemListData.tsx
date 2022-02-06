@@ -2,15 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState, store } from '../stores/store';
 import { getProduct } from '../slices/ProductApiSlice';
-
-
-const splitString = (stringToSplit: string) => {
-  let storeName = stringToSplit.split(' ')[0];
-  let productInfo = stringToSplit.slice(storeName.length, stringToSplit.indexOf('$'));
-  let productPrice = stringToSplit.slice(stringToSplit.indexOf('$'));
-  return [storeName, productInfo, productPrice];
-}
-
+import { Dictionary } from '@reduxjs/toolkit';
 
 
 function ItemListData() {
@@ -21,15 +13,16 @@ function ItemListData() {
 		dispatch(getProduct())
 	}, [dispatch]);
 
-  // parse products into usable format
-  let productList = JSON.parse(JSON.stringify(products));
-  // check if correct state of array has updated and converted needed info into array
-  if (Array.isArray(productList)){
-    productList = productList.map(product => (product['store_name'] + ' ' + product['product_name'] + ' ' + product['unit_of_measure_size'] + product['unit_of_measure'] + 
-    ' ' + '$' + product['price_sale']));
-    // console.log(productList)
-  };
+  // define types for product elements
+  interface ProductType {
+    product_name?: string;
+    unit_of_measure_size?: number;
+    unit_of_measure?: string;
+    price_sale?: string;
+  }
 
+  console.log(products)
+  
   return (
     <div className='ItemListContainer'>
       <div className='RefreshButtonContainer'>
@@ -37,17 +30,14 @@ function ItemListData() {
       </div>
       <div className='ItemListData'>
         <h1>{ JSON.stringify(status) }</h1>
-        {/* only render productlist if it is an array */}
         <ul className='ItemDisplay'>
-        { Array.isArray(productList) && 
-          productList.map((product, index) => 
+        { products.map((product: ProductType, index: number) => 
             <li className='Items' key={index}>
-              <span>{splitString(product)[0]}</span>
-              <span>{splitString(product)[1]}</span>
-              <span>{splitString(product)[2]}</span>
+                <span className='ProductName'>{product.product_name}</span>
+                <span> {product.unit_of_measure_size}{product.unit_of_measure}</span>
+                <span> ${product.price_sale}</span>
             </li>
           )}
-          {console.log(productList)}
         </ul>
       </div>
     </div>
