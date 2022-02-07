@@ -13,7 +13,7 @@ export const getProduct: any = createAsyncThunk(
 export const productApiSlice = createSlice({
 	name: 'productApi',
 	initialState: {
-    products: [{}],
+    products: [],
 		status: ''
   },
   reducers: {},
