@@ -27,9 +27,9 @@ class PaknsaveProductRetriever:
         # convert html document to nested data structure
         soup = BeautifulSoup(contents)
         # extract useful portion of html into a json object
-        product_info = json.loads(soup.find("script", type='application/ld+json').string)
+        response_object = json.loads(soup.find("script", type='application/ld+json').string)
 
-        return product_info
+        return response_object
 
     @staticmethod
     def create_product(store_product_code: str, product_info):
