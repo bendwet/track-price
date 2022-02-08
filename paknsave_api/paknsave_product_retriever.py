@@ -1,6 +1,7 @@
 import requests
 import json
 from bs4 import BeautifulSoup
+from define_product.company_product import StoreProductModel
 
 
 class PaknsaveProductRetriever:
@@ -25,9 +26,20 @@ class PaknsaveProductRetriever:
 
         # convert html document to nested data structure
         soup = BeautifulSoup(contents)
+        print(soup)
         # extract useful portion of html into a json object
         product_info = json.loads(soup.find("script", type='application/ld+json').string)
-        print(product_info)
+        print(product_info['name'])
+
+        # split name into product name and product quantity
+        split_name = product_info['name'].split()
+
+        product_name = ' '.join(split_name[:-1])
+        quantity_list = split_name[-1]
+
+        print(quantity_list.split())
+
+        # product = StoreProductModel(store_product_code, 'paknsave', product_info['name'], )
 
         return product_info
 

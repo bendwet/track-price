@@ -1,23 +1,23 @@
-FROM python:3.9
-
-WORKDIR /app
-
-RUN apt-get update -y
-RUN apt-get install libaio1
-
-COPY ../requirements.txt /app
-RUN pip install -r requirements.txt
-
-COPY ./ /app
-
-# replace /dir_name/ with /app in sqlnet.ora
-RUN sed -i 's/test/app/g' /app/oracle_config/Wallet_pricedb/sqlnet.ora
-
-ENV PYTHONPATH "${PYTHONPATH}:/app"
-ENV PATH "${PATH}:/app"
-ENV LD_LIBRARY_PATH=/app/oracle_lib32bit/instantclient_21_3:$LD_LIBRARY_PATH
-
-CMD ["python", "/app/entrypoint.py"]
+# FROM python:3.9
+#
+# WORKDIR /app
+#
+# RUN apt-get update -y
+# RUN apt-get install libaio1
+#
+# COPY ../requirements.txt /app
+# RUN pip install -r requirements.txt
+#
+# COPY ./ /app
+#
+# # replace /dir_name/ with /app in sqlnet.ora
+# RUN sed -i 's/test/app/g' /app/oracle_config/Wallet_pricedb/sqlnet.ora
+#
+# ENV PYTHONPATH "${PYTHONPATH}:/app"
+# ENV PATH "${PATH}:/app"
+# ENV LD_LIBRARY_PATH=/app/oracle_lib32bit/instantclient_21_3:$LD_LIBRARY_PATH
+#
+# CMD ["python", "/app/entrypoint.py"]
 
 # FROM public.ecr.aws/lambda/python:3.9
 #
@@ -39,3 +39,17 @@ CMD ["python", "/app/entrypoint.py"]
 # ENV LD_LIBRARY_PATH=/app/oracle_lib/instantclient_21_4:$LD_LIBRARY_PATH
 #
 # CMD ["entrypoint.handler"]
+
+FROM python:3.9
+
+WORKDIR /app
+
+COPY ../requirements.txt /app
+RUN pip install -r requirements.txt
+
+COPY ./ /app
+
+ENV PYTHONPATH "${PYTHONPATH}:/app"
+ENV PATH "${PATH}:/app"
+
+CMD ["python", "/app/entrypoint.py"]

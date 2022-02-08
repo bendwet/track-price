@@ -1,4 +1,5 @@
-import datetime
+from datetime import datetime
+import pytz
 import requests
 from price_definition.price import ProductPriceModel
 from retrying import retry
@@ -25,7 +26,6 @@ class CountdownPriceRetriever:
             'X-Requested-With': 'OnlineShopping.WebApp'
         }
 
-        print(f'url = {url}')
         response = requests.get(url, headers=headers, timeout=60)
         # if the response failed, raise an error
         if response.status_code != requests.codes.ok:
@@ -57,8 +57,10 @@ class CountdownPriceRetriever:
         else:
             is_available = True
 
+        timezone = pytz.timezone('Pacific/Auckland')
+
         # set price with other details
-        price = ProductPriceModel(datetime.date.today(), original_price, sale_price,
+        price = ProductPriceModel(datetime.now(timezone).date(), original_price, sale_price,
                                   product_on_sale, is_available)
         return price
 

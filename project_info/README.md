@@ -36,6 +36,18 @@ config_dir = oracle_config/wallet_pricedb
 
 Edit sqlnet.ora with path to instant client
 
+## local mysql remote from alpine
+
+GRANT ALL PRIVILEGES ON *.* TO 'root' IDENTIFIED BY 'password' WITH GRANT OPTION;
+for root user with connection access from non local connections.
+
+sudo nano/etc/my.cnf to access mariadb config file
+
+then add skip-network=0 to not skip network configuration and set port = 3036 
+(default) otherwise it will be 0
+
+skip-bind-address - to not bind address to 127.0.0.1 by default
+
 ## Frontend
 
 useEffect() https://www.digitalocean.com/community/tutorials/how-to-handle-async-data-loading-lazy-loading-and-code-splitting-with-react
