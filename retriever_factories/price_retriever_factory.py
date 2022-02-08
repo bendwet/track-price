@@ -21,7 +21,7 @@ def save_price():
         price_retriever = CountdownPriceRetriever()
         if store[1] == "paknsave":
             # price_retriever = PaknsavePriceRetriever()
-            pass
+            continue
         database_populator = DatabasePopulator()
 
         # call price retriever and send price to database for each store product code

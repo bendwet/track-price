@@ -8,11 +8,10 @@ from define_product.company_product import StoreProductModel
 class PaknsaveProductRetriever:
 
     @staticmethod
-    def get_company_product():
+    def request_company_product(store_product_code: str):
         """
         Retrieve product info from paknsave website through an html parser, which extracts info eg price, name
         """
-        store_product_code = '5265844'
 
         url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
 
@@ -30,6 +29,10 @@ class PaknsaveProductRetriever:
         # extract useful portion of html into a json object
         product_info = json.loads(soup.find("script", type='application/ld+json').string)
 
+        return product_info
+
+    @staticmethod
+    def create_product(store_product_code: str, product_info):
         # split name into product name and product quantity
         split_name = product_info['name'].split()
         product_name = ' '.join(split_name[:-1])
@@ -46,11 +49,8 @@ class PaknsaveProductRetriever:
         elif unit_of_measure == 'ml':
             unit_of_measure = 'mL'
 
-        product = StoreProductModel(store_product_code, 'paknsave', product_name, unit_of_measure, unit_of_measure_size)
+        product = StoreProductModel(store_product_code, 'paknsave', product_name, unit_of_measure,
+                                    unit_of_measure_size)
 
         return product
 
-
-p = PaknsaveProductRetriever
-
-test = p.get_company_product()
