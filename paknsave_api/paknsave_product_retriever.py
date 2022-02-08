@@ -1,5 +1,6 @@
 import requests
 import json
+import re
 from bs4 import BeautifulSoup
 from define_product.company_product import StoreProductModel
 
@@ -11,7 +12,7 @@ class PaknsaveProductRetriever:
         """
         Retrieve product info from paknsave website through an html parser, which extracts info eg price, name
         """
-        store_product_code = '5201479'
+        store_product_code = '5265844'
 
         url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
 
@@ -26,25 +27,30 @@ class PaknsaveProductRetriever:
 
         # convert html document to nested data structure
         soup = BeautifulSoup(contents)
-        print(soup)
         # extract useful portion of html into a json object
         product_info = json.loads(soup.find("script", type='application/ld+json').string)
-        print(product_info['name'])
 
         # split name into product name and product quantity
         split_name = product_info['name'].split()
-
         product_name = ' '.join(split_name[:-1])
-        quantity_list = split_name[-1]
+        quantity = split_name[-1]
+        # split quantity into unit of measure and size eg 1kg -> '1' 'kg'
+        # split where there is a number 0-9 (and a '.' if there is one)
+        split_size = re.split('([0-9.]+)', quantity)
+        unit_of_measure = split_size[2]
+        unit_of_measure_size = split_size[1]
 
-        print(quantity_list.split())
+        # convert 'l' to 'L' and 'ml' to 'mL' for consistency of units
+        if unit_of_measure == 'l':
+            unit_of_measure = 'L'
+        elif unit_of_measure == 'ml':
+            unit_of_measure = 'mL'
 
-        # product = StoreProductModel(store_product_code, 'paknsave', product_info['name'], )
+        product = StoreProductModel(store_product_code, 'paknsave', product_name, unit_of_measure, unit_of_measure_size)
 
-        return product_info
+        return product
 
 
 p = PaknsaveProductRetriever
 
-p.get_company_product()
-
+test = p.get_company_product()

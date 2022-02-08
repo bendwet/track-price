@@ -48,6 +48,9 @@ then add skip-network=0 to not skip network configuration and set port = 3036
 
 skip-bind-address - to not bind address to 127.0.0.1 by default
 
+## vs code
+.\.venv\Scripts\activate to activate venv
+
 ## Frontend
 
 useEffect() https://www.digitalocean.com/community/tutorials/how-to-handle-async-data-loading-lazy-loading-and-code-splitting-with-react
