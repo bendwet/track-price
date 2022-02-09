@@ -29,24 +29,24 @@ class PaknsavePriceRetriever:
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
 
+        return page
+
+    @staticmethod
+    def create_price(page):
+        """
+        Return an instance of ProductPriceModel with appropriate details such as original price, sale price, date, if
+        the product is on sale or not. Information is extracted from the parsed html page variable.
+        """
+
         # extract useful portion of html into a json object
         response_object = json.loads(page.find('script', type='application/ld+json').string, strict=False)
 
         #  find span with sale info
-        spans = page.find_all('span', {'aria-label': 'badge PNS/Everyday_Low.svg'}) or page.find_all\
+        spans = page.find_all('span', {'aria-label': 'badge PNS/Everyday_Low.svg'}) or page.find_all \
             ('span', {'aria-label': 'badge PNS/6000-Extra_Low.svg'})
         # split the span into a list of strings which will either contain Everyday_Low or
         # Extra_Low indicating the product is onsale
         onsale_list = re.split('([-/.]+)', str(spans[0]))
-
-        return response_object, onsale_list
-
-    @staticmethod
-    def create_price(response_object, onsale_list):
-        """
-        Return an instance of ProductPriceModel with appropriate details such as original price, sale price, date, if
-        the product is on sale or not
-        """
 
         # TODO: infer original price by looking at the previous time that it wasn't on sale
         original_price = 0
@@ -76,3 +76,4 @@ class PaknsavePriceRetriever:
 p = PaknsavePriceRetriever
 
 p.request_product_price('5201479')
+

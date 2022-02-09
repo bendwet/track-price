@@ -25,7 +25,7 @@ class PaknsaveProductRetriever:
         contents = response.content
 
         # convert html document to nested data structure
-        page = BeautifulSoup(contents)
+        page = BeautifulSoup(contents, 'html.parser')
         # extract useful portion of html into a json object, strict allows control character such as \n
         response_object = json.loads(page.find("script", type='application/ld+json').string, strict=False)
 
