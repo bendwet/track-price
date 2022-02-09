@@ -12,8 +12,10 @@ class PaknsaveProductRetriever:
         """
         Retrieve product info from paknsave website through an html parser, which extracts info eg price, name
         """
-
-        url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
+        # link used for per kg products
+        url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
+        # link used for 'each' products
+        # url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
 
         cookies = {
             'brands_store_id': '{815DCF68-9839-48AC-BF94-5F932A1254B5}',
@@ -37,11 +39,17 @@ class PaknsaveProductRetriever:
         split_name = product_info['name'].split()
         product_name = ' '.join(split_name[:-1])
         quantity = split_name[-1]
-        # split quantity into unit of measure and size eg 1kg -> '1' 'kg'
-        # split where there is a number 0-9 (and a '.' if there is one)
-        split_size = re.split('([0-9.]+)', quantity)
-        unit_of_measure = split_size[2]
-        unit_of_measure_size = split_size[1]
+
+        # check if quantity is just 'kg' without any numeric value
+        if quantity == 'kg':
+            unit_of_measure = 'kg'
+            unit_of_measure_size = float(1)
+        else:
+            # split quantity into unit of measure and size eg 1kg -> '1' 'kg'
+            # split where there is a number 0-9 (and a '.' if there is one)
+            split_size = re.split('([0-9.]+)', quantity)
+            unit_of_measure = split_size[2]
+            unit_of_measure_size = split_size[1]
 
         # convert 'l' to 'L' and 'ml' to 'mL' for consistency of units
         if unit_of_measure == 'l':
@@ -53,4 +61,3 @@ class PaknsaveProductRetriever:
                                     unit_of_measure_size)
 
         return product
-

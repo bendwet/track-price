@@ -62,8 +62,10 @@ class PaknsavePriceRetriever:
         # check if Everyday_Low or Extra_Low is in onsale_list and set is_onsale either to False or True accordingly
         if 'Extra_Low' in onsale_list:
             product_on_sale = True
+        # if price not on sale, se original price = to sale price
         else:
             product_on_sale = False
+            original_price = sale_price
 
         timezone = pytz.timezone('Pacific/Auckland')
 
