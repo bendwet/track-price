@@ -24,6 +24,12 @@ class PaknsavePriceRetriever:
         }
 
         response = requests.get(url, cookies=cookies)
+
+        # if response fails, try again with link for per kg instead of each
+        if not response:
+            url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
+            response = requests.get(url, cookies=cookies)
+
         contents = response.content
 
         # convert html document to nested data structure
@@ -73,9 +79,3 @@ class PaknsavePriceRetriever:
                                   product_on_sale, is_available)
 
         return price
-
-
-p = PaknsavePriceRetriever
-
-p.request_product_price('5201479')
-

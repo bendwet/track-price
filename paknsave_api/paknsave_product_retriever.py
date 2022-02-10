@@ -13,7 +13,7 @@ class PaknsaveProductRetriever:
         Retrieve product info from paknsave website through an html parser, which extracts info eg price, name
         """
         # link used for per kg products
-        url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
+        url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
         # link used for 'each' products
         # url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
 
@@ -24,6 +24,12 @@ class PaknsaveProductRetriever:
         }
 
         response = requests.get(url, cookies=cookies)
+
+        # if response fails, try again with link for per kg instead of each
+        if not response:
+            url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
+            response = requests.get(url, cookies=cookies)
+
         contents = response.content
 
         # convert html document to nested data structure
