@@ -3,6 +3,7 @@ import json
 import re
 from bs4 import BeautifulSoup
 from define_product.company_product import StoreProductModel
+from paknsave_constants import cookies
 
 
 class PaknsaveProductRetriever:
@@ -16,12 +17,6 @@ class PaknsaveProductRetriever:
         url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
         # link used for 'each' products
         # url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
-
-        cookies = {
-            'brands_store_id': '{815DCF68-9839-48AC-BF94-5F932A1254B5}',
-            # Paknsave albany store ID
-            'eCom_STORE_ID': '65defcf2-bc15-490e-a84f-1f13b769cd22'
-        }
 
         response = requests.get(url, cookies=cookies)
 
