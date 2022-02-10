@@ -21,3 +21,5 @@ SQLAlchemy==1.4.28
 urllib3==1.26.7
 Werkzeug==2.0.2
 wheel==0.36.2
+beautifulsoup4==4.10.0
+pytz==2021.3
