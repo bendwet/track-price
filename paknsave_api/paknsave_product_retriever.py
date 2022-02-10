@@ -50,6 +50,10 @@ class PaknsaveProductRetriever:
         if quantity == 'kg':
             unit_of_measure = 'kg'
             unit_of_measure_size = float(1)
+        # check if quantity is 'ea' for each with no numeric value
+        elif quantity == 'ea':
+            unit_of_measure = 'ea'
+            unit_of_measure_size = float(1)
         else:
             # split quantity into unit of measure and size eg 1kg -> '1' 'kg'
             # split where there is a number 0-9 (and a '.' if there is one)
