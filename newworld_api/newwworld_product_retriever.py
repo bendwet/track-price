@@ -28,6 +28,7 @@ class NewWorldProductRetriever:
 
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
+
         # extract useful portion of html into a json object, strict allows control character such as \n
         response_object = json.loads(page.find("script", type='application/ld+json').string, strict=False)
 
