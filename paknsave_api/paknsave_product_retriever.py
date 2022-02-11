@@ -3,7 +3,7 @@ import json
 import re
 from bs4 import BeautifulSoup
 from define_product.company_product import StoreProductModel
-from paknsave_constants import cookies
+from paknsave_api.paknsave_constants import cookies
 
 
 class PaknsaveProductRetriever:

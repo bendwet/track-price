@@ -64,14 +64,12 @@ class NewWorldPriceRetriever:
             if not spans:
                 product_on_sale = False
                 original_price = sale_price
-                print('no')
             else:
                 onsale_list = re.split('([-/.]+)', str(spans[0]))
                 # check if Everyday_Low or Extra_Low is in onsale_list and set is_onsale either to False or True
                 # accordingly
                 if 'Super_Saver' in onsale_list or 'Saver' in onsale_list:
                     product_on_sale = True
-                print('yes')
 
         else:
             original_price = 0

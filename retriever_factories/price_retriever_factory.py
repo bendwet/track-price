@@ -16,7 +16,7 @@ def save_price():
     # get store_id and store_name for each store in Store table
     get_stores = [store_row for store_row in db.session.query(Store.store_id, Store.store_name)]
 
-    # store[0[ = store_id, store[1] = store_name
+    # store[0] = store_id, store[1] = store_name
     for store in get_stores:
         # get store product codes where the store id corresponds to store name
         store_product_codes = [store_product_code for store_product_code, in
@@ -37,7 +37,7 @@ def save_price():
             try:
                 response_object = price_retriever.request_product_price(store_product_code)
                 product_price = price_retriever.create_price(response_object)
-                database_populator.save_price(product_price, store_product_code)
+                database_populator.save_price(product_price, store_product_code, store[0])
             except requests.exceptions.HTTPError as err:
                 print(f'Error number when retrieving price: {store_product_code} for {store[1]}: {err}')
             except sqlalchemy.exc.IntegrityError as err:

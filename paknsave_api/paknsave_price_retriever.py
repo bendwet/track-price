@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 from bs4 import BeautifulSoup
 from price_definition.price import ProductPriceModel
-from paknsave_constants import cookies
+from paknsave_api.paknsave_constants import cookies
 
 
 class PaknsavePriceRetriever:
