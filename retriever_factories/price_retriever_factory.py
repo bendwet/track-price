@@ -5,6 +5,7 @@ from countdown_api.countdown_price_retriever import CountdownPriceRetriever
 from paknsave_api.paknsave_price_retriever import PaknsavePriceRetriever
 from products.database_populator import DatabasePopulator
 from products.product_db import db, StoreProduct, Store
+from newworld_api.newworld_price_retriever import NewWorldPriceRetriever
 
 
 def save_price():
@@ -26,8 +27,8 @@ def save_price():
         price_retriever = CountdownPriceRetriever()
         if store[1] == 'paknsave':
             price_retriever = PaknsavePriceRetriever()
-        # elif store[1]=='new world': TODO: create new world price retriever
-            # price_retriever = NewWorldPriceRetriever()
+        elif store[1] == 'new world':
+            price_retriever = NewWorldPriceRetriever()
 
         database_populator = DatabasePopulator()
 
