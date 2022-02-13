@@ -42,17 +42,6 @@ class PaknsavePriceRetriever:
         # extract useful portion of html into a json object
         response_object = json.loads(page.find('script', type='application/ld+json').string, strict=False)
 
-        #  find span with sale info
-        spans = page.find_all('span', {'aria-label': 'badge PNS/Everyday_Low.svg'}) or page.find_all \
-            ('span', {'aria-label': 'badge PNS/6000-Extra_Low.svg'})
-        # split the span into a list of strings which will either contain Everyday_Low or
-        # Extra_Low indicating the product is onsale
-        onsale_list = re.split('([-/.]+)', str(spans[0]))
-
-        # TODO: infer original price by looking at the previous time that it wasn't on sale
-        original_price = 0
-        sale_price = response_object['offers']['price']
-
         # split link of availability and only display InStock or OutOfStock
         current_availability = (response_object['offers']['availability']).split('/')[-1]
         if current_availability == 'InStock':
@@ -60,13 +49,31 @@ class PaknsavePriceRetriever:
         else:
             is_available = False
 
-        # check if Everyday_Low or Extra_Low is in onsale_list and set is_onsale either to False or True accordingly
-        if 'Extra_Low' in onsale_list:
-            product_on_sale = True
-        # if price not on sale, se original price = to sale price
+        if is_available:
+
+            #  find span with sale info
+            spans = page.find_all('span', {'aria-label': 'badge PNS/Everyday_Low.svg'}) or page.find_all \
+                ('span', {'aria-label': 'badge PNS/6000-Extra_Low.svg'})
+            # split the span into a list of strings which will either contain Everyday_Low or
+            # Extra_Low indicating the product is onsale
+            onsale_list = re.split('([-/.]+)', str(spans[0]))
+
+            # TODO: infer original price by looking at the previous time that it wasn't on sale
+            original_price = 0
+            sale_price = response_object['offers']['price']
+
+            # check if Everyday_Low or Extra_Low is in onsale_list and set is_onsale either to False or True accordingly
+            if 'Extra_Low' in onsale_list:
+                product_on_sale = True
+            # if price not on sale, se original price = to sale price
+            else:
+                product_on_sale = False
+                original_price = sale_price
+
         else:
-            product_on_sale = False
-            original_price = sale_price
+            original_price = 0
+            product_on_sale = 0
+            sale_price = 0
 
         timezone = pytz.timezone('Pacific/Auckland')
 
