@@ -3,32 +3,32 @@ import json
 import re
 from bs4 import BeautifulSoup
 from define_product.company_product import StoreProductModel
-from paknsave_api.paknsave_constants import cookies
+from newworld_api.newworld_constants import cookies
 
 
-class PaknsaveProductRetriever:
+class NewWorldProductRetriever:
 
     @staticmethod
     def request_company_product(store_product_code: str):
         """
-        Retrieve product info from paknsave website through an html parser, which extracts info eg price, name
+        Retrieve product info from new world website through an html parser, which extracts info eg name
         """
-        # link used for per kg products
-        url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
+
         # link used for 'each' products
-        # url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
+        url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_ea_000nw'
 
         response = requests.get(url, cookies=cookies)
 
         # if response fails, try again with link for per kg instead of each
         if not response:
-            url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
+            url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_kgm_000nw'
             response = requests.get(url, cookies=cookies)
 
         contents = response.content
 
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
+
         # extract useful portion of html into a json object, strict allows control character such as \n
         response_object = json.loads(page.find("script", type='application/ld+json').string, strict=False)
 
@@ -62,7 +62,7 @@ class PaknsaveProductRetriever:
         elif unit_of_measure == 'ml':
             unit_of_measure = 'mL'
 
-        product = StoreProductModel(store_product_code, 'paknsave', product_name, unit_of_measure,
+        product = StoreProductModel(store_product_code, 'new world', product_name, unit_of_measure,
                                     unit_of_measure_size)
 
         return product
