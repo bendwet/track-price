@@ -69,7 +69,7 @@ class PaknsavePriceRetriever:
             else:
                 product_on_sale = False
                 original_price = sale_price
-        
+
         else:
             original_price = 0
             product_on_sale = 0
