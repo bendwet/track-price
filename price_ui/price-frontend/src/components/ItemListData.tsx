@@ -18,7 +18,7 @@ function ItemListData() {
     product_name?: string;
     unit_of_measure_size?: number;
     unit_of_measure?: string;
-    price_sale?: string;
+    price_sale?: number;
   }
 
   console.log(products)
@@ -35,7 +35,7 @@ function ItemListData() {
             <li className='Items' key={index}>
                 <span className='ProductName'>{product.product_name}</span>
                 <span> {product.unit_of_measure_size}{product.unit_of_measure}</span>
-                <span> ${product.price_sale}</span>
+                <span> ${product.price_sale?.toFixed(2)}</span>
             </li>
           )}
         </ul>
