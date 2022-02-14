@@ -48,6 +48,18 @@ then add skip-network=0 to not skip network configuration and set port = 3036
 
 skip-bind-address - to not bind address to 127.0.0.1 by default
 
+google cloud sdk for backups
+/var/lib/mysql/save_backup.sh = location of sheel script
+
+# save backup locally
+mysqldump -u root -pSilvermoshi1 pricedb > ./mysql_backups/backup_$(date "+%Y-%m-%d").sql
+
+# save backup to google cloud
+(cd ../../../root && google-cloud-sdk/bin/gsutil cp ../var/lib/mysql/mysql_backups/backup_$(date "+%Y-%m-%d").sql gs://bucket_name
+
+# remove local backup
+rm ./mysql_backups/backup_$(date "+%Y-%m-%d").sql
+
 ## vs code
 .\.venv\Scripts\activate to activate venv
 
