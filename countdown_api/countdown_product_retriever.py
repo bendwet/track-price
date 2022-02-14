@@ -44,15 +44,19 @@ class CountdownProductRetriever:
         product name, unit of measurement and unit of measurement size
         """
         # split object quantity into unit of measurement and size
-        product_size = response_object["size"]["volumeSize"]
+        product_size = response_object['size']['volumeSize']
+        package_type = response_object['size']['packageType']
 
         countdown_product_name = response_object['name']
         # remove 'countdown' from the name if present
         product_name = countdown_product_name.replace('countdown ', '')
 
+        if package_type == 'each' and product_size is None:
+            product_size = '1ea'
+
         # check if volume = "per kg" for fruits and vegetables and convert to 1kg
-        if product_size == "per kg":
-            product_size = "1kg"
+        if product_size == 'per kg':
+            product_size = '1kg'
 
         # split where there is a number 0-9 (and a '.' if there is one)
         split_size = re.split('([0-9.]+)', product_size)
@@ -61,9 +65,3 @@ class CountdownProductRetriever:
                                     split_size[1])
 
         return product
-
-
-c = CountdownProductRetriever
-
-test = c.request_company_product('445469')
-c.create_product('445469', test)
