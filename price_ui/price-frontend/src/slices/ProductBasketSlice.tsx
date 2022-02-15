@@ -5,7 +5,7 @@ interface ProductType {
   product_name?: string;
 }
 
-
+// get products from database
 export const getProduct: any = createAsyncThunk(
   'databaseProductApi/getProduct',
   async(thunkAPI) => {
@@ -16,7 +16,7 @@ export const getProduct: any = createAsyncThunk(
   }
 );
 
-
+// filter products by search
 export const filterProducts: any = createAsyncThunk(
   'filterProducts',
  async (values: any[]) => {
