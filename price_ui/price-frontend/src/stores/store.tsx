@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import productApiReducer from '../slices/ProductApiSlice'
+import productBasketSlice from '../slices/ProductBasketSlice'
 
 export const store = configureStore({
   reducer: {
-    products: productApiReducer
+    products: productBasketSlice,
   }
 })
 

@@ -1,24 +1,25 @@
 import React from 'react';
 import '../css/BasketNavbar.css'
 import { BasketNavbarData } from './BasketNavbarData';
+import BasketSearchbar from './BasketSearchbar';
 
 function BasketNavbar() {
   return (
     <div className='BasketNavbarContainer'>
-        <nav className='BasketNavbar'>
-            <ul className='BasketNavbarItems'>
-                {BasketNavbarData.map((item, index) => {
-                    return (
-                        <li key={index} className={item.className}>
-                            {item.title}
-                        </li>
-                    )
-                })}
-                <li className='SearchItem'>
-                    Search
-                </li>
-            </ul>
-        </nav>
+      <nav className='BasketNavbar'>
+        <ul className='BasketNavbarItems'>
+          {BasketNavbarData.map((item, index) => {
+            return (
+              <li key={index} className={item.className}>
+                {item.title}
+              </li>
+            )
+          })}
+          <li className='SearchItem'>
+            <BasketSearchbar />
+          </li>
+        </ul>
+      </nav>
     </div>
     );
 }
