@@ -14,7 +14,7 @@ export const getProduct: any = createAsyncThunk(
 );
 
 // filter products by search
-export const filterProducts: any = createAsyncThunk(
+export const filterProduct: any = createAsyncThunk(
   'filterProducts',
  async (values: Array<Array<ProductModel>|string>) => {
    const products: Array<ProductModel> = values[0] as Array<ProductModel>;
@@ -60,7 +60,7 @@ export const productBasketSlice = createSlice({
       state.filteredProducts = [];
 		},
 
-    [filterProducts.fulfilled]: (state, action) => {
+    [filterProduct.fulfilled]: (state, action) => {
       state.filteredProducts = action.payload;
     }
   }
