@@ -3,7 +3,7 @@ import ProductModel from '../components/ProductModel';
 
 
 // get products from database
-export const getProduct: any = createAsyncThunk(
+export const getProduct = createAsyncThunk(
   'databaseProductApi/getProduct',
   async() => {
     const response: Array<ProductModel> = await fetch('http://127.0.0.1:5000/product').then(
@@ -14,11 +14,11 @@ export const getProduct: any = createAsyncThunk(
 );
 
 // filter products by search
-export const filterProduct: any = createAsyncThunk(
+export const filterProduct = createAsyncThunk(
   'filterProducts',
  async (values: Array<Array<ProductModel>|string>) => {
-   const products: Array<ProductModel> = values[0] as Array<ProductModel>;
-   const searchTerm: string = values[1] as string;
+   const products = values[0] as Array<ProductModel>;
+   const searchTerm = values[1] as string;
    let result: Array<ProductModel> = products.filter((product: ProductModel) => {
       // if searchTerm is blank, return products with no filter
       if (searchTerm === '') {
@@ -37,32 +37,32 @@ export const productBasketSlice = createSlice({
 	initialState: {
     products: [] as Array<ProductModel>,
     filteredProducts: [] as Array<ProductModel>,
-		status: '' as string
+		status: ''
   },
   reducers: {},
   // extra reducers handle async requests
-  extraReducers: {
-    [getProduct.fulfilled]: (state, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(getProduct.fulfilled, (state, action) => {
 			state.status = 'success';
       state.products = action.payload;
       state.filteredProducts = action.payload;
-    },
+    })
 
-		[getProduct.pending]: (state) => {
+		builder.addCase(getProduct.pending, (state) => {
 			state.status = 'loading';
       state.products = [];
       state.filteredProducts = [];
-		},
+		})
 
-		[getProduct.rejected]: (state) => {
+		builder.addCase(getProduct.rejected, (state) => {
 			state.status = 'failed';
       state.products = [];
       state.filteredProducts = [];
-		},
+		})
 
-    [filterProduct.fulfilled]: (state, action) => {
+    builder.addCase(filterProduct.fulfilled, (state, action) => {
       state.filteredProducts = action.payload;
-    }
+    })
   }
 });
 
