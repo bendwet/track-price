@@ -5,7 +5,7 @@ from sqlalchemy import func
 
 CORS(app)
 
-@app.route('/retrieve_product', methods=['GET'])
+@app.route('/product', methods=['GET'])
 def retrieve_product():
 
     """
@@ -39,11 +39,6 @@ def retrieve_product():
         }
 
         item_list.append(item_dict)
-
-        # item_dict_list = ([row.__dict__ for row in result])
-        # item_dict = {key: value for item_dict in item_dict_list for key, value in item_dict.items()}
-        # item_dict.pop('_sa_instance_state')
-        # item_list.append(item_dict)
 
     json_object = json.dumps(item_list, default=str)
 
