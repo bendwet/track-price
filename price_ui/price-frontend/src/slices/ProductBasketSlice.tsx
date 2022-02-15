@@ -1,34 +1,31 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import ProductModel from '../components/ProductModel';
 
-
-interface ProductType {
-  product_name?: string;
-}
 
 // get products from database
 export const getProduct: any = createAsyncThunk(
   'databaseProductApi/getProduct',
-  async(thunkAPI) => {
-    const response: Object[] = await fetch('http://127.0.0.1:5000/retrieve_product').then(
+  async() => {
+    const response: Array<ProductModel> = await fetch('http://127.0.0.1:5000/product').then(
       (data) => data.json()
     );
-    return response
+    return response;
   }
 );
 
 // filter products by search
 export const filterProducts: any = createAsyncThunk(
   'filterProducts',
- async (values: any[]) => {
-   const productsList = values[0]
-   const searchTerm = values[1]
-   let result = productsList.filter((product: ProductType) => {
-      // if searchTerm is blank, return products with not filter
+ async (values: Array<any>) => {
+   const products: Array<ProductModel> = values[0]
+   const searchTerm: string = values[1]
+   let result: Array<ProductModel> = products.filter((product: ProductModel) => {
+      // if searchTerm is blank, return products with no filter
       if (searchTerm === '') {
-        return productsList;
+        return products;
       // else return products with filtered items 
-      } else if ((product.product_name as string).toLowerCase().includes(searchTerm.toLowerCase())) {
-        return productsList;
+      } else if (product.product_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+        return products;
       }
     });
   return result;
@@ -38,9 +35,9 @@ export const filterProducts: any = createAsyncThunk(
 export const productBasketSlice = createSlice({
 	name: 'productApi',
 	initialState: {
-    products: [],
-    filteredProducts: [],
-		status: ''
+    products: [] as Array<ProductModel>,
+    filteredProducts: [] as Array<ProductModel>,
+		status: '' as string
   },
   reducers: {},
   // extra reducers handle async requests
