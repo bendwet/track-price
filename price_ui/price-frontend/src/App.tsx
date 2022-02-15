@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import ItemBasket from './pages/ItemBasket';
 import Home from './pages/Home';
+import Product from './pages/Product';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/ItemBasket" element={<ItemBasket/>}/>
+          <Route path="/Product" element={<Product/>}/>
         </Routes>
       </BrowserRouter>
     </div>
