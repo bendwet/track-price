@@ -10,7 +10,7 @@ function App() {
     <div className="App">
       <div className='WebTitle'>
         <header>
-          <h1 className='TitleText'>Price Tracker</h1>
+          <h1 className='TitleText'>Spendy</h1>
         </header>
       </div>
       <BrowserRouter>
