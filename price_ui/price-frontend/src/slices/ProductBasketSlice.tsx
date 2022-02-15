@@ -16,9 +16,9 @@ export const getProduct: any = createAsyncThunk(
 // filter products by search
 export const filterProducts: any = createAsyncThunk(
   'filterProducts',
- async (values: Array<any>) => {
-   const products: Array<ProductModel> = values[0]
-   const searchTerm: string = values[1]
+ async (values: Array<Array<ProductModel>|string>) => {
+   const products: Array<ProductModel> = values[0] as Array<ProductModel>;
+   const searchTerm: string = values[1] as string;
    let result: Array<ProductModel> = products.filter((product: ProductModel) => {
       // if searchTerm is blank, return products with no filter
       if (searchTerm === '') {
