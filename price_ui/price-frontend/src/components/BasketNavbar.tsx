@@ -15,7 +15,7 @@ function BasketNavbar() {
               </li>
             )
           })}
-          <li className='SearchItem'>
+          <li className='ProductSearch'>
             <BasketSearchbar />
           </li>
         </ul>

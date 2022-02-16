@@ -15,7 +15,7 @@ export const getProductById = createAsyncThunk(
 );
 
 export const singleItemSlice = createSlice({
-	name: 'singleItem',
+	name: 'singleProduct',
 	initialState: {
 		singleProduct: [] as Array<ProductModel>
 	},

@@ -9,9 +9,10 @@ import { useParams } from 'react-router-dom';
 export default function SingleItemListData() {
 
 	const dispatch = useDispatch();
-	const { singleProduct } = useSelector((state: RootState) => state.singleItem)
+	const { singleProduct } = useSelector((state: RootState) => state.singleProduct)
 	const { productId } = useParams(); 
 	
+	// TODO: do not show previos state
 	// update state of products on page load
 	useEffect(() => {
 		dispatch(getProductById(productId as string))
@@ -19,11 +20,11 @@ export default function SingleItemListData() {
 
 	// get product id from url
   return (
-    <div className='SingleItemContainer'>
+    <div className='SingleProductContainer'>
 			{ singleProduct.map((product: ProductModel, index: number) => 
-				<li className='SingleItemList' key={index}>
-					<span className='ItemStoreName'>{product.store_name} </span>
-					<span className='ItemName'>{product.product_name}</span>
+				<li className='SingleProductList' key={index}>
+					<span className='SingleProductStoreName'>{product.store_name} </span>
+					<span className='SingleProductName'>{product.product_name}</span>
 					<span> {product.unit_of_measure_size}{product.unit_of_measure}</span>
 					<span> ${product.price_sale?.toFixed(2)}</span>
 				</li>
