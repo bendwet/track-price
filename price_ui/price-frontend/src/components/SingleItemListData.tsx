@@ -3,15 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from '../stores/store';
 import { getProductById } from '../slices/SingleItemSlice';
 import ProductModel from './ProductModel';
+import { useParams } from 'react-router-dom';
+
 
 export default function SingleItemListData() {
 
 	const dispatch = useDispatch();
 	const { singleProduct } = useSelector((state: RootState) => state.singleItem)
-
+	const { productId } = useParams(); 
+	
 	// update state of products on page load
 	useEffect(() => {
-		dispatch(getProductById(1))
+		dispatch(getProductById(productId as string))
 		}, [dispatch]);
 
 	// get product id from url

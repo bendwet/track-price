@@ -5,7 +5,7 @@ import ProductModel from '../components/ProductModel';
 // get products from database
 export const getProductById = createAsyncThunk(
   'databaseProductApi/getProductById',
-  async(productId: number) => {
+  async(productId: string) => {
     const response: Array<ProductModel> = await fetch(`http://127.0.0.1:5000/product/${productId}`)
 		.then(
       (data) => data.json()

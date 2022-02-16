@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/ItemBasket" element={<ItemBasket/>}/>
-          <Route path="/Item/:productID" element={<Item/>}/>
+          <Route path="/Item/:productId" element={<Item/>}/>
         </Routes>
       </BrowserRouter>
     </div>
