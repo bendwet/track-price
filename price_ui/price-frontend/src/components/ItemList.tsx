@@ -4,7 +4,7 @@ import ItemListData from './ItemListData';
 
 function ItemList() {
   return (
-    <div className='ItemContainer'>
+    <div className='ItemListDataContainer'>
       <ItemListData />
     </div>
   );

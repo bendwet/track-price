@@ -33,6 +33,7 @@ def retrieve_product():
             'price_sale': result[3],
             'is_available': result[4],
             'store_name': result[6],
+            'product_id': result[7],
             'product_name': result[8],
             'unit_of_measure': result[9],
             'unit_of_measure_size': result[10],

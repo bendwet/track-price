@@ -25,7 +25,7 @@ function ItemListData() {
         <h1>{ JSON.stringify(status) }</h1>
         <ul className='ItemDisplay'>
         { filteredProducts.map((product: ProductModel, index: number) => 
-          <Link className='ItemLink' to={'/Product'}>
+          <Link className='ItemLink' to={`/Item/${product.product_id}`}>
             <li className='Items' key={index}>
                 <span className='ProductName'>{product.product_name}</span>
                 <span> {product.unit_of_measure_size}{product.unit_of_measure}</span>
