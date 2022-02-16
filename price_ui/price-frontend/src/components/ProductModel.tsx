@@ -9,7 +9,7 @@
     is_onsale: boolean;
     store_name: string;
     price_date: string;
-    product_id: number
+    product_id: number;
   }
 
 export default ProductModel;
