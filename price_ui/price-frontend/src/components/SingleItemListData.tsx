@@ -21,14 +21,18 @@ export default function SingleItemListData() {
 	// get product id from url
   return (
     <div className='SingleProductContainer'>
-			{ singleProduct.map((product: ProductModel, index: number) => 
-				<li className='SingleProductList' key={index}>
-					<span className='SingleProductStoreName'>{product.store_name} </span>
-					<span className='SingleProductName'>{product.product_name}</span>
-					<span> {product.unit_of_measure_size}{product.unit_of_measure}</span>
-					<span> ${product.price_sale?.toFixed(2)}</span>
-				</li>
-			)}
+			<ul className='SingleItemDisplay'>
+				{ singleProduct.map((product: ProductModel, index: number) => 
+					<div className='TestProduct'>
+						<li className='SingleProduct' key={index}>
+							<span className='SingleProductStoreName'>{product.store_name} </span>
+							<span className='SingleProductName'>{product.product_name}</span>
+							<span className='SingleProductQuantity'> {product.unit_of_measure_size}{product.unit_of_measure}</span>
+							<span className='SingleProductPrice'> ${product.price_sale?.toFixed(2)}</span>
+						</li>
+					</div>
+				)}
+			</ul>
 		</div>
   );
 }

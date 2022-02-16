@@ -1,4 +1,57 @@
+.SingleItemListContainer {
+    display: flex;
+    color: rgb(221, 221, 221);
+    width: auto;
+    height: 75vh;
+    margin-left: 300px;
+    margin-right: 40px;
+    /* border: 1px solid rgb(100, 100, 100); */
+    /* overflow-x: auto; */
+    
+}
 
 .SingleProductContainer {
     color: white;
+    width: auto;
+}
+
+.SingleItemDisplay {
+    margin-left: 1px;
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.SingleProduct {
+    font-size: 20px;
+    outline-style: solid;
+    outline-width: 1px;
+    border-radius: 5px;
+    /* border: 1px solid white; */
+    outline-color: rgb(56, 56, 56);
+    padding-left: 5px;
+    margin-bottom: 20px;
+    height: 70px;
+    width: 900px;
+}
+
+.SingleProductPrice {
+    font-size: 30px;
+    float: right;
+    padding-right: 5px;
+    line-height: 70px;
+}
+
+.SingleProductStoreName {
+    line-height: 70px;
+    vertical-align: middle;
+}
+
+.SingleProductName {
+    line-height: 70px;
+    vertical-align: middle;
+}
+
+.SingleProductQuantity {
+    line-height: 70px;
+    vertical-align: middle;
 }
