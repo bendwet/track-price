@@ -52,8 +52,7 @@ class PaknsavePriceRetriever:
         if is_available:
 
             #  find span with sale info
-            spans = page.find_all('span', {'aria-label': 'badge PNS/Everyday_Low.svg'}) or page.find_all \
-                ('span', {'aria-label': 'badge PNS/6000-Extra_Low.svg'})
+            spans = page.select('span[aria-label*="Low"]')
             # split the span into a list of strings which will either contain Everyday_Low or
             # Extra_Low indicating the product is onsale
             onsale_list = re.split('([-/.]+)', str(spans[0]))
