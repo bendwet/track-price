@@ -1,10 +1,10 @@
 import React, { useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../stores/store';
-import { getProduct } from '../slices/ProductBasketSlice';
-import ProductModel from './ProductModel';
+import { RootState } from '../../stores/store';
+import { getProduct } from '../../slices/ProductBasketSlice';
+import ProductModel from '../ProductModel';
 import {Link} from 'react-router-dom';
-import { reset } from '../slices/ProductBasketSlice';
+import { reset } from '../../slices/ProductBasketSlice';
 
 function ItemListData() {
 	const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import '../css/Item.css';
-import SingleItemList from '../components/SingleItemList';
+import SingleItemList from '../components/SingleItem/SingleItemList';
 
 export default function Item() {
   return (

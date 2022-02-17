@@ -1,8 +1,8 @@
 import React from "react";
 import '../css/ItemBasket.css'
-import BasketNavbar from "../components/BasketNavbar";
-import ItemList from "../components/ItemList";
-import AddItem from "../components/AddItem";
+import BasketNavbar from "../components/UserBasket/BasketNavbar";
+import ItemList from "../components/UserBasket/ItemList";
+import AddItem from "../components/UserBasket/AddItem";
 
 function ItemBasket() {
     return (

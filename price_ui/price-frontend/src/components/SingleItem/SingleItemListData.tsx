@@ -1,10 +1,10 @@
 import React, { useLayoutEffect, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from '../stores/store';
-import { getProductById } from '../slices/SingleItemSlice';
-import ProductModel from './ProductModel';
+import { RootState } from '../../stores/store';
+import { getProductById } from '../../slices/SingleItemSlice';
+import ProductModel from '../ProductModel';
 import { useParams } from 'react-router-dom';
-import { reset } from '../slices/SingleItemSlice';
+import { reset } from '../../slices/SingleItemSlice';
 
 
 export default function SingleItemListData() {

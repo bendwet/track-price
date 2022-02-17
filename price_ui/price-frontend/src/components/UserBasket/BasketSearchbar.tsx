@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../stores/store';
-import { filterProduct } from '../slices/ProductBasketSlice';
+import { RootState } from '../../stores/store';
+import { filterProduct } from '../../slices/ProductBasketSlice';
 
 function BasketSearchbar() {
   const dispatch = useDispatch();
