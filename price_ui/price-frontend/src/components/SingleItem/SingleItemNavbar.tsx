@@ -11,7 +11,7 @@ export default function SingleItemNavbar() {
 							<li key={index} className={item.className}>
 								{item.title}
 							</li>
-						)
+						);
 					})}
 				</ul>
 			</nav>
