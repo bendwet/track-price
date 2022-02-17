@@ -39,7 +39,13 @@ export const productBasketSlice = createSlice({
     filteredProducts: [] as Array<ProductModel>,
 		status: ''
   },
-  reducers: {},
+  reducers: {
+    reset(state) {
+      state.products = [] as Array<ProductModel>
+      state.filteredProducts = [] as Array<ProductModel>
+      state.status = ''
+    }
+  },
   // extra reducers handle async requests
   extraReducers: (builder) => {
     builder
@@ -67,4 +73,5 @@ export const productBasketSlice = createSlice({
   }
 });
 
+export const { reset } = productBasketSlice.actions;
 export default productBasketSlice.reducer;
