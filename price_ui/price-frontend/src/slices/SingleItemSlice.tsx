@@ -14,12 +14,17 @@ export const getProductById = createAsyncThunk(
   }
 );
 
+
 export const singleItemSlice = createSlice({
 	name: 'singleProduct',
 	initialState: {
 		singleProduct: [] as Array<ProductModel>
 	},
-	reducers: {},
+	reducers: {	
+		reset(state) {
+			state.singleProduct = [] as Array<ProductModel>;
+		}
+	},
 	extraReducers: (builder) => {
 		builder
 		.addCase(getProductById.fulfilled, (state, action) => {
@@ -29,4 +34,5 @@ export const singleItemSlice = createSlice({
 
 });
 
+export const { reset } = singleItemSlice.actions;
 export default singleItemSlice.reducer;
