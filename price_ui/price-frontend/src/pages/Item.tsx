@@ -5,8 +5,10 @@ import SingleItemNavbar from '../components/SingleItem/SingleItemNavbar';
 export default function Item() {
   return (
     <div className='ItemContainer'>
-      <div className='SingleItemListContainer'>
+      <div className='SingleItemNavbarContainer'>
         <SingleItemNavbar/>
+      </div>
+      <div className='SingleItemListContainer'>
         <SingleItemList/>
       </div>
     </div>
