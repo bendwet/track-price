@@ -12,7 +12,7 @@
 
 .SingleItemInfoContainer {
     color: white;
-    width: 900px;
+    width: 1000px;
     height: 210px;
     margin-left: 300px;
     margin-top: 5px;
@@ -49,11 +49,21 @@
 
 .SingleItemTitleContainer {
     margin-left: 20px;
-    /* border-color: red;
-    border-style: solid; */
+    border-color: red;
+    border-style: solid;
     width: 400px;
     height: 200px;
     margin-top: 20px;
+}
+
+
+.SingleItemChartContainer {
+    margin-left: 20px;
+    margin-top: 20px;
+    border-color: orange;
+    border-style: solid;
+    width: 350px;
+    height: 160px
 }
 
 .SingleItemNavbarItems {

@@ -12,6 +12,9 @@ export default function SingleItemInfo() {
 						Placholder Item Info
 					</h1>
 				</div>
+				<div className='SingleItemChartContainer'> 
+					PlaceHolder Chart
+				</div>
 			</header>
 		</div>
   );

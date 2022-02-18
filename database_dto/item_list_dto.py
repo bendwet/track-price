@@ -45,8 +45,8 @@ def retrieve_product():
 
     return json_object
 
-@app.route('/product/<int:product_id>', methods=['GET', 'POST'])
-def retrieve_product_by_id(product_id):
+@app.route('/product/<productId>', methods=['GET', 'POST'])
+def retrieve_product_by_id(productId):
     """
     Retrive products by product id
     """
@@ -56,7 +56,7 @@ def retrieve_product_by_id(product_id):
     # query and join price, store, and product tables
     join_query = (db.session.query(Price.price_date, Price.price, Price.is_onsale, Price.price_sale, Price.is_available, Store.store_id, Store.store_name, 
     Product.product_id, Product.product_name, Product.unit_of_measure, Product.unit_of_measure_size).join(Product).join(Store)
-    .filter(Price.price_date == db.session.query(func.max(Price.price_date)), Product.product_id == product_id))
+    .filter(Price.price_date == db.session.query(func.max(Price.price_date)), Product.product_id == productId))
 
     product_info = join_query.all()
 
@@ -82,5 +82,32 @@ def retrieve_product_by_id(product_id):
         item_list.append(item_dict)
 
     json_object = json.dumps(item_list, default=str)
+
+    return json_object
+
+@app.route('/price/<productId>', methods=['GET', 'POST'])
+def retrieve_lowest_price_by_product_id(productId):
+    """
+    Retrieve lowest price and date by product id and return array of objects
+    """
+
+    price_list = []
+
+    query = (db.session.query(func.min(Price.price_sale), Price.price_date, Price.is_available).filter(Price.product_id == productId, Price.is_available == True)
+    .group_by(Price.price_date).order_by(Price.price_date))
+
+    price_info = query.all()
+
+    for result in price_info:
+
+        item_dict = {
+            'price_sale': result[0],
+            'price_date': result[1],
+        }
+
+        price_list.append(item_dict)
+
+
+    json_object = json.dumps(price_list, default=str)
 
     return json_object
