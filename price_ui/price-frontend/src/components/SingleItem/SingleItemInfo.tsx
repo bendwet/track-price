@@ -1,4 +1,4 @@
-
+import SingleItemChart from "./SingleItemChart";
 
 export default function SingleItemInfo() {
   return (
@@ -13,7 +13,7 @@ export default function SingleItemInfo() {
 					</h1>
 				</div>
 				<div className='SingleItemChartContainer'> 
-					PlaceHolder Chart
+					<SingleItemChart/>
 				</div>
 			</header>
 		</div>

@@ -10,16 +10,14 @@ import { reset } from '../../slices/SingleItemSlice';
 export default function SingleItemListData() {
 
 	const dispatch = useDispatch();
-	const { singleProduct } = useSelector((state: RootState) => state.singleProduct)
+	const { singleProduct } = useSelector((state: RootState) => state.singleProduct);
 	const { productId } = useParams(); 
 
-	// TODO: do not show previos state
 	// update state of products on page load
 	useLayoutEffect(() => {
 		dispatch(reset())
 		dispatch(getProductById(productId as string))
 		}, [dispatch]);
-	// get product id from url
   return (
     <div className='SingleProductContainer'>
 			<ul className='SingleItemDisplay'>

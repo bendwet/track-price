@@ -85,10 +85,10 @@ def retrieve_product_by_id(productId):
 
     return json_object
 
-@app.route('/price/<productId>', methods=['GET', 'POST'])
+@app.route('/product/price/<productId>', methods=['GET', 'POST'])
 def retrieve_lowest_price_by_product_id(productId):
     """
-    Retrieve lowest price and date by product id and return array of objects
+    Retrieve lowest price and date by product id and return array of objects with x and y for axis of chart
     """
 
     price_list = []
@@ -101,8 +101,8 @@ def retrieve_lowest_price_by_product_id(productId):
     for result in price_info:
 
         item_dict = {
-            'price_sale': result[0],
-            'price_date': result[1],
+            'x': result[1],
+            'y': result[0]
         }
 
         price_list.append(item_dict)

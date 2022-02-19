@@ -60,10 +60,13 @@
 .SingleItemChartContainer {
     margin-left: 20px;
     margin-top: 20px;
-    border-color: orange;
-    border-style: solid;
     width: 350px;
-    height: 160px
+    height: 160px;
+}
+
+.SingleItemChart {
+    width: 100%;
+    height: 100%;
 }
 
 .SingleItemNavbarItems {
