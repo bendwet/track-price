@@ -1,4 +1,4 @@
-import { VictoryChart, VictoryArea, VictoryGroup } from 'victory';
+import { VictoryChart, VictoryArea, VictoryGroup, VictoryTooltip, VictoryVoronoiContainer } from 'victory';
 import { getPriceById } from '../../slices/SingleItemChartSlice';
 import { reset } from '../../slices/SingleItemChartSlice';
 import { useParams } from 'react-router-dom';
@@ -20,13 +20,27 @@ export default function SingleItemChart() {
 
   return (
     <div className='SingleItemChart'>
-			{console.log(lowestPriceHistory)}
-			<VictoryChart padding={{top: 0, bottom: 0, right: 0, left: 0}} width={660} height={300} domainPadding={{y: [0, 10]}}>
+			<VictoryGroup 
+				padding={{top: 0, bottom: 0, right: 0, left: 0}} 
+				width={660} height={300} 
+				domainPadding={{y: [0, 5]}}
+				containerComponent={
+					<VictoryVoronoiContainer
+						labels={({ datum }) => `${datum.x} \n $${datum.y.toFixed(2)}`}
+						labelComponent={
+						<VictoryTooltip 
+						constrainToVisibleArea
+						/>}
+					/>
+				}
+			>
 				<VictoryArea style={{ 
-					data: { fill: "#0c536f", fillOpacity: 0.6, stroke: "#3896bb", strokeWidth: 5 } }} 
-				data={lowestPriceHistory}>
-				</VictoryArea>
-			</VictoryChart>
+					data: { fill: "#126282", fillOpacity: 0.4, stroke: "#39a5d0", strokeWidth: 4 } ,
+					labels: {fontSize: 30}
+				}} 
+					data={lowestPriceHistory}
+				/>
+			</VictoryGroup>
 		</div>
   )
 }
