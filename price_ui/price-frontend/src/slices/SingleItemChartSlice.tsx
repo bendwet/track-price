@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import ProductModel from '../components/ProductModel';
 
 
-// get products from database
+// get price from database
 export const getPriceById = createAsyncThunk(
   'databaseProductApi/getPriceById',
   async(productId: string) => {

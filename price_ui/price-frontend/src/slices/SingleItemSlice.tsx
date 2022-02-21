@@ -18,7 +18,8 @@ export const getProductById = createAsyncThunk(
 export const singleItemSlice = createSlice({
 	name: 'singleProduct',
 	initialState: {
-		singleProduct: [] as Array<ProductModel>
+		singleProduct: [] as Array<ProductModel>,
+		selectedProduct: {} as ProductModel
 	},
 	reducers: {	
 		reset(state) {
@@ -29,6 +30,8 @@ export const singleItemSlice = createSlice({
 		builder
 		.addCase(getProductById.fulfilled, (state, action) => {
 			state.singleProduct = action.payload;
+			// set selectedProduct = the first object of retruned ProductModel array
+			state.selectedProduct = action.payload[0]
 		})
 	}
 
