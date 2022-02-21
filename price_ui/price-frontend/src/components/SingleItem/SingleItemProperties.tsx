@@ -12,7 +12,11 @@ export default function SingleItemProperties() {
        <h1>{selectedProduct.product_name}</h1>
       </div>
       <div className='SinleItemProperties'>
-        Properties
+        <ul>
+          <li key='Quantity'>
+            Quantity: {selectedProduct.unit_of_measure_size}{selectedProduct.unit_of_measure}
+          </li>
+        </ul>
       </div>
     </div>
   )
