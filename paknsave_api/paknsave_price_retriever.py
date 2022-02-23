@@ -4,6 +4,7 @@ import re
 import json
 from datetime import datetime
 from bs4 import BeautifulSoup
+from retrying import retry
 from price_definition.price import ProductPriceModel
 from paknsave_api.paknsave_constants import cookies
 
@@ -11,6 +12,7 @@ from paknsave_api.paknsave_constants import cookies
 class PaknsavePriceRetriever:
 
     @staticmethod
+    @retry(stop_max_attempt_number=20, wait_random_min=1000, wait_random_max=10000)
     def request_product_price(store_product_code: str):
         """
        Retrieve product info from paknsave website through an html parser, which extracts info eg price, name
@@ -29,6 +31,9 @@ class PaknsavePriceRetriever:
 
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
+
+        # test if page contains needed info
+        json.loads(page.find('script', type='application/ld+json').string, strict=False)
 
         return page
 

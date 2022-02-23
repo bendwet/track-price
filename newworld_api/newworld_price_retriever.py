@@ -6,15 +6,19 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from price_definition.price import ProductPriceModel
 from newworld_api.newworld_constants import cookies
+from retrying import retry
 
 
 class NewWorldPriceRetriever:
 
     @staticmethod
+    @retry(stop_max_attempt_number=20, wait_random_min=1000, wait_random_max=10000)
     def request_product_price(store_product_code: str):
         """
        Retrieve product info from new world website through an html parser, which extracts info eg price
        """
+
+        print(store_product_code)
 
         url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_ea_000nw'
 
@@ -30,6 +34,9 @@ class NewWorldPriceRetriever:
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
 
+        # test if page contains needed info
+        json.loads(page.find('script', type='application/ld+json').string, strict=False)
+
         return page
 
     @staticmethod
@@ -41,6 +48,8 @@ class NewWorldPriceRetriever:
 
         # extract useful portion of html into a json object
         response_object = json.loads(page.find('script', type='application/ld+json').string, strict=False)
+
+        print(response_object)
 
         # split link of availability and only display InStock or OutOfStock
         current_availability = (response_object['offers']['availability']).split('/')[-1]
@@ -82,3 +91,7 @@ class NewWorldPriceRetriever:
 
         return price
 
+
+# n = NewWorldPriceRetriever
+# test = n.request_product_price("5201479")
+# n.create_price(test)
