@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import ProductModel from '../components/ProductModel';
 
 
@@ -33,37 +33,45 @@ export const filterProduct = createAsyncThunk(
 )
 
 export const productBasketSlice = createSlice({
-	name: 'productApi',
+	name: 'productBasket',
 	initialState: {
     products: [] as Array<ProductModel>,
     filteredProducts: [] as Array<ProductModel>,
 		status: ''
   },
-  reducers: {},
+  reducers: {
+    reset(state) {
+      state.products = [] as Array<ProductModel>
+      state.filteredProducts = [] as Array<ProductModel>
+      state.status = ''
+    }
+  },
   // extra reducers handle async requests
   extraReducers: (builder) => {
-    builder.addCase(getProduct.fulfilled, (state, action) => {
+    builder
+    .addCase(getProduct.fulfilled, (state, action) => {
 			state.status = 'success';
       state.products = action.payload;
       state.filteredProducts = action.payload;
     })
 
-		builder.addCase(getProduct.pending, (state) => {
+		.addCase(getProduct.pending, (state) => {
 			state.status = 'loading';
       state.products = [];
       state.filteredProducts = [];
 		})
 
-		builder.addCase(getProduct.rejected, (state) => {
+		.addCase(getProduct.rejected, (state) => {
 			state.status = 'failed';
       state.products = [];
       state.filteredProducts = [];
 		})
 
-    builder.addCase(filterProduct.fulfilled, (state, action) => {
+    .addCase(filterProduct.fulfilled, (state, action) => {
       state.filteredProducts = action.payload;
     })
   }
 });
 
+export const { reset } = productBasketSlice.actions;
 export default productBasketSlice.reducer;

@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import productBasketSlice from '../slices/ProductBasketSlice'
+import singleItemSlice from '../slices/SingleItemSlice'
+import singleItemChartSlice from '../slices/SingleItemChartSlice'
 
 export const store = configureStore({
   reducer: {
     products: productBasketSlice,
+    singleProduct: singleItemSlice,
+    lowestPriceHistory: singleItemChartSlice
   }
 })
 

@@ -1,6 +1,6 @@
-.ItemContainer {
+.ItemListDataContainer {
     display: flex;
-    color: white;
+    color: rgb(221, 221, 221);
     width: auto;
     height: 75vh;
     margin-left: 300px;
@@ -36,9 +36,18 @@
     width: 900px;
 }
 
+.Items:hover {
+    background-color: #679267;
+}
+
 .ItemDisplay {
     margin-left: 1px;
     list-style-type: none;
     text-align: left;
     padding-left: 0px;
+}
+
+.ItemLink {
+    text-decoration: none;
+    color: rgb(231, 231, 231);
 }

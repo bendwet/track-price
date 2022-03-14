@@ -1,9 +1,10 @@
 import React from 'react';
 import './css/main.css';
-import Sidebar from './components/Sidebar';
+import Sidebar from './components/Sidebar/Sidebar';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import ItemBasket from './pages/ItemBasket';
 import Home from './pages/Home';
+import Item from './pages/Item';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/ItemBasket" element={<ItemBasket/>}/>
+          <Route path="/Item/:productId" element={<Item/>}/>
         </Routes>
       </BrowserRouter>
     </div>

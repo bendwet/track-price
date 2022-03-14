@@ -1,5 +1,5 @@
 body {
-    background: #0f0f0f;
+    background: #181818;
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -21,7 +21,10 @@ body {
 
 .TitleText {
   padding-left: 5px;
+  margin:0;
+  margin-bottom: 1px;
 }
+
 
 .HomeText{
   color: white;
@@ -31,7 +34,3 @@ body {
   color: white;
 }
 
-h1 {
-  margin:0;
-  margin-bottom: 1px;
-}

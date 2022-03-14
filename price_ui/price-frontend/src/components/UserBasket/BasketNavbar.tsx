@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/BasketNavbar.css'
+import '../../css/BasketNavbar.css'
 import { BasketNavbarData } from './BasketNavbarData';
 import BasketSearchbar from './BasketSearchbar';
 
@@ -15,7 +15,7 @@ function BasketNavbar() {
               </li>
             )
           })}
-          <li className='SearchItem'>
+          <li className='ProductSearch'>
             <BasketSearchbar />
           </li>
         </ul>
