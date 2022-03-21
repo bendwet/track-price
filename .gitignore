@@ -122,4 +122,9 @@ dmypy.json
 /oracle_config
 /oracle_lib
 /oracle_lib32bit
+/Spendy/.idea
+/Spendy/SpendyBackend/obj
+/Spendy/SpendyBackend/bin
+
+
 .env

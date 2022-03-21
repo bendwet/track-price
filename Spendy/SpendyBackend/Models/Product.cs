@@ -3,7 +3,7 @@
 public class Product
 {
     public int ProductId { get; set; }
-# nullable disable
+    # nullable disable
     public string ProductName { get; set; }
     public string UnitOfMeasure { get; set; }
     public float UnitOfMeasureSize { get; set; }
