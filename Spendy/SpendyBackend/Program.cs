@@ -1,3 +1,31 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using SpendyBackend.Models;
+using SpendyBackend.Data;
 
-Console.WriteLine("Hello, World!");
+namespace SpendyBackend;
+
+internal class Program
+{
+    private static void Main()
+    {
+        using var db = new SpendyContext();
+        // Note: This sample requires the database to be created before running.
+        Console.WriteLine($"Database path: {db.DbPath}.");
+                
+        // Create
+        Console.WriteLine("Inserting a new store");
+        db.Add(new Store { StoreName = "Countdown"});
+        db.SaveChanges();
+
+        // Read
+        Console.WriteLine("Querying for a store");
+        var store = db.Stores
+            .First();
+        Console.WriteLine(store);
+        
+        
+        // Update
+        Console.WriteLine("Updating");
+        store.StoreName = "Paknsave";
+        db.SaveChanges();
+    }
+}

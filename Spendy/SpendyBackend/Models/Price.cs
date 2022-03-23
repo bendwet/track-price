@@ -10,4 +10,8 @@ public class Price
     public bool IsOnSale { get; set; }
     public decimal PriceSale { get; set; }
     public bool IsAvailable { get; set; }
+    
+    public Product Product { get; set; }
+    public Store Store { get; set; }
+    
 }
