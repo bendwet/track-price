@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SpendyBackend.Models;
+using SpendyDb.Models;
 
-namespace SpendyBackend.Data;
+namespace SpendyDb.Data;
 
 public class SpendyContext : DbContext
 {
@@ -21,6 +21,7 @@ public class SpendyContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data source={DbPath}");
+        // => options.UseMySql("");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
