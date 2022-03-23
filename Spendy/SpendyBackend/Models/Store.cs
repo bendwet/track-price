@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SpendyDb.Models;
+namespace SpendyBackend.Models;
 
 public class Store
 {

@@ -1,11 +1,11 @@
-﻿using SpendyDb.Models;
-using SpendyDb.Data;
+﻿using SpendyBackend.Models;
+using SpendyBackend.Data;
 
-namespace SpendyDb;
+namespace SpendyBackend;
 
-class Program
+internal class Program
 {
-    static void Main()
+    private static void Main()
     {
         using var db = new SpendyContext();
         // Note: This sample requires the database to be created before running.

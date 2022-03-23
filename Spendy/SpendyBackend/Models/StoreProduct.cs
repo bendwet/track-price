@@ -1,4 +1,4 @@
-﻿namespace SpendyDb.Models;
+﻿namespace SpendyBackend.Models;
 
 public class StoreProduct
 {
