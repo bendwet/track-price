@@ -6,12 +6,12 @@ public class Price
     public int ProductId { get; set; }
     public int StoreId { get; set; }
     public DateTime PriceDate { get; set; }
-    public decimal PriceOriginal { get; set; }
+    public double PriceOriginal { get; set; }
     public bool IsOnSale { get; set; }
-    public decimal PriceSale { get; set; }
+    public double PriceSale { get; set; }
     public bool IsAvailable { get; set; }
     
-    public Product Product { get; set; }
-    public Store Store { get; set; }
+    public virtual Product Product { get; set; }
+    public virtual Store Store { get; set; }
     
 }
