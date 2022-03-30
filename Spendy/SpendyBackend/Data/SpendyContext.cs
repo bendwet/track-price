@@ -9,19 +9,11 @@ public class SpendyContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<StoreProduct> StoreProducts { get; set; }
     public DbSet<Price> Prices { get; set; }
-    
-    // public string DbPath { get; }
 
     public SpendyContext(DbContextOptions<SpendyContext> options) : base(options)
     {
-        // var folder = Environment.SpecialFolder.LocalApplicationData;
-        // var path = Environment.GetFolderPath(folder);
-        // DbPath = Path.Join(path, "Spendy.db");
+        
     }
-
-    // protected override void OnConfiguring(DbContextOptionsBuilder options)
-    //     => options.UseSqlite($"Data source={DbPath}");
-    //     => options.UseMySql("");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,30 +1,32 @@
-﻿using SpendyBackend.Models;
+﻿using System.Data.Common;
+using Microsoft.EntityFrameworkCore;
+using SpendyBackend.Models;
 using SpendyBackend.Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.DependencyInjection;
+using MySql.EntityFrameworkCore.Extensions;
+using MySqlConnector;
 
 namespace SpendyBackend;
 
-internal class Program
+public class Program
 {
     private static void Main()
     {
-        // using var db = new SpendyContext();
-        // // Note: This sample requires the database to be created before running.
-        // Console.WriteLine($"Database path: {db.DbPath}.");
-        //         
-        // // Create
-        // Console.WriteLine("Inserting a new store");
-        // db.Add(new Store { StoreName = "Countdown"});
-        // db.SaveChanges();
-        //
-        // // Read
-        // Console.WriteLine("Querying for a store");
-        // var store = db.Stores
-        //     .First();
-        // Console.WriteLine(store);
-        //
-        // // Update
-        // Console.WriteLine("Updating");
-        // store.StoreName = "Paknsave";
-        // db.SaveChanges();
+        IConfiguration config = new ConfigurationBuilder()
+            .AddEnvironmentVariables()
+            .Build();
+        
+        // Environment variable name for the connection string
+        // ConnectionStrings__SpendyConnection
+
+        var connectionString = config.GetConnectionString("SpendyConnection");
+        var services = new ServiceCollection();
+        services.AddDbContext<SpendyContext>(options =>
+        {
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        });
+        
     }
 }
