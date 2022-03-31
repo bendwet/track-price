@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SpendyBackend\SpendyBackend.csproj" />
+      <ProjectReference Include="..\SpendyDb\SpendyDb.csproj" />
     </ItemGroup>
 
 </Project>

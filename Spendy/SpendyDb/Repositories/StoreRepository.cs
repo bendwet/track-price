@@ -1,4 +1,4 @@
-﻿namespace SpendyBackend.Repositories;
+﻿namespace SpendyDb.Repositories;
 
 public class StoreRepository : ISpendyRepository
 {

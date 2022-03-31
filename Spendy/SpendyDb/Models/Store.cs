@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SpendyBackend.Models;
+namespace SpendyDb.Models;
 
 [Table("stores")]
 public class Store

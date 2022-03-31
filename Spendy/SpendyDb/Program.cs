@@ -1,14 +1,14 @@
 ﻿using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
-using SpendyBackend.Models;
-using SpendyBackend.Data;
+using SpendyDb.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.EntityFrameworkCore.Extensions;
 using MySqlConnector;
+using SpendyDb.Data;
 
-namespace SpendyBackend;
+namespace SpendyDb;
 
 public class Program
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SpendyBackend.Models;
+namespace SpendyDb.Models;
 
 [Table("products")]
 public class Product
