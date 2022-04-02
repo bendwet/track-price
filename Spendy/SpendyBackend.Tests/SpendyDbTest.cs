@@ -34,6 +34,7 @@ public class InMemorySpendyDbControllerTest
             })
             .BuildServiceProvider();
         
+        // Xunit Logging
         Output = output;
         
         Context = services.GetRequiredService<SpendyContext>();

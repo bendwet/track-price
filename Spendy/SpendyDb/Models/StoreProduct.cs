@@ -5,7 +5,7 @@ namespace SpendyDb.Models;
 [Table("store_products")]
 public class StoreProduct
 {   
-    [Column("product_id")]
+    [Column("store_product_id")]
     public int StoreProductId { get; set; }
     [Column("store_id")]
     public int StoreId { get; set; }
