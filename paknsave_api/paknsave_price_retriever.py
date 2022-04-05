@@ -2,6 +2,7 @@ import pytz
 import requests
 import re
 import json
+import httpx
 from datetime import datetime
 from bs4 import BeautifulSoup
 from retrying import retry
@@ -20,14 +21,23 @@ class PaknsavePriceRetriever:
 
         url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
 
-        response = requests.get(url, cookies=cookies)
+        headers = {
+            'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+        }
+
+        # configure use of http2
+        client = httpx.Client(http2=True)
+        # perform ge request
+        response = client.get(url, headers=headers, cookies=cookies)
 
         # if response fails, try again with link for per kg instead of each
-        if not response:
+        if response.status_code != 200:
             url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
-            response = requests.get(url, cookies=cookies)
+            response = client.get(url, headers=headers, cookies=cookies)
 
         contents = response.content
+
+        print(response.text)
 
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
@@ -85,3 +95,8 @@ class PaknsavePriceRetriever:
                                   product_on_sale, is_available)
 
         return price
+
+# testing
+# p = PaknsavePriceRetriever
+# test = p.request_product_price('5201479')
+
