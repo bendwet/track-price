@@ -19,8 +19,6 @@ class NewWorldPriceRetriever:
        Retrieve product info from new world website through an html parser, which extracts info eg price
        """
 
-        print(store_product_code)
-
         url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_ea_000nw'
 
         headers = {
@@ -34,10 +32,8 @@ class NewWorldPriceRetriever:
 
         # if response fails, try again with link for per kg instead of each
         if response.status_code != 200:
-            url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
+            url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_kgm_000pns'
             response = client.get(url, headers=headers, cookies=cookies)
-
-        print(response.text)
 
         contents = response.content
 
@@ -58,8 +54,6 @@ class NewWorldPriceRetriever:
 
         # extract useful portion of html into a json object
         response_object = json.loads(page.find('script', type='application/ld+json').string, strict=False)
-
-        print(response_object)
 
         # split link of availability and only display InStock or OutOfStock
         current_availability = (response_object['offers']['availability']).split('/')[-1]
@@ -103,5 +97,5 @@ class NewWorldPriceRetriever:
 
 
 # n = NewWorldPriceRetriever
-# test = n.request_product_price("5201479")
+# test = n.request_product_price("5013778")
 # n.create_price(test)
