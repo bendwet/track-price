@@ -2,6 +2,7 @@ import pytz
 import requests
 import re
 import json
+import httpx
 from datetime import datetime
 from bs4 import BeautifulSoup
 from price_definition.price import ProductPriceModel
@@ -22,12 +23,22 @@ class NewWorldPriceRetriever:
 
         url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_ea_000nw'
 
-        response = requests.get(url, cookies=cookies)
+        headers = {
+            'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+            'Content-Type': 'text/html; charset=utf-8',
+        }
+
+        # configure use of http2
+        client = httpx.Client(http2=True)
+        # perform ge request
+        response = client.get(url, headers=headers, cookies=cookies)
 
         # if response fails, try again with link for per kg instead of each
-        if not response:
-            url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_kgm_000nw'
-            response = requests.get(url, cookies=cookies)
+        if response.status_code != 200:
+            url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
+            response = client.get(url, headers=headers, cookies=cookies)
 
         contents = response.content
 
