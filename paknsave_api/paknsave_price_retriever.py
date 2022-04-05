@@ -23,9 +23,6 @@ class PaknsavePriceRetriever:
 
         headers = {
             'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-            'Content-Type': 'text/html; charset=utf-8',
         }
 
         # configure use of http2
@@ -39,6 +36,8 @@ class PaknsavePriceRetriever:
             response = client.get(url, headers=headers, cookies=cookies)
 
         contents = response.content
+
+        print(response.text)
 
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
@@ -96,3 +95,8 @@ class PaknsavePriceRetriever:
                                   product_on_sale, is_available)
 
         return price
+
+# testing
+# p = PaknsavePriceRetriever
+# test = p.request_product_price('5201479')
+

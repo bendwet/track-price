@@ -25,9 +25,6 @@ class NewWorldPriceRetriever:
 
         headers = {
             'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-            'Content-Type': 'text/html; charset=utf-8',
         }
 
         # configure use of http2
@@ -39,6 +36,8 @@ class NewWorldPriceRetriever:
         if response.status_code != 200:
             url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
             response = client.get(url, headers=headers, cookies=cookies)
+
+        print(response.text)
 
         contents = response.content
 
