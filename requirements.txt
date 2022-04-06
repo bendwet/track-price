@@ -23,5 +23,5 @@ Werkzeug==2.0.2
 wheel==0.36.2
 beautifulsoup4==4.10.0
 pytz==2021.3
-httpx==0.22.0
+httpx[http2]==0.22.0
 bs4==0.0.1
