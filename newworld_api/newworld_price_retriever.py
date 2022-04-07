@@ -13,7 +13,7 @@ from retrying import retry
 class NewWorldPriceRetriever:
 
     @staticmethod
-    @retry(stop_max_attempt_number=20, wait_random_min=1000, wait_random_max=10000)
+    @retry(stop_max_attempt_number=10, wait_random_min=1000, wait_random_max=10000)
     def request_product_price(store_product_code: str):
         """
        Retrieve product info from new world website through an html parser, which extracts info eg price
