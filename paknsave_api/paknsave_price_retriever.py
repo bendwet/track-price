@@ -13,7 +13,7 @@ from paknsave_api.paknsave_constants import cookies
 class PaknsavePriceRetriever:
 
     @staticmethod
-    @retry(stop_max_attempt_number=20, wait_random_min=1000, wait_random_max=10000)
+    @retry(stop_max_attempt_number=10, wait_random_min=1000, wait_random_max=10000)
     def request_product_price(store_product_code: str):
         """
        Retrieve product info from paknsave website through an html parser, which extracts info eg price, name
@@ -37,7 +37,6 @@ class PaknsavePriceRetriever:
 
         contents = response.content
 
-        print(response.text)
 
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
