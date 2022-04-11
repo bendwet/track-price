@@ -64,7 +64,11 @@ class PaknsavePriceRetriever:
             product_quantity = '1kg'
         # check if quantity is 'ea' for each with no numeric value
         elif product_quantity == 'ea':
-            product_quantity = 'each'
+            product_quantity = 'ea'
+
+        # capitalize l for consistency in units
+        if 'l' in product_quantity:
+            product_quantity = product_quantity.replace('l', 'L')
 
         # split link of availability and only display InStock or OutOfStock
         current_availability = (response_object['offers']['availability']).split('/')[-1]

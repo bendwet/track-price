@@ -62,8 +62,11 @@ class NewWorldPriceRetriever:
         if product_quantity == 'kg':
             product_quantity = '1kg'
         # check if quantity is 'ea' for each with no numeric value
-        elif product_quantity == 'ea':
-            product_quantity = 'each'
+        if product_quantity == 'ea':
+            product_quantity = 'ea'
+        # capitalize l for consistency in units
+        if 'l' in product_quantity:
+            product_quantity = product_quantity.replace('l', 'L')
 
         # split link of availability and only display InStock or OutOfStock
         current_availability = (response_object['offers']['availability']).split('/')[-1]
@@ -76,8 +79,6 @@ class NewWorldPriceRetriever:
 
             #  find span with sale info that has 'Saver' in the aria-label attribute
             spans = page.select('span[aria-label*="Saver"]')
-            # split the span into a list of strings which will either contain Everyday_Low or
-            # Extra_Low indicating the product is onsale
 
             # TODO: infer original price by looking at the previous time that it wasn't on sale
             original_price = 0

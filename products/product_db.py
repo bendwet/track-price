@@ -4,11 +4,6 @@ from datetime import datetime, date
 import cx_Oracle
 import os
 
-# Temporary code
-COMPANY_COUNTDOWN = 'countdown'
-COMPANY_PACKNSAVE = 'paknsave'
-# end temporary code
-
 USER = os.environ['MYSQLUSER']
 PASSWORD = os.environ['MYSQLPASSWORD']
 
