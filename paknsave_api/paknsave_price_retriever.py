@@ -56,6 +56,16 @@ class PaknsavePriceRetriever:
         # extract useful portion of html into a json object
         response_object = json.loads(page.find('script', type='application/ld+json').string, strict=False)
 
+        split_name = response_object['name'].split()
+        product_quantity = split_name[-1]
+
+        # check if quantity is just 'kg' without any numeric value
+        if product_quantity == 'kg':
+            product_quantity = '1kg'
+        # check if quantity is 'ea' for each with no numeric value
+        elif product_quantity == 'ea':
+            product_quantity = 'each'
+
         # split link of availability and only display InStock or OutOfStock
         current_availability = (response_object['offers']['availability']).split('/')[-1]
         if current_availability == 'InStock':
@@ -91,7 +101,7 @@ class PaknsavePriceRetriever:
         timezone = pytz.timezone('Pacific/Auckland')
 
         price = ProductPriceModel(datetime.now(timezone).date(), original_price, sale_price,
-                                  product_on_sale, is_available)
+                                  product_on_sale, is_available, product_quantity)
 
         return price
 
