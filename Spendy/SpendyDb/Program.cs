@@ -4,6 +4,7 @@ using SpendyDb.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MySql.EntityFrameworkCore.Extensions;
 using MySqlConnector;
 using SpendyDb.Data;
@@ -22,11 +23,14 @@ public class Program
         // ConnectionStrings__SpendyConnection
 
         var connectionString = config.GetConnectionString("SpendyConnection");
-        var services = new ServiceCollection();
-        services.AddDbContext<SpendyContext>(options =>
-        {
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-        });
-        
+        Console.WriteLine(connectionString);
+        var services = new ServiceCollection()
+            .AddDbContext<SpendyContext>(options =>
+            {
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            })
+            .AddLogging(x => x.AddConsole())
+            .BuildServiceProvider();
+
     }
 }
