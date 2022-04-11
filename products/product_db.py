@@ -69,6 +69,7 @@ class Price(db.Model):
     is_onsale: bool = db.Column(db.Boolean, default=False)
     price_sale: float = db.Column(db.Float)
     is_available: bool = db.Column(db.Boolean, default=True)
+    price_quantity: str = db.Column(db.String(8), nullable=False)
     # comma at end to create tuple with 1 item
     __table_args__ = (db.UniqueConstraint('product_id', 'store_id', 'price_date'),)
 

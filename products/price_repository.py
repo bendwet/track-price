@@ -16,7 +16,7 @@ class PriceRepository:
 
     @staticmethod
     def create_price(product_id: int, store_id: int, price_date: datetime.date, price: float,
-                     is_onsale: bool, price_sale: float, is_available: bool):
+                     is_onsale: bool, price_sale: float, is_available: bool, price_quantity: str):
 
         price_exists = db.session.query(Price).filter(Price.product_id == product_id, Price.store_id == store_id,
                                                       Price.price_date == price_date).one_or_none()
@@ -31,6 +31,7 @@ class PriceRepository:
             product_price.is_onsale = is_onsale
             product_price.price_sale = price_sale
             product_price.is_available = is_available
+            product_price.price_quantity = price_quantity
             db.session.add(product_price)
         else:
             price_exists.price = price
