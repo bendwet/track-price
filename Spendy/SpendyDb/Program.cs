@@ -1,12 +1,8 @@
-﻿using System.Data.Common;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SpendyDb.Models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MySql.EntityFrameworkCore.Extensions;
-using MySqlConnector;
 using SpendyDb.Data;
 
 namespace SpendyDb;

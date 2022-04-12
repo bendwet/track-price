@@ -12,7 +12,7 @@ public class StoreRepository
         _context = context;
     }
     // Get a certain store by its store name
-    public Store GetByStoreName(string storeName)
+    public Store GetByName(string storeName)
     {
         var store = _context.Stores
             .Single(s => s.StoreName == storeName);
