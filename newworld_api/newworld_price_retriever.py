@@ -22,18 +22,20 @@ class NewWorldPriceRetriever:
         url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_ea_000nw'
 
         headers = {
-            'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'accept-language': 'en-US,en;q=0.9'
         }
 
         # configure use of http2
         client = httpx.Client(http2=True)
-        # perform ge request
-        response = client.get(url, headers=headers, cookies=cookies)
+        # perform get request
+        response = client.get(url, headers=headers)
 
         # if response fails, try again with link for per kg instead of each
         if response.status_code != 200:
-            url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_kgm_000pns'
-            response = client.get(url, headers=headers, cookies=cookies)
+            url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_kgm_000nw'
+            response = client.get(url, headers=headers)
 
         contents = response.content
 
@@ -107,6 +109,6 @@ class NewWorldPriceRetriever:
         return price
 
 
-# n = NewWorldPriceRetriever
-# test = n.request_product_price("5013778")
+n = NewWorldPriceRetriever
+test = n.request_product_price("5125914")
 # n.create_price(test)

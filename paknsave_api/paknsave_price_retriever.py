@@ -22,7 +22,9 @@ class PaknsavePriceRetriever:
         url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
 
         headers = {
-            'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'accept-language': 'en-US,en;q=0.9'
         }
 
         # configure use of http2
