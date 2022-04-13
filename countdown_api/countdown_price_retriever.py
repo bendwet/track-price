@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 import pytz
 import requests
@@ -46,6 +47,34 @@ class CountdownPriceRetriever:
         original_price = response_object["price"]["originalPrice"]
         sale_price = response_object["price"]["salePrice"]
 
+        product_size = response_object['size']['volumeSize']
+        package_type = response_object['size']['packageType']
+
+        product_quantity = product_size
+
+        if package_type == 'each' and product_size is None:
+            product_quantity = 'ea'
+
+        if package_type == 'bunch' and product_size is None:
+            product_quantity = 'bunch'
+
+        # check if volume = "per kg" for fruits and vegetables and convert to 1kg
+        if product_size == 'per kg':
+            product_quantity = '1kg'
+
+        if product_size == '1kg pack':
+            product_quantity = '1kg'
+
+        if product_size == '4 serve':
+            product_quantity = '4pk'
+
+        # if toiler paper is in name, it will have no quantity, so search in product name for quantity
+        if 'toilet paper' in response_object['name'] and 'pk' in response_object['name']:
+            try:
+                product_quantity = re.search('([0-9]+)(pk)', response_object['name']).group()
+            except AttributeError:
+                print('Could not retrieve quantity from name')
+
         # check if product is on sale
         if sale_price < original_price:
             product_on_sale = True
@@ -61,6 +90,6 @@ class CountdownPriceRetriever:
 
         # set price with other details
         price = ProductPriceModel(datetime.now(timezone).date(), original_price, sale_price,
-                                  product_on_sale, is_available)
+                                  product_on_sale, is_available, product_quantity)
         return price
 

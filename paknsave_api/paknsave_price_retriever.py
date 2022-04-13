@@ -22,7 +22,9 @@ class PaknsavePriceRetriever:
         url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
 
         headers = {
-            'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'accept-language': 'en-US,en;q=0.9'
         }
 
         # configure use of http2
@@ -55,6 +57,20 @@ class PaknsavePriceRetriever:
 
         # extract useful portion of html into a json object
         response_object = json.loads(page.find('script', type='application/ld+json').string, strict=False)
+
+        split_name = response_object['name'].split()
+        product_quantity = split_name[-1]
+
+        # check if quantity is just 'kg' without any numeric value
+        if product_quantity == 'kg':
+            product_quantity = '1kg'
+        # check if quantity is 'ea' for each with no numeric value
+        elif product_quantity == 'ea':
+            product_quantity = 'ea'
+
+        # capitalize l for consistency in units
+        if 'l' in product_quantity:
+            product_quantity = product_quantity.replace('l', 'L')
 
         # split link of availability and only display InStock or OutOfStock
         current_availability = (response_object['offers']['availability']).split('/')[-1]
@@ -91,7 +107,7 @@ class PaknsavePriceRetriever:
         timezone = pytz.timezone('Pacific/Auckland')
 
         price = ProductPriceModel(datetime.now(timezone).date(), original_price, sale_price,
-                                  product_on_sale, is_available)
+                                  product_on_sale, is_available, product_quantity)
 
         return price
 

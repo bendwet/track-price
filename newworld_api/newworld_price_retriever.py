@@ -22,18 +22,20 @@ class NewWorldPriceRetriever:
         url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_ea_000nw'
 
         headers = {
-            'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'accept-language': 'en-US,en;q=0.9'
         }
 
         # configure use of http2
         client = httpx.Client(http2=True)
-        # perform ge request
-        response = client.get(url, headers=headers, cookies=cookies)
+        # perform get request
+        response = client.get(url, headers=headers)
 
         # if response fails, try again with link for per kg instead of each
         if response.status_code != 200:
-            url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_kgm_000pns'
-            response = client.get(url, headers=headers, cookies=cookies)
+            url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_kgm_000nw'
+            response = client.get(url, headers=headers)
 
         contents = response.content
 
@@ -55,6 +57,19 @@ class NewWorldPriceRetriever:
         # extract useful portion of html into a json object
         response_object = json.loads(page.find('script', type='application/ld+json').string, strict=False)
 
+        split_name = response_object['name'].split()
+        product_quantity = split_name[-1]
+
+        # check if quantity is just 'kg' without any numeric value
+        if product_quantity == 'kg':
+            product_quantity = '1kg'
+        # check if quantity is 'ea' for each with no numeric value
+        if product_quantity == 'ea':
+            product_quantity = 'ea'
+        # capitalize l for consistency in units
+        if 'l' in product_quantity:
+            product_quantity = product_quantity.replace('l', 'L')
+
         # split link of availability and only display InStock or OutOfStock
         current_availability = (response_object['offers']['availability']).split('/')[-1]
         if current_availability == 'InStock':
@@ -66,8 +81,6 @@ class NewWorldPriceRetriever:
 
             #  find span with sale info that has 'Saver' in the aria-label attribute
             spans = page.select('span[aria-label*="Saver"]')
-            # split the span into a list of strings which will either contain Everyday_Low or
-            # Extra_Low indicating the product is onsale
 
             # TODO: infer original price by looking at the previous time that it wasn't on sale
             original_price = 0
@@ -91,11 +104,11 @@ class NewWorldPriceRetriever:
 
         timezone = pytz.timezone('Pacific/Auckland')
         price = ProductPriceModel(datetime.now(timezone).date(), original_price, sale_price,
-                                  product_on_sale, is_available)
+                                  product_on_sale, is_available, product_quantity)
 
         return price
 
 
-# n = NewWorldPriceRetriever
-# test = n.request_product_price("5013778")
+n = NewWorldPriceRetriever
+test = n.request_product_price("5125914")
 # n.create_price(test)

@@ -32,7 +32,7 @@ class NewWorldProductRetriever:
 
         # if response fails, try again with link for per kg instead of each
         if response.status_code != 200:
-            url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
+            url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_kgm_000nw'
             response = client.get(url, headers=headers, cookies=cookies)
 
         contents = response.content
