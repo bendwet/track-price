@@ -3,6 +3,10 @@
 ## Requirements
 Ensure you are running python 3.9
  
+# Cookies
+
+'cw-lrkswrdjp' is the cookie used to change store location for countdown
+
 ## create virtual environment
 First install virtualenv
 
