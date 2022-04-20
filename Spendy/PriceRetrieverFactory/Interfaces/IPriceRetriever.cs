@@ -12,5 +12,5 @@ public class PriceModel
 
 public interface IPriceRetriever
 {
-    Task<string> RetrievePrice(string storeProductCode);
+    Task<PriceModel> RetrievePrice(string storeProductCode);
 }

@@ -24,7 +24,7 @@ public class CountdownPriceRetriever : IPriceRetriever
         [JsonPropertyName("price")] public CountdownPriceModel? Price { get; set; }
     }
     
-    public async Task<string> RetrievePrice(string storeProductCode)
+    public async Task<PriceModel> RetrievePrice(string storeProductCode)
     {
 
         var url = $"https://shop.countdown.co.nz/api/v1/products/{storeProductCode}";
@@ -40,12 +40,7 @@ public class CountdownPriceRetriever : IPriceRetriever
         _client.DefaultRequestHeaders.Add("X-Requested-With", "OnlineShopping.WebApp");
 
         var response = await _client.GetStringAsync(url);
-
-        return response;
-    }
-
-    public static PriceModel CreatePriceModel(string response)
-    {
+        
         // deserialize into CountdownPriceResponseModel
         var countdownPrice = JsonSerializer.Deserialize<CountdownPriceResponseModel>(response);
         
@@ -65,7 +60,7 @@ public class CountdownPriceRetriever : IPriceRetriever
             IsAvailable = isAvailable,
             PriceDate = priceDate
         };
-
+        
         return price;
     }
 }
