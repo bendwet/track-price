@@ -1,16 +1,44 @@
 ﻿using PriceRetrieverFactory.PriceRetrievers;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using SpendyDb.Models;
+using SpendyDb.Repositories;
 
 namespace PriceRetrieverFactory;
 
 public class Program
 {
-    private static void Main()
+    private static async Task Main()
     {
-        var c = new CountdownPriceRetriever();
-        var t = c.RequestPrice("282848");
+        IConfiguration config = new ConfigurationBuilder()
+            .Build();
+
+        var services = new ServiceCollection()
+            .AddScoped<CountdownPriceRetriever>()
+            .AddScoped<IPriceRepository, PriceRepository>();
+
+        services.AddHttpClient<CountdownPriceRetriever>();
+
+        var serviceProvider = services.BuildServiceProvider();
+
+        var countdownPriceRetriever = serviceProvider.GetRequiredService<CountdownPriceRetriever>();
         
-        c.CreatePrice(t.Result);
+        // retrieve price
+        var price = await countdownPriceRetriever.RetrievePrice("282848");
+        
+        // Save the price
+        var priceRepository = serviceProvider.GetRequiredService<IPriceRepository>();
+        
+        // Find the store
+        var priceRecord = new Price
+        {
+
+        };
+            
+        // priceRepository.Save(priceRecord);
+
+        // c.CreatePrice(t.Result);
+
     }
 }
 

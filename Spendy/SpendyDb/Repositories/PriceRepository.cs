@@ -1,6 +1,12 @@
 ﻿namespace SpendyDb.Repositories;
 
-public class PriceRepository
+public interface IPriceRepository
+{
+    public void Save();
+    public void Delete();
+}
+
+public class PriceRepository : IPriceRepository
 {
     public void Save()
     {

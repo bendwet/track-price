@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data.SqlTypes;
+using Microsoft.EntityFrameworkCore;
 using SpendyDb.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,11 @@ public class Program
             })
             .AddLogging(x => x.AddConsole())
             .BuildServiceProvider();
+        
+        var priceDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo
+            .FindSystemTimeZoneById("New Zealand Standard Time")).Date.ToString("yyyy-MM-dd");
 
+        Console.WriteLine(priceDate);
+        
     }
 }

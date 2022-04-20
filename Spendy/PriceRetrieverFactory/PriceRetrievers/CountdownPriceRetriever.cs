@@ -1,58 +1,71 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using SpendyDb.Models;
 
 namespace PriceRetrieverFactory.PriceRetrievers;
 
-public class CountdownPriceRetriever
+public class CountdownPriceRetriever : IPriceRetriever
 {
-    public class CountdownPriceResponseModel
+    private readonly HttpClient _client;
+
+    public CountdownPriceRetriever(HttpClient client)
+    {
+        _client = client;
+    }
+
+    private class CountdownPriceResponseModel
     {
         public class CountdownPriceModel
         {
-            [JsonPropertyName("originalPrice")]
-            public decimal? OriginalPrice { get; set; }
-            
-            [JsonPropertyName("salePrice")]
-            public decimal? SalePrice { get; set; }
+            [JsonPropertyName("originalPrice")] public decimal? OriginalPrice { get; set; }
+            [JsonPropertyName("salePrice")] public decimal? SalePrice { get; set; }
         }
-        
-        [JsonPropertyName("price")]
-        public CountdownPriceModel Price { get; set; }
+
+        [JsonPropertyName("price")] public CountdownPriceModel? Price { get; set; }
     }
     
-    // request the price of product with supplied product code
-    public async Task<CountdownPriceResponseModel?> RequestPrice(string storeProductCode)
+    public async Task<string> RetrievePrice(string storeProductCode)
     {
 
-        var client = new HttpClient();
-        
         var url = $"https://shop.countdown.co.nz/api/v1/products/{storeProductCode}";
 
         // add headers
-        client.DefaultRequestHeaders.Accept.Clear();
-        client.DefaultRequestHeaders.Accept.Add(
+        _client.DefaultRequestHeaders.Accept.Clear();
+        _client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
-        client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0");
+        _client.DefaultRequestHeaders.Add("User-Agent",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0");
         // client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
-        client.DefaultRequestHeaders.Add("ContentType", "application/json");
-        client.DefaultRequestHeaders.Add("X-Requested-With","OnlineShopping.WebApp");
+        _client.DefaultRequestHeaders.Add("ContentType", "application/json");
+        _client.DefaultRequestHeaders.Add("X-Requested-With", "OnlineShopping.WebApp");
 
-        var response = await client.GetStringAsync(url);
+        var response = await _client.GetStringAsync(url);
+
+        return response;
+    }
+
+    public static PriceModel CreatePriceModel(string response)
+    {
         // deserialize into CountdownPriceResponseModel
-        var price = JsonSerializer.Deserialize<CountdownPriceResponseModel>(response);
+        var countdownPrice = JsonSerializer.Deserialize<CountdownPriceResponseModel>(response);
+        
+        // required price information
+        var originalPrice = countdownPrice?.Price?.OriginalPrice;
+        var salePrice = countdownPrice?.Price?.SalePrice;
+        var isOnSale = salePrice < originalPrice;
+        var isAvailable = originalPrice > 0;
+        var priceDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo
+            .FindSystemTimeZoneById("New Zealand Standard Time")).Date.ToString("yyyy-MM-dd");
+        
+        var price = new PriceModel
+        {
+            OriginalPrice = originalPrice,
+            SalePrice = salePrice,
+            IsOnSale = isOnSale,
+            IsAvailable = isAvailable,
+            PriceDate = priceDate
+        };
+
         return price;
     }
-
-    public decimal? CreatePrice(CountdownPriceResponseModel countdownPrice)
-    {   
-
-        Console.WriteLine(countdownPrice.Price.OriginalPrice);
-
-        // var price = new Price();
-        // return price;
-        return countdownPrice.Price.OriginalPrice;
-    }
-    
 }
