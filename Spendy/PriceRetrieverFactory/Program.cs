@@ -15,7 +15,9 @@ public class Program
 
         var services = new ServiceCollection()
             .AddScoped<CountdownPriceRetriever>()
-            .AddScoped<IPriceRepository, PriceRepository>();
+            .AddScoped<IPriceRepository, PriceRepository>()
+            .AddScoped<IStoreRepository, StoreRepository>()
+            .AddScoped<IStoreProductRepository, StoreProductRepository>();
 
         services.AddHttpClient<CountdownPriceRetriever>();
 
@@ -24,15 +26,30 @@ public class Program
         var countdownPriceRetriever = serviceProvider.GetRequiredService<CountdownPriceRetriever>();
         
         // retrieve price
-        var price = await countdownPriceRetriever.RetrievePrice("282848");
+        var price = await countdownPriceRetriever.RetrievePrice("282765");
         
-        // Save the price
+        // Repositories
         var priceRepository = serviceProvider.GetRequiredService<IPriceRepository>();
+        var storeRepository = serviceProvider.GetRequiredService<IStoreRepository>();
+        var storeProductRepository = serviceProvider.GetRequiredService<IStoreProductRepository>();
+
+        // Get the stores
+        var stores = storeRepository.GetAllStores();
         
-        // Find the store
+        // Get store product for store id and product id
+        var storeProduct = storeProductRepository.GetByStoreProductCode("282765", 1);
+        
+        // Create the price record to be saved into database
         var priceRecord = new Price
         {
-
+            ProductId = storeProduct.ProductId,
+            StoreId = storeProduct.StoreId,
+            OriginalPrice = price.OriginalPrice,
+            SalePrice = price.SalePrice,
+            IsOnSale = price.IsOnSale,
+            IsAvailable = price.IsAvailable,
+            PriceDate = price.PriceDate,
+            PriceQuantity = price.PriceQuantity
         };
             
         // priceRepository.Save(priceRecord);

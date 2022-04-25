@@ -14,14 +14,15 @@ public class Price
     [Column("price_date")]
     public DateTime PriceDate { get; set; }
     [Column("price")]
-    public double PriceOriginal { get; set; }
+    public decimal OriginalPrice { get; set; }
     [Column("is_onsale")]
     public bool IsOnSale { get; set; }
     [Column("price_sale")]
-    public double PriceSale { get; set; }
+    public decimal SalePrice { get; set; }
     [Column("is_available")]
     public bool IsAvailable { get; set; }
-    
+    [Column("price_quantity")]
+    public string PriceQuantity { get; set; }
     public Product Product { get; set; }
     public Store Store { get; set; }
     

@@ -12,16 +12,25 @@ public class CountdownPriceRetriever : IPriceRetriever
     {
         _client = client;
     }
-
+    
+    // countdown price model
     private class CountdownPriceResponseModel
-    {
+    {   
+        // price models for prices
         public class CountdownPriceModel
         {
             [JsonPropertyName("originalPrice")] public decimal? OriginalPrice { get; set; }
             [JsonPropertyName("salePrice")] public decimal? SalePrice { get; set; }
         }
-
+        
+        // size model for quantity
+        public class CountdownSizeModel
+        {
+            [JsonPropertyName("volumeSize")] public string? VolumeSize { get; set; }
+        }
+        
         [JsonPropertyName("price")] public CountdownPriceModel? Price { get; set; }
+        [JsonPropertyName("size")] public CountdownSizeModel? Size { get; set; }
     }
     
     public async Task<PriceModel> RetrievePrice(string storeProductCode)
@@ -43,22 +52,25 @@ public class CountdownPriceRetriever : IPriceRetriever
         
         // deserialize into CountdownPriceResponseModel
         var countdownPrice = JsonSerializer.Deserialize<CountdownPriceResponseModel>(response);
-        
+
         // required price information
         var originalPrice = countdownPrice?.Price?.OriginalPrice;
         var salePrice = countdownPrice?.Price?.SalePrice;
         var isOnSale = salePrice < originalPrice;
         var isAvailable = originalPrice > 0;
         var priceDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo
-            .FindSystemTimeZoneById("New Zealand Standard Time")).Date.ToString("yyyy-MM-dd");
+            .FindSystemTimeZoneById("New Zealand Standard Time")).Date;
+        var priceQuantity = countdownPrice?.Size?.VolumeSize;
         
+        // create price model
         var price = new PriceModel
         {
-            OriginalPrice = originalPrice,
-            SalePrice = salePrice,
+            OriginalPrice = originalPrice ?? 0,
+            SalePrice = salePrice ?? 0,
             IsOnSale = isOnSale,
             IsAvailable = isAvailable,
-            PriceDate = priceDate
+            PriceDate = priceDate,
+            PriceQuantity = priceQuantity ?? "none"
         };
         
         return price;

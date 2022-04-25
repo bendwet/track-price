@@ -1,13 +1,29 @@
-﻿using SpendyDb.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SpendyDb.Data;
 using SpendyDb.Models;
 
 namespace SpendyDb.Repositories;
 
-public class StoreRepository
+public interface IStoreRepository
+{
+    public List<Store> GetAllStores();
+    public Store GetByName(string storeName);
+    public void Save(string storeName);
+    public void Delete();
+}
+
+public class StoreRepository: IStoreRepository
 {
     private readonly SpendyContext _context;
 
-    public StoreRepository(SpendyContext context)
+    public List<Store> GetAllStores()
+    {   
+        // retrieve all stores from database and return as a list
+        var stores = _context.Stores.ToList();
+        return stores;
+    }
+    
+    private StoreRepository(SpendyContext context)
     {
         _context = context;
     }

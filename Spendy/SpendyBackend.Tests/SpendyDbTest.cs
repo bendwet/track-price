@@ -66,9 +66,9 @@ public class InMemorySpendyDbControllerTest
             Store = store,
             Product = product,
             PriceDate = new DateTime(2022, 3, 29),
-            PriceOriginal = 3.9,
+            OriginalPrice = 3.9m,
             IsOnSale = false,
-            PriceSale = 3.9,
+            SalePrice = 3.9m,
             IsAvailable = true
         };
         
