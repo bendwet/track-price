@@ -1,6 +1,7 @@
 ﻿using PriceRetrieverFactory.PriceRetrievers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
 using SpendyDb.Models;
 using SpendyDb.Repositories;
 
@@ -12,15 +13,20 @@ public class Program
     {
         IConfiguration config = new ConfigurationBuilder()
             .Build();
-
+    
         var services = new ServiceCollection()
             .AddScoped<CountdownPriceRetriever>()
             .AddScoped<IPriceRepository, PriceRepository>()
             .AddScoped<IStoreRepository, StoreRepository>()
             .AddScoped<IStoreProductRepository, StoreProductRepository>();
+        
+        // new random instance for random retry amount
+        var r = new Random();
 
-        services.AddHttpClient<CountdownPriceRetriever>();
-
+        services.AddHttpClient<CountdownPriceRetriever>()
+            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(5, retryAttempt =>
+                TimeSpan.FromSeconds(r.Next(1, 5) + retryAttempt)));
+        
         var serviceProvider = services.BuildServiceProvider();
 
         var countdownPriceRetriever = serviceProvider.GetRequiredService<CountdownPriceRetriever>();

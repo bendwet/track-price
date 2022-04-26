@@ -1,4 +1,4 @@
-﻿namespace PriceRetrieverFactory;
+﻿namespace PriceRetrieverFactory.Interfaces;
 
 public class PriceModel
 {

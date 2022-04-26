@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using PriceRetrieverFactory.Interfaces;
 
 namespace PriceRetrieverFactory.PriceRetrievers;
 
@@ -27,8 +28,10 @@ public class CountdownPriceRetriever : IPriceRetriever
         public class CountdownSizeModel
         {
             [JsonPropertyName("volumeSize")] public string? VolumeSize { get; set; }
+            [JsonPropertyName("packageType")] public string? PackageType { get; set; }
         }
         
+        [JsonPropertyName("name")] public string? Name { get; set; }
         [JsonPropertyName("price")] public CountdownPriceModel? Price { get; set; }
         [JsonPropertyName("size")] public CountdownSizeModel? Size { get; set; }
     }
@@ -60,7 +63,37 @@ public class CountdownPriceRetriever : IPriceRetriever
         var isAvailable = originalPrice > 0;
         var priceDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo
             .FindSystemTimeZoneById("New Zealand Standard Time")).Date;
-        var priceQuantity = countdownPrice?.Size?.VolumeSize;
+        var volumeSize = countdownPrice?.Size?.VolumeSize;
+        var packageType = countdownPrice?.Size?.PackageType;
+        var name = countdownPrice?.Name;
+        
+        // get quantity of the product and check for edge case quantities
+        var priceQuantity = volumeSize switch
+        {
+            "per kg" => "1kg",
+            "1kg pack" => "1kg",
+            "4 serve" => "4pk",
+            _ => packageType switch
+            {
+                "each" when volumeSize == null => "ea",
+                "bunch" when volumeSize == null => "bunch",
+                _ => volumeSize
+            }
+        };
+
+        // check name for toilet paper, as toilet paper will not have any quantity info in response
+        if (name != null && name.Contains("toiler paper") && name.Contains("pk"))
+        {
+            try
+            {
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
         
         // create price model
         var price = new PriceModel
