@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using PriceRetrieverFactory.Interfaces;
 
 namespace PriceRetrieverFactory.PriceRetrievers;
@@ -20,8 +21,8 @@ public class CountdownPriceRetriever : IPriceRetriever
         // price models for prices
         public class CountdownPriceModel
         {
-            [JsonPropertyName("originalPrice")] public decimal? OriginalPrice { get; set; }
-            [JsonPropertyName("salePrice")] public decimal? SalePrice { get; set; }
+            [JsonPropertyName("originalPrice")] public double? OriginalPrice { get; set; }
+            [JsonPropertyName("salePrice")] public double? SalePrice { get; set; }
         }
         
         // size model for quantity
@@ -82,15 +83,15 @@ public class CountdownPriceRetriever : IPriceRetriever
         };
 
         // check name for toilet paper, as toilet paper will not have any quantity info in response
-        if (name != null && name.Contains("toiler paper") && name.Contains("pk"))
+        if (name != null && name.Contains("toilet paper") && name.Contains("pk"))
         {
             try
             {
-                
+                priceQuantity = Regex.Match(name, "([0-9]+)(pk)").ToString();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine($"The following error occured when attempting to get quantity from name: {e}");
                 throw;
             }
         }

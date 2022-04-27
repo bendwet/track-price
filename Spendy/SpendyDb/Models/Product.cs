@@ -1,19 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+#pragma warning disable CS8618
 
 namespace SpendyDb.Models;
 
 [Table("products")]
-public class Product
+public record Product
 {   
     [Column("product_id")]
-    public int ProductId { get; set; }
+    public int ProductId { get; init; }
     [Column("product_name")]
-    public string ProductName { get; set; }
+    public string ProductName { get; init; }
     [Column("unit_of_measure")]
-    public string UnitOfMeasure { get; set; }
+    public string UnitOfMeasure { get; init; }
     [Column("unit_of_measure_size")]
-    public double UnitOfMeasureSize { get; set; }
+    public double UnitOfMeasureSize { get; init; }
     
-    public ICollection<StoreProduct> StoreProducts { get; set; }
-    public ICollection<Price> Prices { get; set; }
+    public ICollection<StoreProduct> StoreProducts { get; init; }
+    public ICollection<Price> Prices { get; init; }
 }

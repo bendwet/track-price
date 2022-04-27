@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SpendyDb.Data;
+using SpendyDb.Repositories;
 
 namespace SpendyDb;
 
@@ -22,17 +23,18 @@ public class Program
         var connectionString = config.GetConnectionString("SpendyConnection");
         Console.WriteLine(connectionString);
         var services = new ServiceCollection()
+            .AddScoped<IStoreRepository, StoreRepository>()
             .AddDbContext<SpendyContext>(options =>
             {
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             })
             .AddLogging(x => x.AddConsole())
             .BuildServiceProvider();
-        
-        var priceDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo
-            .FindSystemTimeZoneById("New Zealand Standard Time")).Date.ToString("yyyy-MM-dd");
 
-        Console.WriteLine(priceDate);
+        var context = services.GetRequiredService<IStoreRepository>();
+        
+        context.GetAllStores();
+       
         
     }
 }

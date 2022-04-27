@@ -1,4 +1,6 @@
-﻿namespace SpendyDb.Repositories;
+﻿using SpendyDb.Data;
+
+namespace SpendyDb.Repositories;
 
 public interface IPriceRepository
 {
@@ -8,8 +10,15 @@ public interface IPriceRepository
 
 public class PriceRepository : IPriceRepository
 {
+    private readonly SpendyContext _context;
+
+    private PriceRepository(SpendyContext context)
+    {
+        _context = context;
+    }
     public void Save()
     {
+        _context.Prices.Single();
         Console.WriteLine("Save Price");
     }
 

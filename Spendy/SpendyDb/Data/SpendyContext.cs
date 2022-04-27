@@ -5,10 +5,10 @@ namespace SpendyDb.Data;
 
 public class SpendyContext : DbContext
 {
-    public DbSet<Store> Stores { get; set; }
-    public DbSet<Product> Products { get; set; }
-    public DbSet<StoreProduct> StoreProducts { get; set; }
-    //public DbSet<Price> Prices { get; set; }
+    public DbSet<Store> Stores => Set<Store>();
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<StoreProduct> StoreProducts => Set<StoreProduct>();
+    public DbSet<Price> Prices => Set<Price>();
 
     public SpendyContext(DbContextOptions<SpendyContext> options) : base(options)
     {
