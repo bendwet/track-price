@@ -29,38 +29,71 @@ public class Program
         
         var serviceProvider = services.BuildServiceProvider();
 
-        var countdownPriceRetriever = serviceProvider.GetRequiredService<CountdownPriceRetriever>();
+        // var countdownPriceRetriever = serviceProvider.GetRequiredService<CountdownPriceRetriever>();
         
         // retrieve price
-        var price = await countdownPriceRetriever.RetrievePrice("282765");
-        
+        // var price = await countdownPriceRetriever.RetrievePrice("881157");
+
         // Repositories
         var priceRepository = serviceProvider.GetRequiredService<IPriceRepository>();
         var storeRepository = serviceProvider.GetRequiredService<IStoreRepository>();
         var storeProductRepository = serviceProvider.GetRequiredService<IStoreProductRepository>();
-
+        
         // Get the stores
         var stores = storeRepository.GetAllStores();
+
+        foreach (var store in stores)
+        {   
+            // retrieve all store products for certain store
+            var storeProducts = storeProductRepository.RetrieveByStoreId(store.StoreId);
+            
+            // default price retriever is countdown
+            var priceRetriever = serviceProvider.GetRequiredService<CountdownPriceRetriever>();
+            // if store name = paknsave
+                // var priceRetriever = paknsavePriceRetriever
+            // elif store name = new world
+                // var priceRetriever = newWorldPriceRetriever 
+                
+            foreach (var storeProduct in storeProducts)
+            {   
+                // retrieve price
+                var price = await priceRetriever.RetrievePrice(storeProduct.StoreProductCode);
+                
+                // create price record for database
+                var priceRecord = new Price
+                {
+                    ProductId = storeProduct.ProductId,
+                    StoreId = storeProduct.StoreId,
+                    OriginalPrice = price.OriginalPrice,
+                    SalePrice = price.SalePrice,
+                    IsOnSale = price.IsOnSale,
+                    IsAvailable = price.IsAvailable,
+                    PriceDate = price.PriceDate,
+                    PriceQuantity = price.PriceQuantity
+                };
+                
+                // save price record to database
+                priceRepository.Save(priceRecord);
+            }
+        }
         
         // Get store product for store id and product id
-        var storeProduct = storeProductRepository.GetByStoreProductCode("282765", 1);
-        
-        // Create the price record to be saved into database
-        var priceRecord = new Price
-        {
-            ProductId = storeProduct.ProductId,
-            StoreId = storeProduct.StoreId,
-            OriginalPrice = price.OriginalPrice,
-            SalePrice = price.SalePrice,
-            IsOnSale = price.IsOnSale,
-            IsAvailable = price.IsAvailable,
-            PriceDate = price.PriceDate,
-            PriceQuantity = price.PriceQuantity
-        };
-            
+        // var storeProduct = storeProductRepository.RetrieveByStoreProductCode("282765", 1);
+        //
+        // // Create the price record to be saved into database
+        // var priceRecord = new Price
+        // {
+        //     ProductId = storeProduct.ProductId,
+        //     StoreId = storeProduct.StoreId,
+        //     OriginalPrice = price.OriginalPrice,
+        //     SalePrice = price.SalePrice,
+        //     IsOnSale = price.IsOnSale,
+        //     IsAvailable = price.IsAvailable,
+        //     PriceDate = price.PriceDate,
+        //     PriceQuantity = price.PriceQuantity
+        // };
+        //     
         // priceRepository.Save(priceRecord);
-
-        // c.CreatePrice(t.Result);
 
     }
 }

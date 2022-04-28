@@ -1,10 +1,11 @@
 ﻿using SpendyDb.Data;
+using SpendyDb.Models;
 
 namespace SpendyDb.Repositories;
 
 public interface IPriceRepository
 {
-    public void Save();
+    public void Save(Price priceRecord);
     public void Delete();
 }
 
@@ -16,10 +17,10 @@ public class PriceRepository : IPriceRepository
     {
         _context = context;
     }
-    public void Save()
+    public void Save(Price priceRecord)
     {
-        _context.Prices.Single();
         Console.WriteLine("Save Price");
+        _context.Add(priceRecord);
     }
 
     public void Delete()
