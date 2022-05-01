@@ -1,4 +1,5 @@
-﻿namespace PriceRetrieverFactory.Interfaces;
+﻿#pragma warning disable CS8618
+namespace PriceRetrieverFactory.Interfaces;
 
 public class PriceModel
 {

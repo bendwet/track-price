@@ -24,6 +24,11 @@ public class Program
         var r = new Random();
 
         services.AddHttpClient<CountdownPriceRetriever>()
+            .ConfigureHttpClient(client =>
+            {   
+                // configure use of http2
+                client.DefaultRequestVersion = new Version(2, 0);
+            })
             .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(5, retryAttempt =>
                 TimeSpan.FromSeconds(r.Next(1, 5) + retryAttempt)));
         
