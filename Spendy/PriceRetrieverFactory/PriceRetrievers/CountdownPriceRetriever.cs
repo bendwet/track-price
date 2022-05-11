@@ -69,11 +69,13 @@ public class CountdownPriceRetriever : IPriceRetriever
         var name = countdownPrice?.Name;
         
         // get quantity of the product and check for edge case quantities
+        // check volume size first
         var priceQuantity = volumeSize switch
         {
             "per kg" => "1kg",
             "1kg pack" => "1kg",
             "4 serve" => "4pk",
+            // if volume size contains no valid quantities (is null) check package type
             _ => packageType switch
             {
                 "each" when volumeSize == null => "ea",
