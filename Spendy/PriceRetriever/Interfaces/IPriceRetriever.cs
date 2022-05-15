@@ -1,5 +1,5 @@
 ﻿#pragma warning disable CS8618
-namespace PriceRetrieverFactory.Interfaces;
+namespace PriceRetriever.Interfaces;
 
 public class PriceModel
 {

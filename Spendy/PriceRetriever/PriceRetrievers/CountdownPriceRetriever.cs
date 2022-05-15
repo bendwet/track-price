@@ -2,9 +2,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using PriceRetrieverFactory.Interfaces;
+using PriceRetriever.Interfaces;
 
-namespace PriceRetrieverFactory.PriceRetrievers;
+namespace PriceRetriever.PriceRetrievers;
 
 public class CountdownPriceRetriever : IPriceRetriever
 {

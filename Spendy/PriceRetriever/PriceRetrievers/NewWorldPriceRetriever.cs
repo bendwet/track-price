@@ -1,13 +1,15 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
+using PuppeteerSharp;
 using System.Web;
-using PriceRetrieverFactory.PriceRetrievers.Constants;
-using PriceRetrieverFactory.Interfaces;
+using PriceRetriever.Interfaces;
+using PriceRetriever.PriceRetrievers.Constants;
 
-namespace PriceRetrieverFactory.PriceRetrievers;
+namespace PriceRetriever.PriceRetrievers;
 
 public class NewWorldPriceRetriever: IPriceRetriever
 {
@@ -31,16 +33,32 @@ public class NewWorldPriceRetriever: IPriceRetriever
 
     public async Task<PriceModel> RetrievePrice(string storeProductCode)
     {
-        // var url = $"https://www.newworld.co.nz/shop/product/{storeProductCode}_ea_000nw";
-
+        // var testUrl = $"https://www.newworld.co.nz/shop/product/{storeProductCode}_ea_000nw";
+        
+        var setStoreLocation = "https://www.newworld.co.nz/CommonApi/Store/ChangeStore?storeId=773ad0a0-024e-46c5-a94b-df1cf86d25cc&clickSource=list";
         var url = $"https://www.newworld.co.nz/shop/Search?q={storeProductCode}";
         
+        await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+        
+        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+        {
+            Headless = false
+        });
+
+        var searchPage = await browser.NewPageAsync();
+        // change store location
+        await searchPage.GoToAsync(setStoreLocation);
+        // search page via store product code
+        var response = await searchPage.GoToAsync(url);
+        // convert response to string
+        var stringResponse = response.TextAsync().Result;
+
         // add headers
         _client.DefaultRequestHeaders.Add("User-Agent",
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0");
-        // _client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8");
-        // client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
-        // _client.DefaultRequestHeaders.Add("accept-language", "en-US,en;q=0.9");
+        // _client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
+        // _client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
+        // _client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
         _client.DefaultRequestHeaders.Add("Cookie", NewWorldCookie.Cookie);
         
         // price info
@@ -51,11 +69,13 @@ public class NewWorldPriceRetriever: IPriceRetriever
         var priceDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo
             .FindSystemTimeZoneById("New Zealand Standard Time")).Date;
         var priceQuantity = "none";
-            
-        var response = await _client.GetStringAsync(url);
-        var page = new HtmlDocument();
-        page.LoadHtml(response);
         
+        
+        // var response = await _client.GetStringAsync(url);
+        var page = new HtmlDocument();
+
+        page.LoadHtml(stringResponse);
+
         // get product availability
         var availabilityInfo = page.DocumentNode
             .Descendants()
