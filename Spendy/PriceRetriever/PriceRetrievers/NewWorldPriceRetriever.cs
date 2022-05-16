@@ -35,17 +35,23 @@ public class NewWorldPriceRetriever: IPriceRetriever
     {
         // var testUrl = $"https://www.newworld.co.nz/shop/product/{storeProductCode}_ea_000nw";
         
-        var setStoreLocation = "https://www.newworld.co.nz/CommonApi/Store/ChangeStore?storeId=773ad0a0-024e-46c5-a94b-df1cf86d25cc&clickSource=list";
+        const string setStoreLocation = "https://www.newworld.co.nz/CommonApi/Store/ChangeStore?storeId=773ad0a0-024e-46c5-a94b-df1cf86d25cc&clickSource=list";
         var url = $"https://www.newworld.co.nz/shop/Search?q={storeProductCode}";
         
         await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
         
         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
-            Headless = false
+            Headless = true,
+            Args = new[] {"--no-sandbox"}
         });
-
+        
         var searchPage = await browser.NewPageAsync();
+        await searchPage.SetExtraHttpHeadersAsync(new Dictionary<string, string>
+        {
+            {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0"}
+        });
+        
         // change store location
         await searchPage.GoToAsync(setStoreLocation);
         // search page via store product code
@@ -54,12 +60,12 @@ public class NewWorldPriceRetriever: IPriceRetriever
         var stringResponse = response.TextAsync().Result;
 
         // add headers
-        _client.DefaultRequestHeaders.Add("User-Agent",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0");
+        // _client.DefaultRequestHeaders.Add("User-Agent",
+            // "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0");
         // _client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
         // _client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
         // _client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
-        _client.DefaultRequestHeaders.Add("Cookie", NewWorldCookie.Cookie);
+        // _client.DefaultRequestHeaders.Add("Cookie", NewWorldCookie.Cookie);
         
         // price info
         var isAvailable = true;
