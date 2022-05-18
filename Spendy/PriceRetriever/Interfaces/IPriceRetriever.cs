@@ -1,4 +1,7 @@
-﻿#pragma warning disable CS8618
+﻿using PuppeteerSharp;
+using SpendyDb.Models;
+
+#pragma warning disable CS8618
 namespace PriceRetriever.Interfaces;
 
 public class PriceModel
@@ -12,7 +15,12 @@ public class PriceModel
     
 }
 
-public interface IPriceRetriever
+public interface IApiPriceRetriever
 {
-    Task<PriceModel> RetrievePrice(string storeProductCode);
+    public Task<PriceModel> RetrievePrice(string storeProductCode);
+}
+
+public interface IWebScrapePriceRetriever
+{
+    public Task<PriceModel> RetrievePrice(BrowserFetcher browserFetcher, string storeProductCode);
 }

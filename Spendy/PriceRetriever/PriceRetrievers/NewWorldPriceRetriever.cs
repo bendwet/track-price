@@ -11,10 +11,9 @@ using PriceRetriever.PriceRetrievers.Constants;
 
 namespace PriceRetriever.PriceRetrievers;
 
-public class NewWorldPriceRetriever: IPriceRetriever
+public class NewWorldPriceRetriever: IWebScrapePriceRetriever
 {
     private readonly HttpClient _client;
-
     public NewWorldPriceRetriever(HttpClient client)
     {
         _client = client;
@@ -31,18 +30,18 @@ public class NewWorldPriceRetriever: IPriceRetriever
         
     }
 
-    public async Task<PriceModel> RetrievePrice(string storeProductCode)
+    public async Task<PriceModel> RetrievePrice(BrowserFetcher browserFetcher,string storeProductCode)
     {
         // var testUrl = $"https://www.newworld.co.nz/shop/product/{storeProductCode}_ea_000nw";
         
         const string setStoreLocation = "https://www.newworld.co.nz/CommonApi/Store/ChangeStore?storeId=773ad0a0-024e-46c5-a94b-df1cf86d25cc&clickSource=list";
         var url = $"https://www.newworld.co.nz/shop/Search?q={storeProductCode}";
         
-        await new BrowserFetcher().DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+        await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
         
         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
-            Headless = true,
+            Headless = false,
             Args = new[] {"--no-sandbox"}
         });
         
@@ -59,14 +58,6 @@ public class NewWorldPriceRetriever: IPriceRetriever
         // convert response to string
         var stringResponse = response.TextAsync().Result;
 
-        // add headers
-        // _client.DefaultRequestHeaders.Add("User-Agent",
-            // "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0");
-        // _client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
-        // _client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
-        // _client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
-        // _client.DefaultRequestHeaders.Add("Cookie", NewWorldCookie.Cookie);
-        
         // price info
         var isAvailable = true;
         var originalPrice = 0d;
@@ -85,7 +76,7 @@ public class NewWorldPriceRetriever: IPriceRetriever
         // get product availability
         var availabilityInfo = page.DocumentNode
             .Descendants()
-            .FirstOrDefault(n => n.GetAttributeValue("class", "")
+            .FirstOrDefault(n => n.GetAttributeValue("class", "Product Found")
                 .Contains("fs-search-result-header__title u-margin-bottom"))?.InnerText;
         
         // check is product is not available
@@ -102,8 +93,9 @@ public class NewWorldPriceRetriever: IPriceRetriever
             var decodedInfo = HttpUtility.HtmlDecode(priceInfo);
             var newWorldPrice = JsonSerializer.Deserialize<NewWorldPriceResponseModel>(decodedInfo);
             
-            // check if product is on sale
             salePrice = Convert.ToDouble(newWorldPrice?.ProductDetails?.CurrentPrice);
+            
+            // check if product is on sale
             if (newWorldPrice?.ProductDetails?.PromoLabel is "Super Saver" or "Saver")
             {
                 isOnSale = true;

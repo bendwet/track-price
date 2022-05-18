@@ -6,6 +6,7 @@ using Polly;
 using PriceRetriever.PriceRetrievers;
 using SpendyDb.Models;
 using SpendyDb.Repositories;
+using PuppeteerSharp;
 
 namespace PriceRetriever;
 
@@ -19,6 +20,8 @@ public class Program
         var services = new ServiceCollection()
             .AddScoped<CountdownPriceRetriever>()
             .AddScoped<NewWorldPriceRetriever>()
+            .AddScoped<PaknsavePriceRetriever>()
+            .AddScoped<BrowserFetcher>()
             .AddScoped<IPriceRepository, PriceRepository>()
             .AddScoped<IStoreRepository, StoreRepository>()
             .AddScoped<IStoreProductRepository, StoreProductRepository>();
@@ -34,7 +37,7 @@ public class Program
             })
             .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(5, retryAttempt =>
                 TimeSpan.FromSeconds(r.Next(1, 5) + retryAttempt)));
-
+        
         var serviceProvider = services.BuildServiceProvider();
 
         // var countdownPriceRetriever = serviceProvider.GetRequiredService<CountdownPriceRetriever>();
@@ -47,9 +50,9 @@ public class Program
         // var storeRepository = serviceProvider.GetRequiredService<IStoreRepository>();
         // var storeProductRepository = serviceProvider.GetRequiredService<IStoreProductRepository>();
 
-        var nw = serviceProvider.GetRequiredService<NewWorldPriceRetriever>();
+        var nw = serviceProvider.GetRequiredService<PaknsavePriceRetriever>();
 
-        await nw.RetrievePrice("5201479");
+        await nw.RetrievePrice(serviceProvider.GetRequiredService<BrowserFetcher>(),"5201479");
 
         // Get the stores
         // var stores = storeRepository.GetAllStores();
