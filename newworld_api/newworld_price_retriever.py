@@ -21,7 +21,7 @@ class NewWorldPriceRetriever:
         print(store_product_code)
 
         url = f'https://www.newworld.co.nz/shop/product/{store_product_code}_ea_000nw'
-
+        
         response = requests.get(url, cookies=cookies)
 
         # if response fails, try again with link for per kg instead of each
@@ -33,6 +33,8 @@ class NewWorldPriceRetriever:
 
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
+
+        print(page)
 
         # test if page contains needed info
         json.loads(page.find('script', type='application/ld+json').string, strict=False)
@@ -92,6 +94,6 @@ class NewWorldPriceRetriever:
         return price
 
 
-# n = NewWorldPriceRetriever
-# test = n.request_product_price("5201479")
+n = NewWorldPriceRetriever
+test = n.request_product_price("5201479")
 # n.create_price(test)

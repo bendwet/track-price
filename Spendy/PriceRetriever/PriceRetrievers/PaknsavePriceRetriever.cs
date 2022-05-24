@@ -4,51 +4,57 @@ using System.Text.Json.Serialization;
 using HtmlAgilityPack;
 using PuppeteerSharp;
 using System.Web;
+using Polly;
 using PriceRetriever.Interfaces;
 namespace PriceRetriever.PriceRetrievers;
 
-public class PaknsavePriceRetriever: IWebScrapePriceRetriever
+public class PaknsavePriceRetriever: IPriceRetriever
 {
-    private readonly HttpClient _client;
-
-    public PaknsavePriceRetriever(HttpClient client)
+    private readonly BrowserFetcher _browserFetcher;
+    
+    public PaknsavePriceRetriever(BrowserFetcher browserFetcher)
     {
-        _client = client;
+        _browserFetcher = browserFetcher;
     }
     
-    private class PaknsavePriceResponseModel
+    private class PaknSavePriceResponseModel
     {
-        public class PaknsaveSaleModel
+        public class PaknSaveSaleModel
         {
             [JsonPropertyName("PromoBadgeImageLabel")] public string? PromoLabel { get; set; }
         }
         [JsonPropertyName("PricePerItem")] public string? CurrentPrice { get; set; }
-        [JsonPropertyName("ProductDetails")]public PaknsaveSaleModel? ProductDetails { get; set; }
+        [JsonPropertyName("ProductDetails")]public PaknSaveSaleModel? ProductDetails { get; set; }
     }
     
-    public async Task<PriceModel> RetrievePrice(BrowserFetcher browserFetcher,string storeProductCode)
+    public async Task<PriceModel> RetrievePrice(string storeProductCode)
     {
         // var testUrl = $"https://www.newworld.co.nz/shop/product/{storeProductCode}_ea_000nw";
         
         const string setStoreLocation = "https://www.paknsave.co.nz/CommonApi/Store/ChangeStore?storeId=65defcf2-bc15-490e-a84f-1f13b769cd22&clickSource=list";
         var url = $"https://www.paknsave.co.nz/shop/Search?q={storeProductCode}";
         
-        await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+        await _browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
         
         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
             Headless = false,
             Args = new[] {"--no-sandbox"}
         });
+
+        var r = new Random();
         
         var searchPage = await browser.NewPageAsync();
+        // add headers
         await searchPage.SetExtraHttpHeadersAsync(new Dictionary<string, string>
         {
             {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0"}
         });
-        
+
         // go to search page
         await searchPage.GoToAsync(url);
+        // add delay between requests
+        Thread.Sleep(r.Next(500, 1000));
         // change store location
         await searchPage.GoToAsync(setStoreLocation);
         // search page via store product code
@@ -92,7 +98,7 @@ public class PaknsavePriceRetriever: IWebScrapePriceRetriever
                 .Attributes["data-options"].Value;
             
             var decodedInfo = HttpUtility.HtmlDecode(priceInfo);
-            var paknsavePrice = JsonSerializer.Deserialize<PaknsavePriceResponseModel>(decodedInfo);
+            var paknsavePrice = JsonSerializer.Deserialize<PaknSavePriceResponseModel>(decodedInfo);
             
             salePrice = Convert.ToDouble(paknsavePrice?.CurrentPrice);
             

@@ -6,17 +6,18 @@ using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using PuppeteerSharp;
 using System.Web;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PriceRetriever.Interfaces;
 using PriceRetriever.PriceRetrievers.Constants;
 
 namespace PriceRetriever.PriceRetrievers;
 
-public class NewWorldPriceRetriever: IWebScrapePriceRetriever
+public class NewWorldPriceRetriever: IPriceRetriever
 {
-    private readonly HttpClient _client;
-    public NewWorldPriceRetriever(HttpClient client)
+    private readonly BrowserFetcher _browserFetcher;
+    public NewWorldPriceRetriever(BrowserFetcher browserFetcher)
     {
-        _client = client;
+        _browserFetcher = browserFetcher;
     }
     
     private class NewWorldPriceResponseModel
@@ -30,14 +31,14 @@ public class NewWorldPriceRetriever: IWebScrapePriceRetriever
         
     }
 
-    public async Task<PriceModel> RetrievePrice(BrowserFetcher browserFetcher,string storeProductCode)
+    public async Task<PriceModel> RetrievePrice(string storeProductCode)
     {
         // var testUrl = $"https://www.newworld.co.nz/shop/product/{storeProductCode}_ea_000nw";
         
         const string setStoreLocation = "https://www.newworld.co.nz/CommonApi/Store/ChangeStore?storeId=773ad0a0-024e-46c5-a94b-df1cf86d25cc&clickSource=list";
         var url = $"https://www.newworld.co.nz/shop/Search?q={storeProductCode}";
         
-        await browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
+        await _browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
         
         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {

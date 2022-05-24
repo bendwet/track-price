@@ -6,7 +6,7 @@ using PriceRetriever.Interfaces;
 
 namespace PriceRetriever.PriceRetrievers;
 
-public class CountdownPriceRetriever : IApiPriceRetriever
+public class CountdownPriceRetriever : IPriceRetriever
 {
     private readonly HttpClient _client;
 

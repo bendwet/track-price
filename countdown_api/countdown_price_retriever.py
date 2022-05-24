@@ -16,6 +16,9 @@ class CountdownPriceRetriever:
         """
 
         url = f'https://shop.countdown.co.nz/api/v1/products/{store_product_code}'
+
+        cookies = {"cw-lrkswrdjp": "dm-Pickup,f-9036,a-168,s-38"}
+
         headers = {
             # pretend to be chrome
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -26,10 +29,12 @@ class CountdownPriceRetriever:
             'X-Requested-With': 'OnlineShopping.WebApp'
         }
 
-        response = requests.get(url, headers=headers, timeout=60)
+        response = requests.get(url, headers=headers, cookies=cookies, timeout=60)
         # if the response failed, raise an error
         if response.status_code != requests.codes.ok:
             response.raise_for_status()
+
+        print(response.content)
 
         response_object = response.json()
 
@@ -64,3 +69,7 @@ class CountdownPriceRetriever:
                                   product_on_sale, is_available)
         return price
 
+
+c = CountdownPriceRetriever()
+
+c.request_product_price("282769")

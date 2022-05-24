@@ -15,12 +15,7 @@ public class PriceModel
     
 }
 
-public interface IApiPriceRetriever
+public interface IPriceRetriever
 {
     public Task<PriceModel> RetrievePrice(string storeProductCode);
-}
-
-public interface IWebScrapePriceRetriever
-{
-    public Task<PriceModel> RetrievePrice(BrowserFetcher browserFetcher, string storeProductCode);
 }

@@ -8,7 +8,7 @@ public interface IStoreProductRepository
     public void Save();
     public void Delete();
     // public StoreProduct RetrieveByStoreProductCode(string storeProductCode, int storeId);
-    public List<StoreProduct> RetrieveByStoreId(int storeId);
+    public List<StoreProduct> GetByStoreId(int storeId);
 }
 
 public class StoreProductRepository : IStoreProductRepository
@@ -19,7 +19,7 @@ public class StoreProductRepository : IStoreProductRepository
         _context = context;
     }
 
-    public List<StoreProduct> RetrieveByStoreId(int storeId)
+    public List<StoreProduct> GetByStoreId(int storeId)
     {
         var storeProductCodes = _context.StoreProducts
             .Where(s => s.StoreId == storeId).ToList();
