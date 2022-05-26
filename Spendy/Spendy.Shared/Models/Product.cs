@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+
 #pragma warning disable CS8618
 
-namespace SpendyDb.Models;
+namespace Spendy.Shared.Models;
 
 [Table("products")]
 public record Product

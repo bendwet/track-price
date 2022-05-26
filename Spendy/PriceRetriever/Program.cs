@@ -1,13 +1,13 @@
-﻿using System.Net;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MySqlX.XDevAPI;
 using Polly;
 using PriceRetriever.Interfaces;
 using PriceRetriever.PriceRetrievers;
-using SpendyDb.Models;
-using SpendyDb.Repositories;
 using PuppeteerSharp;
+using Spendy.Shared;
+using Spendy.Shared.Data;
+using Spendy.Shared.Models;
+using Spendy.Shared.Repositories;
 
 namespace PriceRetriever;
 
@@ -16,8 +16,20 @@ public class Program
     private delegate IPriceRetriever PriceRetrieverResolver(string key);
     private static async Task Main()
     {
+        IConfiguration config = new ConfigurationBuilder()
+            .AddEnvironmentVariables()
+            .Build();
+        
+        // Environment variable name for the connection string
+        // ConnectionStrings__SpendyConnection
 
-        var services = new ServiceCollection()
+        var connectionString = config.GetConnectionString("SpendyConnection");
+
+        var serviceCollection = new ServiceCollection();
+
+        serviceCollection.AddSpendyServices(connectionString);
+    
+        serviceCollection
             .AddScoped<CountdownPriceRetriever>()
             .AddScoped<NewWorldPriceRetriever>()
             .AddScoped<PaknsavePriceRetriever>()
@@ -31,15 +43,12 @@ public class Program
                     _ => throw new KeyNotFoundException()
                 };
             })
-            .AddScoped<BrowserFetcher>()
-            .AddScoped<IPriceRepository, PriceRepository>()
-            .AddScoped<IStoreRepository, StoreRepository>()
-            .AddScoped<IStoreProductRepository, StoreProductRepository>();
+            .AddScoped<BrowserFetcher>();
 
         // new random instance for random retry amount
         var r = new Random();
 
-        services.AddHttpClient<CountdownPriceRetriever>()
+        serviceCollection.AddHttpClient<CountdownPriceRetriever>()
             .ConfigureHttpClient(client =>
             {   
                 // configure use of http2
@@ -48,7 +57,7 @@ public class Program
             .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(5, retryAttempt =>
                 TimeSpan.FromSeconds(r.Next(1, 5) + retryAttempt)));
         
-        var serviceProvider = services.BuildServiceProvider();
+        var serviceProvider = serviceCollection.BuildServiceProvider();
 
         // var countdownPriceRetriever = serviceProvider.GetRequiredService<CountdownPriceRetriever>();
 
@@ -70,9 +79,11 @@ public class Program
         // Get all store products to load
         var taskCompletionSource = new TaskCompletionSource();
         
-        // store to be used for price retriever
-        var storeName = Environment.GetEnvironmentVariable("STORE");
-        
+        // store to be used for price retriever - STORE
+        // var storeName = Environment.GetEnvironmentVariable("STORE");
+
+        var storeName = "new world";
+
         // Add all store products to queue, will not be null as will always be called with argument
         var store = storeRepository.GetByName(storeName!);
 
@@ -87,7 +98,7 @@ public class Program
         async Task SavePrice(StoreProduct sp)
         {
             // Retrieve price of store product
-            var priceRetriever = resolvePriceRetriever(storeName!);
+            var priceRetriever = resolvePriceRetriever("new world");
 
 
             var price = await priceRetriever.RetrievePrice(sp.StoreProductCode);
@@ -120,7 +131,7 @@ public class Program
                 // No need to await, as we want the task to run completely independently
 #pragma warning disable CS4014
                 Task.Delay(retrieveDelay)
-                    .ContinueWith(task => ScheduleNextRetrieval);
+                    .ContinueWith(task => ScheduleNextRetrieval());
 #pragma warning restore CS4014
 
             }
@@ -134,10 +145,9 @@ public class Program
         var startDelay = new Random().Next(3000, 3500);
 #pragma warning disable CS4014
         Task.Delay(startDelay)
-            .ContinueWith(task => ScheduleNextRetrieval);
+            .ContinueWith(task => ScheduleNextRetrieval());
 #pragma warning restore CS4014
         
-        // Task.Delay(random delay).ContinueWith(RetrievePrice).ContinueWith(ScheduleNextRetrieval)
         taskCompletionSource.Task.GetAwaiter().GetResult();
 
         // Get the stores

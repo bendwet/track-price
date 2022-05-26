@@ -1,14 +1,10 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using HtmlAgilityPack;
-using System.Text.RegularExpressions;
 using PuppeteerSharp;
 using System.Web;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PriceRetriever.Interfaces;
-using PriceRetriever.PriceRetrievers.Constants;
+
 
 namespace PriceRetriever.PriceRetrievers;
 

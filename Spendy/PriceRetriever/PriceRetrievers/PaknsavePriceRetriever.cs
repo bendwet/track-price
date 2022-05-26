@@ -4,8 +4,7 @@ using System.Text.Json.Serialization;
 using HtmlAgilityPack;
 using PuppeteerSharp;
 using System.Web;
-using Polly;
-using PriceRetriever.Interfaces;
+
 namespace PriceRetriever.PriceRetrievers;
 
 public class PaknsavePriceRetriever: IPriceRetriever
@@ -38,7 +37,7 @@ public class PaknsavePriceRetriever: IPriceRetriever
         
         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
-            Headless = false,
+            Headless = true,
             Args = new[] {"--no-sandbox"}
         });
 

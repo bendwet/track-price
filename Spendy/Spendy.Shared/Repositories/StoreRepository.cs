@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SpendyDb.Data;
-using SpendyDb.Models;
+﻿using Spendy.Shared.Data;
+using Spendy.Shared.Models;
 
-namespace SpendyDb.Repositories;
+namespace Spendy.Shared.Repositories;
 
 public interface IStoreRepository
 {
@@ -23,12 +22,12 @@ public class StoreRepository: IStoreRepository
         return stores;
     }
     
-    private StoreRepository(SpendyContext context)
+    public StoreRepository(SpendyContext context)
     {
         _context = context;
     }
     // Get a certain store by its store name
-    public Store GetByName(string storeName)
+    public Store GetByName(string? storeName)
     {
         var store = _context.Stores
             .Single(s => s.StoreName == storeName);

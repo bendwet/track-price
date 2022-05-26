@@ -1,7 +1,7 @@
-﻿using SpendyDb.Data;
-using SpendyDb.Models;
+﻿using Spendy.Shared.Data;
+using Spendy.Shared.Models;
 
-namespace SpendyDb.Repositories;
+namespace Spendy.Shared.Repositories;
 
 public class ProductRepository
 {

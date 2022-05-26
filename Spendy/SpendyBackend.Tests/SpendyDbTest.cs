@@ -3,10 +3,10 @@ using System.Data.Common;
 using System.Linq;
 using Microsoft.Data.Sqlite;
 using Xunit;
-using SpendyDb.Models;
-using SpendyDb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Spendy.Shared.Data;
+using Spendy.Shared.Models;
 using Xunit.Abstractions;
 
 namespace SpendyBackend.Tests;

@@ -1,5 +1,4 @@
 ﻿using PuppeteerSharp;
-using SpendyDb.Models;
 
 #pragma warning disable CS8618
 namespace PriceRetriever.Interfaces;

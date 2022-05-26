@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
 #pragma warning disable CS8618
 
-namespace SpendyDb.Models;
+namespace Spendy.Shared.Models;
 
 [Table("stores")]
 public record Store

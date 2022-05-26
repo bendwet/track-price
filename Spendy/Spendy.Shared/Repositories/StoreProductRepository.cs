@@ -1,7 +1,7 @@
-﻿using SpendyDb.Data;
-using SpendyDb.Models;
+﻿using Spendy.Shared.Data;
+using Spendy.Shared.Models;
 
-namespace SpendyDb.Repositories;
+namespace Spendy.Shared.Repositories;
 
 public interface IStoreProductRepository
 {
@@ -14,7 +14,7 @@ public interface IStoreProductRepository
 public class StoreProductRepository : IStoreProductRepository
 {   
     private readonly SpendyContext _context;
-    private StoreProductRepository(SpendyContext context)
+    public StoreProductRepository(SpendyContext context)
     {
         _context = context;
     }

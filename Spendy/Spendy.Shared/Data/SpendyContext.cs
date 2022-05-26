@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SpendyDb.Models;
+using Spendy.Shared.Models;
 
-namespace SpendyDb.Data;
+namespace Spendy.Shared.Data;
 
 public class SpendyContext : DbContext
 {

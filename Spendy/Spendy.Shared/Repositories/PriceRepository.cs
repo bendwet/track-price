@@ -1,7 +1,7 @@
-﻿using SpendyDb.Data;
-using SpendyDb.Models;
+﻿using Spendy.Shared.Data;
+using Spendy.Shared.Models;
 
-namespace SpendyDb.Repositories;
+namespace Spendy.Shared.Repositories;
 
 public interface IPriceRepository
 {
@@ -13,14 +13,16 @@ public class PriceRepository : IPriceRepository
 {
     private readonly SpendyContext _context;
 
-    private PriceRepository(SpendyContext context)
+    public PriceRepository(SpendyContext context)
     {
         _context = context;
     }
     public void Save(Price priceRecord)
     {
         Console.WriteLine("Save Price");
+        Console.WriteLine(priceRecord.SalePrice);
         _context.Add(priceRecord);
+        _context.SaveChanges();
     }
 
     public void Delete()
