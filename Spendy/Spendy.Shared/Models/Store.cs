@@ -5,13 +5,13 @@
 namespace Spendy.Shared.Models;
 
 [Table("stores")]
-public record Store
+public class Store
 {   
     [Column("store_id")]
-    public int StoreId { get; init; }
+    public int StoreId { get; set; }
     
     [Column("store_name")]
-    public string StoreName { get; init; }
-    public ICollection<StoreProduct> StoreProducts { get; init; }
-    public ICollection<Price> Prices { get; init; }
+    public string StoreName { get; set; }
+    public ICollection<StoreProduct> StoreProducts { get; set; }
+    public ICollection<Price> Prices { get; set; }
 }

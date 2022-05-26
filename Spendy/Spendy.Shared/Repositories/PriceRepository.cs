@@ -20,8 +20,24 @@ public class PriceRepository : IPriceRepository
     public void Save(Price priceRecord)
     {
         Console.WriteLine("Save Price");
-        Console.WriteLine(priceRecord.SalePrice);
-        _context.Add(priceRecord);
+        // check if price already exists
+        var priceExists = _context.Prices.FirstOrDefault(p => p.ProductId == priceRecord.ProductId &&
+                                                              p.StoreId == priceRecord.StoreId &&
+                                                              p.PriceDate == priceRecord.PriceDate &&
+                                                              p.PriceQuantity == priceRecord.PriceQuantity);
+
+        if (priceExists == null)
+        {
+            _context.Add(priceRecord);            
+        }
+        else
+        {
+            priceExists.OriginalPrice = priceRecord.OriginalPrice;
+            priceExists.SalePrice = priceRecord.SalePrice;
+            priceExists.IsOnSale = priceRecord.IsOnSale;
+            priceExists.IsAvailable = priceRecord.IsAvailable;
+            priceExists.PriceQuantity = priceRecord.PriceQuantity;
+        }
         _context.SaveChanges();
     }
 

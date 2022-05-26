@@ -27,10 +27,10 @@ public class StoreRepository: IStoreRepository
         _context = context;
     }
     // Get a certain store by its store name
-    public Store GetByName(string? storeName)
+    public Store GetByName(string storeName)
     {
         var store = _context.Stores
-            .Single(s => s.StoreName == storeName);
+            .First(s => s.StoreName == storeName);
         return store;
     }
     // Add a new store

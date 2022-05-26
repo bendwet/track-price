@@ -5,17 +5,17 @@
 namespace Spendy.Shared.Models;
 
 [Table("products")]
-public record Product
+public class Product
 {   
     [Column("product_id")]
-    public int ProductId { get; init; }
+    public int ProductId { get; set; }
     [Column("product_name")]
-    public string ProductName { get; init; }
+    public string ProductName { get; set; }
     [Column("unit_of_measure")]
-    public string UnitOfMeasure { get; init; }
+    public string UnitOfMeasure { get; set; }
     [Column("unit_of_measure_size")]
-    public double UnitOfMeasureSize { get; init; }
+    public double UnitOfMeasureSize { get; set; }
     
-    public ICollection<StoreProduct> StoreProducts { get; init; }
-    public ICollection<Price> Prices { get; init; }
+    public ICollection<StoreProduct> StoreProducts { get; set; }
+    public ICollection<Price> Prices { get; set; }
 }
