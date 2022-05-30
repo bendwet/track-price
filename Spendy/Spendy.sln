@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendyDb", "SpendyDb\SpendyDb.csproj", "{A9C39131-8A7D-4112-9F7A-F78CBDA2071B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpendyBackend.Tests", "SpendyBackend.Tests\SpendyBackend.Tests.csproj", "{7CAA0032-1BBA-4870-AB1F-053FEF93C036}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceRetriever", "PriceRetriever\PriceRetriever.csproj", "{100EFB13-6AD0-44E0-8CAC-BF9B20A7C842}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spendy.Shared", "Spendy.Shared\Spendy.Shared.csproj", "{224D0E22-A134-4E79-9460-480D12483FEC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9C39131-8A7D-4112-9F7A-F78CBDA2071B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9C39131-8A7D-4112-9F7A-F78CBDA2071B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9C39131-8A7D-4112-9F7A-F78CBDA2071B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9C39131-8A7D-4112-9F7A-F78CBDA2071B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CAA0032-1BBA-4870-AB1F-053FEF93C036}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CAA0032-1BBA-4870-AB1F-053FEF93C036}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CAA0032-1BBA-4870-AB1F-053FEF93C036}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CAA0032-1BBA-4870-AB1F-053FEF93C036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{100EFB13-6AD0-44E0-8CAC-BF9B20A7C842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{100EFB13-6AD0-44E0-8CAC-BF9B20A7C842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{100EFB13-6AD0-44E0-8CAC-BF9B20A7C842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{100EFB13-6AD0-44E0-8CAC-BF9B20A7C842}.Release|Any CPU.Build.0 = Release|Any CPU
+		{224D0E22-A134-4E79-9460-480D12483FEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224D0E22-A134-4E79-9460-480D12483FEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224D0E22-A134-4E79-9460-480D12483FEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224D0E22-A134-4E79-9460-480D12483FEC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
