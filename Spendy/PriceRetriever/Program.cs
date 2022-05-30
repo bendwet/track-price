@@ -59,11 +59,6 @@ public class Program
         
         var serviceProvider = serviceCollection.BuildServiceProvider();
 
-        // var countdownPriceRetriever = serviceProvider.GetRequiredService<CountdownPriceRetriever>();
-
-        // retrieve price
-        // var price = await countdownPriceRetriever.RetrievePrice("881157");
-
         // Repositories
         var priceRepository = serviceProvider.GetRequiredService<IPriceRepository>();
         var storeRepository = serviceProvider.GetRequiredService<IStoreRepository>();
@@ -71,18 +66,12 @@ public class Program
         
         // Price retrievers
         var resolvePriceRetriever = serviceProvider.GetRequiredService<PriceRetrieverResolver>();
-        
-        // var nw = serviceProvider.GetRequiredService<PaknsavePriceRetriever>();
-        //
-        // await nw.RetrievePrice("5201479");
-        
+
         // Get all store products to load
         var taskCompletionSource = new TaskCompletionSource();
         
-        // store to be used for price retriever - STORE
-        // var storeName = Environment.GetEnvironmentVariable("STORE");
-
-        var storeName = "new world";
+        // store to be used for price retriever
+        var storeName = Environment.GetEnvironmentVariable("STORE");
 
         // Add all store products to queue, will not be null as will always be called with argument
         var store = storeRepository.GetByName(storeName!);
@@ -98,7 +87,7 @@ public class Program
         async Task SavePrice(StoreProduct sp)
         {
             // Retrieve price of store product
-            var priceRetriever = resolvePriceRetriever("new world");
+            var priceRetriever = resolvePriceRetriever(storeName!);
 
 
             var price = await priceRetriever.RetrievePrice(sp.StoreProductCode);
@@ -142,70 +131,13 @@ public class Program
             }
         }
 
-        var startDelay = new Random().Next(3000, 3500);
+        var startDelay = new Random().Next(1000, 10000);
 #pragma warning disable CS4014
         Task.Delay(startDelay)
             .ContinueWith(task => ScheduleNextRetrieval());
 #pragma warning restore CS4014
         
         taskCompletionSource.Task.GetAwaiter().GetResult();
-
-        // Get the stores
-        // var stores = storeRepository.GetAllStores();
-        //
-        // foreach (var store in stores)
-        // {   
-        //     // retrieve all store products for certain store
-        //     var storeProducts = storeProductRepository.RetrieveByStoreId(store.StoreId);
-        //     
-        //     // default price retriever is countdown
-        //     var priceRetriever = serviceProvider.GetRequiredService<CountdownPriceRetriever>();
-        //     // if store name = paknsave
-        //         // var priceRetriever = paknsavePriceRetriever
-        //     // elif store name = new world
-        //         // var priceRetriever = newWorldPriceRetriever 
-        //         
-        //     foreach (var storeProduct in storeProducts)
-        //     {
-        //          Thread.Sleep(randomMs);
-        //         // retrieve price
-        //         var price = await priceRetriever.RetrievePrice(storeProduct.StoreProductCode);
-        //         
-        //         // create price record for database
-        //         var priceRecord = new Price
-        //         {
-        //             ProductId = storeProduct.ProductId,
-        //             StoreId = storeProduct.StoreId,
-        //             OriginalPrice = price.OriginalPrice,
-        //             SalePrice = price.SalePrice,
-        //             IsOnSale = price.IsOnSale,
-        //             IsAvailable = price.IsAvailable,
-        //             PriceDate = price.PriceDate,
-        //             PriceQuantity = price.PriceQuantity
-        //         };
-        //         
-        //         // save price record to database
-        //         priceRepository.Save(priceRecord);
-        //     }
-        // }
-
-        // Get store product for store id and product id
-        // var storeProduct = storeProductRepository.RetrieveByStoreProductCode("282765", 1);
-        //
-        // // Create the price record to be saved into database
-        // var priceRecord = new Price
-        // {
-        //     ProductId = storeProduct.ProductId,
-        //     StoreId = storeProduct.StoreId,
-        //     OriginalPrice = price.OriginalPrice,
-        //     SalePrice = price.SalePrice,
-        //     IsOnSale = price.IsOnSale,
-        //     IsAvailable = price.IsAvailable,
-        //     PriceDate = price.PriceDate,
-        //     PriceQuantity = price.PriceQuantity
-        // };
-        //     
-        // priceRepository.Save(priceRecord);
     }
 }
 

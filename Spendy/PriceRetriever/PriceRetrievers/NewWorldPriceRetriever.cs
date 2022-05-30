@@ -38,7 +38,7 @@ public class NewWorldPriceRetriever: IPriceRetriever
         
         var browser = await Puppeteer.LaunchAsync(new LaunchOptions
         {
-            Headless = false,
+            Headless = true,
             Args = new[] {"--no-sandbox"}
         });
         
@@ -63,7 +63,6 @@ public class NewWorldPriceRetriever: IPriceRetriever
         var priceDate = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo
             .FindSystemTimeZoneById("New Zealand Standard Time")).Date;
         var priceQuantity = "none";
-        
         
         // var response = await _client.GetStringAsync(url);
         var page = new HtmlDocument();
@@ -103,15 +102,15 @@ public class NewWorldPriceRetriever: IPriceRetriever
             }
             
             // get quantity of product
-            var quantity = page.DocumentNode
+            priceQuantity = page.DocumentNode
                 .Descendants()
-                .First(n => n.GetAttributeValue("class", "")
+                .First(n => n.GetAttributeValue("class", "none")
                     .Contains("u-margin-right")).InnerText;
             
             // capitalize L symbol for consistency of measurement values
-            if (quantity.Contains('l'))
+            if (priceQuantity.Contains('l'))
             {
-                priceQuantity = quantity.Replace("l", "L");
+                priceQuantity = priceQuantity.Replace("l", "L");
             }
         }
         

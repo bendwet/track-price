@@ -8,6 +8,10 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="HeadlessChromium.Puppeteer.Lambda.Dotnet" Version="1.0.1.59" />
       <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />

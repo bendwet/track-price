@@ -18,12 +18,12 @@ public class PaknsavePriceRetriever: IPriceRetriever
     
     private class PaknSavePriceResponseModel
     {
-        public class PaknSaveSaleModel
+        public class PaknSavePriceModel
         {
             [JsonPropertyName("PromoBadgeImageLabel")] public string? PromoLabel { get; set; }
+            [JsonPropertyName("PricePerItem")] public string? CurrentPrice { get; set; }
         }
-        [JsonPropertyName("PricePerItem")] public string? CurrentPrice { get; set; }
-        [JsonPropertyName("ProductDetails")]public PaknSaveSaleModel? ProductDetails { get; set; }
+        [JsonPropertyName("ProductDetails")]public PaknSavePriceModel? ProductDetails { get; set; }
     }
     
     public async Task<PriceModel> RetrievePrice(string storeProductCode)
@@ -49,15 +49,15 @@ public class PaknsavePriceRetriever: IPriceRetriever
         {
             {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0"}
         });
-
+        
         // go to search page
         await searchPage.GoToAsync(url);
-        // add delay between requests
-        Thread.Sleep(r.Next(500, 1000));
         // change store location
         await searchPage.GoToAsync(setStoreLocation);
+        // open new tab
+        var newTab = await browser.NewPageAsync();
         // search page via store product code
-        var response = await searchPage.GoToAsync(url);
+        var response = await newTab.GoToAsync(url);
         // convert response to string
         var stringResponse = response.TextAsync().Result;
 
@@ -96,10 +96,12 @@ public class PaknsavePriceRetriever: IPriceRetriever
                 // .First(n => n.HasClass("js-product-card-footer fs-product-card__footer-container"))
                 .Attributes["data-options"].Value;
             
+            // Console.WriteLine(priceInfo);
+            
             var decodedInfo = HttpUtility.HtmlDecode(priceInfo);
             var paknsavePrice = JsonSerializer.Deserialize<PaknSavePriceResponseModel>(decodedInfo);
             
-            salePrice = Convert.ToDouble(paknsavePrice?.CurrentPrice);
+            salePrice = Convert.ToDouble(paknsavePrice?.ProductDetails?.CurrentPrice);
             
             // check if product is on sale
             if (paknsavePrice?.ProductDetails?.PromoLabel is "Extra Low")
@@ -112,15 +114,15 @@ public class PaknsavePriceRetriever: IPriceRetriever
             }
             
             // get quantity of product
-            var quantity = page.DocumentNode
+            priceQuantity = page.DocumentNode
                 .Descendants()
                 .First(n => n.GetAttributeValue("class", "")
                     .Contains("u-color-half-dark-grey u-p3")).InnerText;
             
             // capitalize L symbol for consistency of measurement values
-            if (quantity.Contains('l'))
+            if (priceQuantity.Contains('l'))
             {
-                priceQuantity = quantity.Replace("l", "L");
+                priceQuantity = priceQuantity.Replace("l", "L");
             }
         }
         
