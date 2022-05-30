@@ -94,6 +94,6 @@ class NewWorldPriceRetriever:
         return price
 
 
-n = NewWorldPriceRetriever
-test = n.request_product_price("5201479")
+# n = NewWorldPriceRetriever
+# test = n.request_product_price("5201479")
 # n.create_price(test)
