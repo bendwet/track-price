@@ -19,7 +19,7 @@ def save_countdown_product():
     database_populator.save_product(countdown_product)
 
 
-save_countdown_product()
+# save_countdown_product()
 
 
 def save_paknsave_product():
@@ -30,15 +30,15 @@ def save_paknsave_product():
 
     # retrieve paknsave product
     product_retriever = PaknsaveProductRetriever()
-    response_object = product_retriever.request_company_product('5046547')
-    paknsave_product = product_retriever.create_product('5046547', response_object)
+    response_object = product_retriever.request_company_product('5045858')
+    paknsave_product = product_retriever.create_product('5045858', response_object)
 
     # send product details to database
     database_populator = DatabasePopulator()
     database_populator.save_product(paknsave_product)
 
 
-# save_paknsave_product()
+save_paknsave_product()
 
 
 def save_newworld_product():

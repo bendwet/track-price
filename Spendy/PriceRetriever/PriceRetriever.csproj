@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="HeadlessChromium.Puppeteer.Lambda.Dotnet" Version="1.0.1.59" />
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.4" />
+      <PackageReference Include="Polly" Version="7.2.3" />
+      <PackageReference Include="PuppeteerSharp" Version="7.0.0" />
+      <PackageReference Include="System.Text.Json" Version="6.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SpendyDb\SpendyDb.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="cef_release_window64\swiftshader\libEGL.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\swiftshader\libGLESv2.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\cef_sandbox.lib">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\chrome_elf.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\d3dcompiler_47.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\libcef.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\libcef.lib">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\libEGL.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\libGLESv2.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\snapshot_blob.bin">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\v8_context_snapshot.bin">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\vk_swiftshader.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\vk_swiftshader_icd.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="cef_release_window64\vulkan-1.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>

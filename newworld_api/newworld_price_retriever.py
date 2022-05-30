@@ -42,6 +42,8 @@ class NewWorldPriceRetriever:
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
 
+        print(page)
+
         # test if page contains needed info
         json.loads(page.find('script', type='application/ld+json').string, strict=False)
 
