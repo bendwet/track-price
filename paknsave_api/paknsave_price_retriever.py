@@ -2,6 +2,7 @@ import pytz
 import requests
 import re
 import json
+import httpx
 from datetime import datetime
 from bs4 import BeautifulSoup
 from retrying import retry
@@ -12,7 +13,7 @@ from paknsave_api.paknsave_constants import cookies
 class PaknsavePriceRetriever:
 
     @staticmethod
-    @retry(stop_max_attempt_number=20, wait_random_min=1000, wait_random_max=10000)
+    @retry(stop_max_attempt_number=10, wait_random_min=1000, wait_random_max=10000)
     def request_product_price(store_product_code: str):
         """
        Retrieve product info from paknsave website through an html parser, which extracts info eg price, name
@@ -20,14 +21,24 @@ class PaknsavePriceRetriever:
 
         url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_ea_000pns'
 
-        response = requests.get(url, cookies=cookies)
+        headers = {
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'accept-language': 'en-US,en;q=0.9'
+        }
+
+        # configure use of http2
+        client = httpx.Client(http2=True)
+        # perform ge request
+        response = client.get(url, headers=headers, cookies=cookies)
 
         # if response fails, try again with link for per kg instead of each
-        if not response:
+        if response.status_code != 200:
             url = f'https://www.paknsave.co.nz/shop/product/{store_product_code}_kgm_000pns'
-            response = requests.get(url, cookies=cookies)
+            response = client.get(url, headers=headers, cookies=cookies)
 
         contents = response.content
+
 
         # convert html document to nested data structure
         page = BeautifulSoup(contents, 'html.parser')
@@ -46,6 +57,20 @@ class PaknsavePriceRetriever:
 
         # extract useful portion of html into a json object
         response_object = json.loads(page.find('script', type='application/ld+json').string, strict=False)
+
+        split_name = response_object['name'].split()
+        product_quantity = split_name[-1]
+
+        # check if quantity is just 'kg' without any numeric value
+        if product_quantity == 'kg':
+            product_quantity = '1kg'
+        # check if quantity is 'ea' for each with no numeric value
+        elif product_quantity == 'ea':
+            product_quantity = 'ea'
+
+        # capitalize l for consistency in units
+        if 'l' in product_quantity:
+            product_quantity = product_quantity.replace('l', 'L')
 
         # split link of availability and only display InStock or OutOfStock
         current_availability = (response_object['offers']['availability']).split('/')[-1]
@@ -82,6 +107,11 @@ class PaknsavePriceRetriever:
         timezone = pytz.timezone('Pacific/Auckland')
 
         price = ProductPriceModel(datetime.now(timezone).date(), original_price, sale_price,
-                                  product_on_sale, is_available)
+                                  product_on_sale, is_available, product_quantity)
 
         return price
+
+# testing
+# p = PaknsavePriceRetriever
+# test = p.request_product_price('5201479')
+

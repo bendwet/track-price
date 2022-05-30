@@ -13,5 +13,6 @@ oracle_config/
 oracle_lib/
 oracle_lib32bit/
 price_ui/
+Spendy/
 
 .zip/
