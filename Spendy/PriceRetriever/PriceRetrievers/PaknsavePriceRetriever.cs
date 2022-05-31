@@ -1,4 +1,5 @@
-﻿using PriceRetriever.Interfaces;
+﻿using System.Net;
+using PriceRetriever.Interfaces;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using HtmlAgilityPack;
@@ -53,6 +54,7 @@ public class PaknsavePriceRetriever: IPriceRetriever
         await searchPage.GoToAsync(url);
         // change store location
         await searchPage.GoToAsync(setStoreLocation);
+        // await searchPage.GoToAsync(url);
         // open new tab
         var newTab = await browser.NewPageAsync();
         // add headers to new tab
@@ -62,9 +64,16 @@ public class PaknsavePriceRetriever: IPriceRetriever
         });
         // search page via store product code
         var response = await newTab.GoToAsync(url);
-        await browser.CloseAsync();
+
+        if (response.Status == HttpStatusCode.Forbidden)
+        {
+            throw new HttpRequestException("403 Forbidden");
+        }
+        
         // convert response to string
         var stringResponse = response.TextAsync().Result;
+        await browser.CloseAsync();
+        
         // Console.WriteLine(stringResponse);
 
         // price info

@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using HtmlAgilityPack;
 using PuppeteerSharp;
 using System.Web;
+using System.Net;
 using PriceRetriever.Interfaces;
 
 
@@ -52,9 +53,15 @@ public class NewWorldPriceRetriever: IPriceRetriever
         await searchPage.GoToAsync(setStoreLocation);
         // search page via store product code
         var response = await searchPage.GoToAsync(url);
-        await browser.CloseAsync();
+        
+        if (response.Status == HttpStatusCode.Forbidden)
+        {
+            throw new HttpRequestException("403 Forbidden");
+        }
+        
         // convert response to string
         var stringResponse = response.TextAsync().Result;
+        await browser.CloseAsync();
 
         // price info
         var isAvailable = true;
