@@ -41,7 +41,7 @@ public class PaknsavePriceRetriever: IPriceRetriever
             Args = new[] {"--no-sandbox"}
         });
 
-        var r = new Random();
+        // var r = new Random();
         
         var searchPage = await browser.NewPageAsync();
         // add headers
@@ -54,12 +54,17 @@ public class PaknsavePriceRetriever: IPriceRetriever
         await searchPage.GoToAsync(url);
         // change store location
         await searchPage.GoToAsync(setStoreLocation);
+        // go back to search page
+        var response = await searchPage.GoToAsync(url);
+        
         // open new tab
-        var newTab = await browser.NewPageAsync();
+        // var newTab = await browser.NewPageAsync();
         // search page via store product code
-        var response = await newTab.GoToAsync(url);
+        // var response = await newTab.GoToAsync(url);
+        
         // convert response to string
         var stringResponse = response.TextAsync().Result;
+        Console.WriteLine(stringResponse);
 
         // price info
         var isAvailable = true;
@@ -139,5 +144,4 @@ public class PaknsavePriceRetriever: IPriceRetriever
         
         return price;
     }
-    
 }
