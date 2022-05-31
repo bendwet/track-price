@@ -49,22 +49,23 @@ public class PaknsavePriceRetriever: IPriceRetriever
         {
             {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0"}
         });
-        
         // go to search page
         await searchPage.GoToAsync(url);
         // change store location
         await searchPage.GoToAsync(setStoreLocation);
-        // go back to search page
-        var response = await searchPage.GoToAsync(url);
-        
         // open new tab
-        // var newTab = await browser.NewPageAsync();
+        var newTab = await browser.NewPageAsync();
+        // add headers to new tab
+        await newTab.SetExtraHttpHeadersAsync(new Dictionary<string, string>
+        {
+            {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0"}
+        });
         // search page via store product code
-        // var response = await newTab.GoToAsync(url);
-        
+        var response = await newTab.GoToAsync(url);
+        await browser.CloseAsync();
         // convert response to string
         var stringResponse = response.TextAsync().Result;
-        Console.WriteLine(stringResponse);
+        // Console.WriteLine(stringResponse);
 
         // price info
         var isAvailable = true;
