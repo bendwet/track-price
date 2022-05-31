@@ -52,6 +52,7 @@ public class NewWorldPriceRetriever: IPriceRetriever
         await searchPage.GoToAsync(setStoreLocation);
         // search page via store product code
         var response = await searchPage.GoToAsync(url);
+        await browser.CloseAsync();
         // convert response to string
         var stringResponse = response.TextAsync().Result;
 
