@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Net;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using PriceRetriever.Interfaces;
@@ -48,7 +49,7 @@ public class Program
         // new random instance for random retry amount
         var r = new Random();
 
-        serviceCollection.AddHttpClient<CountdownPriceRetriever>()
+        serviceCollection.AddHttpClient<PaknsavePriceRetriever>()
             .ConfigureHttpClient(client =>
             {   
                 // configure use of http2
@@ -71,8 +72,10 @@ public class Program
         var taskCompletionSource = new TaskCompletionSource();
         
         // store to be used for price retriever
-        var storeName = Environment.GetEnvironmentVariable("STORE");
+        // var storeName = Environment.GetEnvironmentVariable("STORE");
 
+        var storeName = "paknsave";
+        
         // Add all store products to queue, will not be null as will always be called with argument
         var store = storeRepository.GetByName(storeName!);
 
@@ -89,8 +92,18 @@ public class Program
             // Retrieve price of store product
             var priceRetriever = resolvePriceRetriever(storeName!);
 
-
-            var price = await priceRetriever.RetrievePrice(sp.StoreProductCode);
+            var retryPolicy = Policy
+                .Handle<HttpRequestException>()
+                .WaitAndRetryAsync(
+                    5, 
+                    retryAttempt => TimeSpan.FromSeconds(r.Next(15, 20) * retryAttempt),
+                    (exception, timespan) =>
+                    {
+                        Console.WriteLine($"Could not retrieve price with error: {exception.Message}, " +
+                                          $"waiting {timespan} " + "before next attempt");
+                    });
+            
+            var price = await retryPolicy.ExecuteAsync(() => priceRetriever.RetrievePrice(sp.StoreProductCode));
             var priceRecord = new Price
             {
                 ProductId = sp.ProductId,
