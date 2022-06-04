@@ -54,8 +54,9 @@ public class NewWorldPriceRetriever: IPriceRetriever
         // search page via store product code
         var response = await searchPage.GoToAsync(url);
         
-        if (response.Status == HttpStatusCode.Forbidden)
+        if (response.Status != HttpStatusCode.OK)
         {
+            await browser.CloseAsync();
             throw new HttpRequestException("403 Forbidden");
         }
         
