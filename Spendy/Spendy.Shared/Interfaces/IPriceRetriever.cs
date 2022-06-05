@@ -1,7 +1,7 @@
 ﻿using PuppeteerSharp;
 
 #pragma warning disable CS8618
-namespace PriceRetriever.Interfaces;
+namespace Spendy.Shared.Interfaces;
 
 public class PriceModel
 {

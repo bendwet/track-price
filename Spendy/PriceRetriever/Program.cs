@@ -1,13 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
-using PriceRetriever.Interfaces;
 using PriceRetriever.PriceRetrievers;
-using PuppeteerSharp;
 using Spendy.Shared;
-using Spendy.Shared.Data;
 using Spendy.Shared.Models;
 using Spendy.Shared.Repositories;
+using Spendy.Shared.Interfaces;
 
 namespace PriceRetriever;
 
@@ -25,11 +23,12 @@ public class Program
 
         var connectionString = config.GetConnectionString("SpendyConnection");
 
-        var serviceCollection = new ServiceCollection();
+        var services = new ServiceCollection();
 
-        serviceCollection.AddSpendyServices(connectionString);
-    
-        serviceCollection
+        services.AddSpendyServices(connectionString);
+        services.AddSpendyHttpClient();
+        
+        services
             .AddScoped<CountdownPriceRetriever>()
             .AddScoped<NewWorldPriceRetriever>()
             .AddScoped<PaknsavePriceRetriever>()
@@ -42,22 +41,9 @@ public class Program
                     "new world" => serviceProvider.GetRequiredService<NewWorldPriceRetriever>(),
                     _ => throw new KeyNotFoundException()
                 };
-            })
-            .AddScoped<BrowserFetcher>();
+            });
 
-        // new random instance for random retry amount
-        var r = new Random();
-
-        serviceCollection.AddHttpClient<CountdownPriceRetriever>()
-            .ConfigureHttpClient(client =>
-            {   
-                // configure use of http2
-                client.DefaultRequestVersion = new Version(2, 0);
-            })
-            .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(5, retryAttempt =>
-                TimeSpan.FromSeconds(r.Next(1, 5) + retryAttempt)));
-        
-        var serviceProvider = serviceCollection.BuildServiceProvider();
+        var serviceProvider = services.BuildServiceProvider();
 
         // Repositories
         var priceRepository = serviceProvider.GetRequiredService<IPriceRepository>();
@@ -71,8 +57,10 @@ public class Program
         var taskCompletionSource = new TaskCompletionSource();
         
         // store to be used for price retriever
-        var storeName = Environment.GetEnvironmentVariable("STORE");
+        // var storeName = Environment.GetEnvironmentVariable("STORE");
 
+        var storeName = "new world";
+        
         // Add all store products to queue, will not be null as will always be called with argument
         var store = storeRepository.GetByName(storeName!);
 
@@ -86,11 +74,23 @@ public class Program
         // While queue is not empty
         async Task SavePrice(StoreProduct sp)
         {
-            // Retrieve price of store product
+
+            var r = new Random();
+
+            var policy = Policy
+                .Handle<HttpRequestException>()
+                .WaitAndRetryAsync(5,
+                    _ => TimeSpan.FromMilliseconds(r.Next(3000, 3500)),
+                    (exception, timespan) =>
+                    {
+                        Console.WriteLine($"Failed to retrieve price with error: {exception}, retrying in {timespan}");
+                    });
+            
+            // Retrieve price of store product, will not be null
             var priceRetriever = resolvePriceRetriever(storeName!);
 
 
-            var price = await priceRetriever.RetrievePrice(sp.StoreProductCode);
+            var price = await policy.ExecuteAsync(() => priceRetriever.RetrievePrice(sp.StoreProductCode));
             var priceRecord = new Price
             {
                 ProductId = sp.ProductId,

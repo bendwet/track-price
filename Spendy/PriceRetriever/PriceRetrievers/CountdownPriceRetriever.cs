@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using PriceRetriever.Interfaces;
+using Spendy.Shared.Interfaces;
 
 namespace PriceRetriever.PriceRetrievers;
 
@@ -41,7 +41,8 @@ public class CountdownPriceRetriever : IPriceRetriever
     {
 
         var url = $"https://shop.countdown.co.nz/api/v1/products/{storeProductCode}";
-
+        
+        _client.DefaultRequestVersion = new Version(2, 0);
         // add headers
         _client.DefaultRequestHeaders.Accept.Clear();
         _client.DefaultRequestHeaders.Accept.Add(
