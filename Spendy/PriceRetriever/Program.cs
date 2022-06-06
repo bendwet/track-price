@@ -42,7 +42,9 @@ public class Program
                 };
             });
 
-            services.AddHttpClient<IPriceRetriever>();
+            services.AddHttpClient<PaknsavePriceRetriever>();
+            services.AddHttpClient<NewWorldPriceRetriever>();
+            services.AddHttpClient<CountdownPriceRetriever>();
             
             var serviceProvider = services.BuildServiceProvider();
 
@@ -58,10 +60,8 @@ public class Program
         var taskCompletionSource = new TaskCompletionSource();
         
         // store to be used for price retriever
-        // var storeName = Environment.GetEnvironmentVariable("STORE");
+        var storeName = Environment.GetEnvironmentVariable("STORE");
 
-        var storeName = "new world";
-        
         // Add all store products to queue, will not be null as will always be called with argument
         var store = storeRepository.GetByName(storeName!);
 
@@ -90,8 +90,26 @@ public class Program
             // Retrieve price of store product, will not be null
             var priceRetriever = resolvePriceRetriever(storeName!);
 
+            var price = await policy.ExecuteAsync(async () =>
+            {
+                PriceModel priceModel = null!;
+                try
+                {
+                    priceModel = await priceRetriever.RetrievePrice(sp.StoreProductCode);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error retrieving price : {ex.Message}", ex);
+                }
 
-            var price = await policy.ExecuteAsync(() => priceRetriever.RetrievePrice(sp.StoreProductCode));
+                return priceModel;
+            });
+
+            // if (price == null)
+            // {
+            //     // TODO: Handle null
+            // }
+
             var priceRecord = new Price
             {
                 ProductId = sp.ProductId,
@@ -106,7 +124,6 @@ public class Program
             
             // save price to database
             priceRepository.Save(priceRecord);
-            
         }
         
         async Task ScheduleNextRetrieval()
@@ -116,7 +133,7 @@ public class Program
             {
                 var storeProduct = queue.Dequeue();
                 await SavePrice(storeProduct);
-                
+
                 var retrieveDelay = new Random().Next(30000, 35000);
                 // No need to await, as we want the task to run completely independently
 #pragma warning disable CS4014
