@@ -4,6 +4,7 @@ using HtmlAgilityPack;
 using PuppeteerSharp;
 using System.Web;
 using System.Net;
+using System.Text.RegularExpressions;
 using PriceRetriever.Interfaces;
 
 
@@ -128,11 +129,23 @@ public class NewWorldPriceRetriever: IPriceRetriever
                 .Descendants()
                 .First(n => n.GetAttributeValue("class", "none")
                     .Contains("u-margin-right")).InnerText;
-            
-            // capitalize L symbol for consistency of measurement values
+
+            // change measurements to keep consistency 
             if (priceQuantity.Contains('l'))
             {
                 priceQuantity = priceQuantity.Replace("l", "L");
+            }
+            if (priceQuantity == "kg")
+            {
+                priceQuantity = priceQuantity.Replace("kg", "1kg");
+            }
+            // check for pack quantities
+            if (Regex.IsMatch(priceQuantity, "([0-9]+)( x )([0-9]+)(mL)"))
+            {
+                // get pk quantity
+                var singleItemQuantity = Regex.Match(priceQuantity, "([0-9]+)") + "pk";
+                Console.WriteLine(singleItemQuantity);
+                priceQuantity = singleItemQuantity;
             }
         }
         

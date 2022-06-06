@@ -23,12 +23,21 @@ public class PriceRepository : IPriceRepository
         // check if price already exists
         var priceExists = _context.Prices.FirstOrDefault(p => p.ProductId == priceRecord.ProductId &&
                                                               p.StoreId == priceRecord.StoreId &&
-                                                              p.PriceDate == priceRecord.PriceDate &&
-                                                              p.PriceQuantity == priceRecord.PriceQuantity);
+                                                              p.PriceDate == priceRecord.PriceDate);
 
         if (priceExists == null)
         {
-            _context.Add(priceRecord);            
+            try
+            {
+                Console.WriteLine($"Product Id: {priceRecord.ProductId}");
+                _context.Add(priceRecord);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
         else
         {
@@ -37,8 +46,8 @@ public class PriceRepository : IPriceRepository
             priceExists.IsOnSale = priceRecord.IsOnSale;
             priceExists.IsAvailable = priceRecord.IsAvailable;
             priceExists.PriceQuantity = priceRecord.PriceQuantity;
+            _context.SaveChanges();
         }
-        _context.SaveChanges();
     }
 
     public void Delete()

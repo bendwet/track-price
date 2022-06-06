@@ -75,7 +75,9 @@ public class Program
         // While queue is not empty
         async Task SavePrice(StoreProduct sp)
         {
-
+            
+            Console.WriteLine($"Product id: {sp.ProductId}");
+            
             var r = new Random();
 
             var policy = Policy

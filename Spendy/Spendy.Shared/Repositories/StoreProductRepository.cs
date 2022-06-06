@@ -9,6 +9,7 @@ public interface IStoreProductRepository
     public void Delete();
     // public StoreProduct RetrieveByStoreProductCode(string storeProductCode, int storeId);
     public List<StoreProduct> GetByStoreId(int storeId);
+    public StoreProduct GetByStoreProductCode(string storeProductCode, int storeId);
 }
 
 public class StoreProductRepository : IStoreProductRepository
@@ -28,12 +29,12 @@ public class StoreProductRepository : IStoreProductRepository
     }
 
     // get store product by store product code (and store id as may have multiple entries with same code)
-    // public StoreProduct RetrieveByStoreProductCode(string storeProductCode, int storeId)
-    // {
-    //    var storeProduct = _context.StoreProducts
-    //         .Single(s => s.StoreProductCode == storeProductCode && s.StoreId == storeId);
-    //    return storeProduct;
-    // }
+    public StoreProduct GetByStoreProductCode(string storeProductCode, int storeId)
+    {
+       var storeProduct = _context.StoreProducts
+            .Single(s => s.StoreProductCode == storeProductCode && s.StoreId == storeId);
+       return storeProduct;
+    }
     public void Save()
     {
         Console.WriteLine("Save Store Product");

@@ -2,6 +2,7 @@
 using PriceRetriever.Interfaces;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using PuppeteerSharp;
 using System.Web;
@@ -65,6 +66,9 @@ public class PaknsavePriceRetriever: IPriceRetriever
 
         // convert response to string
         var stringResponse = response.Content.ReadAsStringAsync().Result;
+        
+        Console.WriteLine(stringResponse);
+        
         // await browser.CloseAsync();
         
         if (response.StatusCode == HttpStatusCode.Forbidden)
@@ -133,10 +137,23 @@ public class PaknsavePriceRetriever: IPriceRetriever
                 .First(n => n.GetAttributeValue("class", "")
                     .Contains("u-color-half-dark-grey u-p3")).InnerText;
             
-            // capitalize L symbol for consistency of measurement values
+            // change measurements to keep consistency 
             if (priceQuantity.Contains('l'))
             {
                 priceQuantity = priceQuantity.Replace("l", "L");
+            }
+            if (priceQuantity == "kg")
+            {
+                priceQuantity = priceQuantity.Replace("kg", "1kg");
+            }
+            
+            // check for pack quantities
+            if (Regex.IsMatch(priceQuantity, "([0-9]+)( x )([0-9]+)(mL)"))
+            {
+                // get pk quantity
+                var singleItemQuantity = Regex.Match(priceQuantity, "([0-9]+)") + "pk";
+                Console.WriteLine(singleItemQuantity);
+                priceQuantity = singleItemQuantity;
             }
         }
         
@@ -150,6 +167,8 @@ public class PaknsavePriceRetriever: IPriceRetriever
             PriceDate = priceDate,
             PriceQuantity = priceQuantity
         };
+
+        Console.WriteLine(priceQuantity);
         
         return price;
     }
