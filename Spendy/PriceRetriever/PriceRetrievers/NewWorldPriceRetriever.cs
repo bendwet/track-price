@@ -4,7 +4,7 @@ using HtmlAgilityPack;
 using PuppeteerSharp;
 using System.Web;
 using System.Net;
-using Spendy.Shared.Interfaces;
+using PriceRetriever.Interfaces;
 
 
 namespace PriceRetriever.PriceRetrievers;

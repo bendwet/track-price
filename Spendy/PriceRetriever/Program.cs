@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using PriceRetriever.PriceRetrievers;
+using PriceRetriever.Interfaces;
 using Spendy.Shared;
 using Spendy.Shared.Models;
 using Spendy.Shared.Repositories;
-using Spendy.Shared.Interfaces;
 
 namespace PriceRetriever;
 
@@ -26,8 +26,7 @@ public class Program
         var services = new ServiceCollection();
 
         services.AddSpendyServices(connectionString);
-        services.AddSpendyHttpClient();
-        
+
         services
             .AddScoped<CountdownPriceRetriever>()
             .AddScoped<NewWorldPriceRetriever>()
@@ -43,7 +42,9 @@ public class Program
                 };
             });
 
-        var serviceProvider = services.BuildServiceProvider();
+            services.AddHttpClient<IPriceRetriever>();
+            
+            var serviceProvider = services.BuildServiceProvider();
 
         // Repositories
         var priceRepository = serviceProvider.GetRequiredService<IPriceRepository>();

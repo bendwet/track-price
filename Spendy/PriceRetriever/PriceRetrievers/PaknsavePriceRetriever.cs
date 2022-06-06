@@ -1,12 +1,10 @@
-﻿using System.Drawing;
-using System.Net;
-using Spendy.Shared.Interfaces;
+﻿using System.Net;
+using PriceRetriever.Interfaces;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using HtmlAgilityPack;
 using PuppeteerSharp;
 using System.Web;
-using System.Net.Http.Headers;
 
 namespace PriceRetriever.PriceRetrievers;
 
@@ -35,7 +33,7 @@ public class PaknsavePriceRetriever: IPriceRetriever
     {
         // var testUrl = $"https://www.newworld.co.nz/shop/product/{storeProductCode}_ea_000nw";
         
-        const string setStoreLocation = "https://www.paknsave.co.nz/CommonApi/Store/ChangeStore?storeId=65defcf2-bc15-490e-a84f-1f13b769cd22&clickSource=list";
+        // const string setStoreLocation = "https://www.paknsave.co.nz/CommonApi/Store/ChangeStore?storeId=65defcf2-bc15-490e-a84f-1f13b769cd22&clickSource=list";
         var url = $"https://www.paknsave.co.nz/shop/Search?q={storeProductCode}";
         
         // await _browserFetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);

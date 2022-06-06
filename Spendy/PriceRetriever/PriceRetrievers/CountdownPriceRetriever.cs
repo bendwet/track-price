@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using Spendy.Shared.Interfaces;
+using PriceRetriever.Interfaces;
 
 namespace PriceRetriever.PriceRetrievers;
 
