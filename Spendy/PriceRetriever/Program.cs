@@ -80,7 +80,7 @@ public class Program
             var policy = Policy
                 .Handle<HttpRequestException>()
                 .WaitAndRetryAsync(5,
-                    _ => TimeSpan.FromMilliseconds(r.Next(3000, 3500)),
+                    _ => TimeSpan.FromMilliseconds(r.Next(30000, 35000)),
                     (exception, timespan) =>
                     {
                         Console.WriteLine($"Failed to retrieve price with error: {exception}, retrying in {timespan}");
