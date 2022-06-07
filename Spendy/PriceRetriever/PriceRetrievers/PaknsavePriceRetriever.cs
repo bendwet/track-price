@@ -152,7 +152,6 @@ public class PaknsavePriceRetriever: IPriceRetriever
             {
                 // get pk quantity
                 var singleItemQuantity = Regex.Match(priceQuantity, "([0-9]+)") + "pk";
-                Console.WriteLine(singleItemQuantity);
                 priceQuantity = singleItemQuantity;
             }
         }
@@ -168,8 +167,6 @@ public class PaknsavePriceRetriever: IPriceRetriever
             PriceQuantity = priceQuantity
         };
 
-        Console.WriteLine(priceQuantity);
-        
         return price;
     }
 }
