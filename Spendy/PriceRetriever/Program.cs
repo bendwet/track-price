@@ -75,20 +75,18 @@ public class Program
         // While queue is not empty
         async Task SavePrice(StoreProduct sp)
         {
-            
-            Console.WriteLine($"Product id: {sp.ProductId}");
-            
             var r = new Random();
 
             var policy = Policy
                 .Handle<HttpRequestException>()
+                .Or<TimeoutException>()
                 .WaitAndRetryAsync(5,
                     _ => TimeSpan.FromMilliseconds(r.Next(30000, 35000)),
                     (exception, timespan) =>
                     {
                         Console.WriteLine($"Failed to retrieve price with error: {exception}, retrying in {timespan}");
                     });
-            
+                
             // Retrieve price of store product, will not be null
             var priceRetriever = resolvePriceRetriever(storeName!);
 
@@ -101,7 +99,7 @@ public class Program
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error retrieving price : {ex.Message}", ex);
+                    Console.WriteLine($"Error retrieving price : {ex.Message}, {ex}");
                 }
 
                 return priceModel;

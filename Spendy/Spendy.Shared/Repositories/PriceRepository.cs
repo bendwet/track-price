@@ -40,7 +40,8 @@ public class PriceRepository : IPriceRepository
             }
         }
         else
-        {
+        {   
+            Console.WriteLine($"Product Id: {priceRecord.ProductId}");
             priceExists.OriginalPrice = priceRecord.OriginalPrice;
             priceExists.SalePrice = priceRecord.SalePrice;
             priceExists.IsOnSale = priceRecord.IsOnSale;

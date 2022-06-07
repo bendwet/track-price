@@ -66,9 +66,7 @@ public class PaknsavePriceRetriever: IPriceRetriever
 
         // convert response to string
         var stringResponse = response.Content.ReadAsStringAsync().Result;
-        
-        Console.WriteLine(stringResponse);
-        
+
         // await browser.CloseAsync();
         
         if (response.StatusCode == HttpStatusCode.Forbidden)
@@ -148,11 +146,17 @@ public class PaknsavePriceRetriever: IPriceRetriever
             }
             
             // check for pack quantities
-            if (Regex.IsMatch(priceQuantity, "([0-9]+)( x )([0-9]+)(mL)"))
+            if (Regex.IsMatch(priceQuantity, "(([0-9]+)( x )([0-9]+))((mL)|(g))"))
             {
-                // get pk quantity
-                var singleItemQuantity = Regex.Match(priceQuantity, "([0-9]+)") + "pk";
-                priceQuantity = singleItemQuantity;
+                // get quantity of pack
+
+                var packSize = int.Parse(Regex.Match(priceQuantity, "([0-9]+)").ToString());
+                var volume = int.Parse(Regex.Match(priceQuantity, "(?<=x )([0-9]+)").ToString());
+                var unitOfMeasure = Regex.Match(priceQuantity, "(?<=(x [0-9]+))([a-zA-Z])").ToString();
+                
+                var totalQuantity = packSize * volume + unitOfMeasure;
+                
+                priceQuantity = totalQuantity;
             }
         }
         

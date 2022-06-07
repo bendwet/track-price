@@ -53,7 +53,7 @@ public class NewWorldPriceRetriever: IPriceRetriever
         });
         
         // change store location
-        // await searchPage.GoToAsync(setStoreLocation);
+        await searchPage.GoToAsync(setStoreLocation);
 
         // search page via store product code
         await searchPage.GoToAsync(url);
@@ -76,7 +76,7 @@ public class NewWorldPriceRetriever: IPriceRetriever
         // convert response to string
         var stringResponse = response.Content.ReadAsStringAsync().Result;
 
-        await browser.CloseAsync();
+        // await browser.CloseAsync();
 
         // price info
         var isAvailable = true;
@@ -139,13 +139,18 @@ public class NewWorldPriceRetriever: IPriceRetriever
             {
                 priceQuantity = priceQuantity.Replace("kg", "1kg");
             }
+            
             // check for pack quantities
-            if (Regex.IsMatch(priceQuantity, "([0-9]+)( x )([0-9]+)(mL)"))
+            if (Regex.IsMatch(priceQuantity, "(([0-9]+)( x )([0-9]+))((mL)|(g))"))
             {
-                // get pk quantity
-                var singleItemQuantity = Regex.Match(priceQuantity, "([0-9]+)") + "pk";
-                Console.WriteLine(singleItemQuantity);
-                priceQuantity = singleItemQuantity;
+                // get quantity of pack
+                var packSize = int.Parse(Regex.Match(priceQuantity, "([0-9]+)").ToString());
+                var volume = int.Parse(Regex.Match(priceQuantity, "(?<=x )([0-9]+)").ToString());
+                var unitOfMeasure = Regex.Match(priceQuantity, "(?<=(x [0-9]+))([a-zA-Z])").ToString();
+                
+                var totalQuantity = packSize * volume + unitOfMeasure;
+                
+                priceQuantity = totalQuantity;
             }
         }
         
