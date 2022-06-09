@@ -69,7 +69,7 @@ public class PaknsavePriceRetriever: IPriceRetriever
 
         // await browser.CloseAsync();
         
-        if (response.StatusCode == HttpStatusCode.OK)
+        if (response.StatusCode != HttpStatusCode.OK)
         {
             // await browser.CloseAsync();
             throw new HttpRequestException();

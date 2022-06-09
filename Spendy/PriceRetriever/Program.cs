@@ -60,10 +60,8 @@ public class Program
         var taskCompletionSource = new TaskCompletionSource();
         
         // store to be used for price retriever
-        // var storeName = Environment.GetEnvironmentVariable("STORE");
+        var storeName = Environment.GetEnvironmentVariable("STORE");
 
-        var storeName = "new world";
-        
         // Add all store products to queue, will not be null as will always be called with argument
         var store = storeRepository.GetByName(storeName!);
 
