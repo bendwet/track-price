@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Net;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Headers;
 using Polly;
@@ -58,9 +59,13 @@ public class Program
                 .ConfigureHttpClient(client =>
                 {
                     client.DefaultRequestVersion = new Version(2, 0);
+                    // client.DefaultRequestHeaders.Add("accept", 
+                    //     "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
+                    // client.DefaultRequestHeaders.Add("accept-language", "en-US,en;q=0.5");
+                    // client.DefaultRequestHeaders.Add("accept-encoding", "*");
                     client.DefaultRequestHeaders.Add("user-agent", 
                         "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0");
-                });
+                })
             services.AddHttpClient<CountdownPriceRetriever>()
                 .ConfigureHttpClient(client =>
                 {
@@ -88,10 +93,8 @@ public class Program
         var taskCompletionSource = new TaskCompletionSource();
         
         // store to be used for price retriever
-        // var storeName = Environment.GetEnvironmentVariable("STORE");
+        var storeName = Environment.GetEnvironmentVariable("STORE");
 
-        var storeName = "new world";
-        
         // Add all store products to queue, will not be null as will always be called with argument
         var store = storeRepository.GetByName(storeName!);
 
