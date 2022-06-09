@@ -69,10 +69,10 @@ public class PaknsavePriceRetriever: IPriceRetriever
 
         // await browser.CloseAsync();
         
-        if (response.StatusCode == HttpStatusCode.Forbidden)
+        if (response.StatusCode == HttpStatusCode.OK)
         {
             // await browser.CloseAsync();
-            throw new HttpRequestException("403 Forbidden");
+            throw new HttpRequestException();
         }
         
         // Console.WriteLine(stringResponse);
