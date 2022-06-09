@@ -52,13 +52,13 @@ public class PaknsavePriceRetriever: IPriceRetriever
         //     {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0"}
         // });
 
-        _client.DefaultRequestVersion = new Version(2, 0);
+        // _client.DefaultRequestVersion = new Version(2, 0);
         // _client.DefaultRequestHeaders.Clear();
-        _client.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0");
-        // _client.DefaultRequestHeaders.Add("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
-        _client.DefaultRequestHeaders.Add("accept-language", "en-US,en;q=0.9");
-        _client.DefaultRequestHeaders.Add("accept-encoding", "*");
-        _client.DefaultRequestHeaders.Add("cookie", "brands_store_id={815DCF68-9839-48AC-BF94-5F932A1254B5}; eCom_STORE_ID=65defcf2-bc15-490e-a84f-1f13b769cd22");
+        // _client.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0");
+        // // _client.DefaultRequestHeaders.Add("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+        // _client.DefaultRequestHeaders.Add("accept-language", "en-US,en;q=0.9");
+        // _client.DefaultRequestHeaders.Add("accept-encoding", "*");
+        // _client.DefaultRequestHeaders.Add("cookie", "brands_store_id={815DCF68-9839-48AC-BF94-5F932A1254B5}; eCom_STORE_ID=65defcf2-bc15-490e-a84f-1f13b769cd22");
 
         var response = await _client.GetAsync(url);
 
@@ -72,7 +72,7 @@ public class PaknsavePriceRetriever: IPriceRetriever
         if (response.StatusCode != HttpStatusCode.OK)
         {
             // await browser.CloseAsync();
-            throw new HttpRequestException();
+            throw new HttpRequestException($"Status code: {response.StatusCode}");
         }
         
         // Console.WriteLine(stringResponse);

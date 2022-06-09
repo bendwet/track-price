@@ -51,7 +51,7 @@ public class NewWorldPriceRetriever: IPriceRetriever
         {
             {"User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0"}
         });
-        
+
         // change store location
         await searchPage.GoToAsync(setStoreLocation);
 
@@ -62,15 +62,18 @@ public class NewWorldPriceRetriever: IPriceRetriever
 
         var cf = cookie.First(c => c.Name == "__cf_bm");
 
-        _client.DefaultRequestVersion = new Version(2, 0);
-        _client.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0");
-        _client.DefaultRequestHeaders.Add("cookie", @"Cookie: SC_ANALYTICS_GLOBAL_COOKIE=e8fc6adb07cc4d52a12b20d25f4bd4c5|False; STORE_ID_V2=773ad0a0-024e-46c5-a94b-df1cf86d25cc|False; brands_server_nearest_store={""StoreId"":""{A5188315-D432-45A0-8CAD-289EB96C70D9}"",""UserLat"":""-33.8715"",""UserLng"":""151.2006"",""StoreLat"":""-45.0254262291741"",""StoreLng"":""168.742751035582"",""IsSuccess"":true}; eCom_STORE_ID=773ad0a0-024e-46c5-a94b-df1cf86d25cc; brands_store_id={FBDC00D1-5B7A-46F6-AE85-68AD2BE4C1C1}; region_code=UNI; eComm_Coordinate_Cookie={""latitude"":-36.728169397933982,""longitude"":174.71053607832641}; eCom_StoreId_NotSameAs_Brands=false; Region=NI; brands_store_reset=; AllowRestrictedItems=true; server_nearest_store_v2={""StoreId"":""773ad0a0-024e-46c5-a94b-df1cf86d25cc"",""UserLat"":""-36.728169397934"",""UserLng"":""174.710536078326"",""StoreLat"":""-36.728207"",""StoreLng"":""174.710519"",""IsSuccess"":true}; SessionCookieIdV2=761bc4b5cdf04a128d076df8c27415e0; ASP.NET_SessionId=qwf4lqzlj12gy5rgldthcee3; shell#lang=en; __RequestVerificationToken=rwi7iIsgFf0AcxSCycWKm2x9mlVcV3GHhFQlHNxaxhEOTeibLWbA9pAjnWejCylD-Qi_6YJDVe7tlBvLqiOKvMxATXI1; sxa_site=New World; fs-new-feature-onboarding-closed=false; __cfruid=6bd87a690e1de0592305206d726e1043c82a5b6e-1654386380; __cf_bm=" + cf);
-        var response = await _client.GetAsync(url);
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add("cookie", @"Cookie: SC_ANALYTICS_GLOBAL_COOKIE=e8fc6adb07cc4d52a12b20d25f4bd4c5|False; STORE_ID_V2=773ad0a0-024e-46c5-a94b-df1cf86d25cc|False; brands_server_nearest_store={""StoreId"":""{A5188315-D432-45A0-8CAD-289EB96C70D9}"",""UserLat"":""-33.8715"",""UserLng"":""151.2006"",""StoreLat"":""-45.0254262291741"",""StoreLng"":""168.742751035582"",""IsSuccess"":true}; eCom_STORE_ID=773ad0a0-024e-46c5-a94b-df1cf86d25cc; brands_store_id={FBDC00D1-5B7A-46F6-AE85-68AD2BE4C1C1}; region_code=UNI; eComm_Coordinate_Cookie={""latitude"":-36.728169397933982,""longitude"":174.71053607832641}; eCom_StoreId_NotSameAs_Brands=false; Region=NI; brands_store_reset=; AllowRestrictedItems=true; server_nearest_store_v2={""StoreId"":""773ad0a0-024e-46c5-a94b-df1cf86d25cc"",""UserLat"":""-36.728169397934"",""UserLng"":""174.710536078326"",""StoreLat"":""-36.728207"",""StoreLng"":""174.710519"",""IsSuccess"":true}; SessionCookieIdV2=761bc4b5cdf04a128d076df8c27415e0; ASP.NET_SessionId=qwf4lqzlj12gy5rgldthcee3; shell#lang=en; __RequestVerificationToken=rwi7iIsgFf0AcxSCycWKm2x9mlVcV3GHhFQlHNxaxhEOTeibLWbA9pAjnWejCylD-Qi_6YJDVe7tlBvLqiOKvMxATXI1; sxa_site=New World; fs-new-feature-onboarding-closed=false; __cfruid=6bd87a690e1de0592305206d726e1043c82a5b6e-1654386380; __cf_bm=" + cf);
+        
+        // _client.DefaultRequestVersion = new Version(2, 0);
+        // _client.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0");
+        // _client.DefaultRequestHeaders.Add("cookie", @"Cookie: SC_ANALYTICS_GLOBAL_COOKIE=e8fc6adb07cc4d52a12b20d25f4bd4c5|False; STORE_ID_V2=773ad0a0-024e-46c5-a94b-df1cf86d25cc|False; brands_server_nearest_store={""StoreId"":""{A5188315-D432-45A0-8CAD-289EB96C70D9}"",""UserLat"":""-33.8715"",""UserLng"":""151.2006"",""StoreLat"":""-45.0254262291741"",""StoreLng"":""168.742751035582"",""IsSuccess"":true}; eCom_STORE_ID=773ad0a0-024e-46c5-a94b-df1cf86d25cc; brands_store_id={FBDC00D1-5B7A-46F6-AE85-68AD2BE4C1C1}; region_code=UNI; eComm_Coordinate_Cookie={""latitude"":-36.728169397933982,""longitude"":174.71053607832641}; eCom_StoreId_NotSameAs_Brands=false; Region=NI; brands_store_reset=; AllowRestrictedItems=true; server_nearest_store_v2={""StoreId"":""773ad0a0-024e-46c5-a94b-df1cf86d25cc"",""UserLat"":""-36.728169397934"",""UserLng"":""174.710536078326"",""StoreLat"":""-36.728207"",""StoreLng"":""174.710519"",""IsSuccess"":true}; SessionCookieIdV2=761bc4b5cdf04a128d076df8c27415e0; ASP.NET_SessionId=qwf4lqzlj12gy5rgldthcee3; shell#lang=en; __RequestVerificationToken=rwi7iIsgFf0AcxSCycWKm2x9mlVcV3GHhFQlHNxaxhEOTeibLWbA9pAjnWejCylD-Qi_6YJDVe7tlBvLqiOKvMxATXI1; sxa_site=New World; fs-new-feature-onboarding-closed=false; __cfruid=6bd87a690e1de0592305206d726e1043c82a5b6e-1654386380; __cf_bm=" + cf);
+        var response = await _client.SendAsync(request);
 
         if (response.StatusCode != HttpStatusCode.OK)
         {
             await browser.CloseAsync();
-            throw new HttpRequestException();
+            throw new HttpRequestException($"Status code: {response.StatusCode}");
         }
         
         // convert response to string

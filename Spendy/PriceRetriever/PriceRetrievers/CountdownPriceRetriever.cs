@@ -42,16 +42,16 @@ public class CountdownPriceRetriever : IPriceRetriever
 
         var url = $"https://shop.countdown.co.nz/api/v1/products/{storeProductCode}";
         
-        _client.DefaultRequestVersion = new Version(2, 0);
+        // _client.DefaultRequestVersion = new Version(2, 0);
         // add headers
-        _client.DefaultRequestHeaders.Accept.Clear();
-        _client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-        _client.DefaultRequestHeaders.Add("User-Agent",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0");
+        // _client.DefaultRequestHeaders.Accept.Clear();
+        // _client.DefaultRequestHeaders.Accept.Add(
+        //     new MediaTypeWithQualityHeaderValue("application/json"));
+        // _client.DefaultRequestHeaders.Add("User-Agent",
+            // "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0");
         // client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
-        _client.DefaultRequestHeaders.Add("ContentType", "application/json");
-        _client.DefaultRequestHeaders.Add("X-Requested-With", "OnlineShopping.WebApp");
+        // _client.DefaultRequestHeaders.Add("ContentType", "application/json");
+        // _client.DefaultRequestHeaders.Add("X-Requested-With", "OnlineShopping.WebApp");
 
         var response = await _client.GetStringAsync(url);
         

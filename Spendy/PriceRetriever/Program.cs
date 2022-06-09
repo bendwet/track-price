@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http.Headers;
 using Polly;
 using PriceRetriever.PriceRetrievers;
 using PriceRetriever.Interfaces;
@@ -42,9 +43,36 @@ public class Program
                 };
             });
 
-            services.AddHttpClient<PaknsavePriceRetriever>();
-            services.AddHttpClient<NewWorldPriceRetriever>();
-            services.AddHttpClient<CountdownPriceRetriever>();
+            services.AddHttpClient<PaknsavePriceRetriever>()
+                .ConfigureHttpClient(client =>
+                {
+                    client.DefaultRequestVersion = new Version(2, 0);
+                    client.DefaultRequestHeaders.Add("user-agent", 
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0");
+                    client.DefaultRequestHeaders.Add("accept-language", "en-US,en;q=0.9");
+                    client.DefaultRequestHeaders.Add("accept-encoding", "*");
+                    client.DefaultRequestHeaders.Add("cookie", 
+                        "brands_store_id={815DCF68-9839-48AC-BF94-5F932A1254B5}; eCom_STORE_ID=65defcf2-bc15-490e-a84f-1f13b769cd22");
+                });
+            services.AddHttpClient<NewWorldPriceRetriever>()
+                .ConfigureHttpClient(client =>
+                {
+                    client.DefaultRequestVersion = new Version(2, 0);
+                    client.DefaultRequestHeaders.Add("user-agent", 
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0");
+                });
+            services.AddHttpClient<CountdownPriceRetriever>()
+                .ConfigureHttpClient(client =>
+                {
+                    client.DefaultRequestVersion = new Version(2, 0);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Add("User-Agent",
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0");
+                    // client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
+                    client.DefaultRequestHeaders.Add("ContentType", "application/json");
+                    client.DefaultRequestHeaders.Add("X-Requested-With", "OnlineShopping.WebApp");
+                });
             
             var serviceProvider = services.BuildServiceProvider();
 
@@ -60,8 +88,10 @@ public class Program
         var taskCompletionSource = new TaskCompletionSource();
         
         // store to be used for price retriever
-        var storeName = Environment.GetEnvironmentVariable("STORE");
+        // var storeName = Environment.GetEnvironmentVariable("STORE");
 
+        var storeName = "new world";
+        
         // Add all store products to queue, will not be null as will always be called with argument
         var store = storeRepository.GetByName(storeName!);
 
