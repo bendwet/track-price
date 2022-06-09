@@ -67,16 +67,16 @@ public class NewWorldPriceRetriever: IPriceRetriever
         _client.DefaultRequestHeaders.Add("cookie", @"Cookie: SC_ANALYTICS_GLOBAL_COOKIE=e8fc6adb07cc4d52a12b20d25f4bd4c5|False; STORE_ID_V2=773ad0a0-024e-46c5-a94b-df1cf86d25cc|False; brands_server_nearest_store={""StoreId"":""{A5188315-D432-45A0-8CAD-289EB96C70D9}"",""UserLat"":""-33.8715"",""UserLng"":""151.2006"",""StoreLat"":""-45.0254262291741"",""StoreLng"":""168.742751035582"",""IsSuccess"":true}; eCom_STORE_ID=773ad0a0-024e-46c5-a94b-df1cf86d25cc; brands_store_id={FBDC00D1-5B7A-46F6-AE85-68AD2BE4C1C1}; region_code=UNI; eComm_Coordinate_Cookie={""latitude"":-36.728169397933982,""longitude"":174.71053607832641}; eCom_StoreId_NotSameAs_Brands=false; Region=NI; brands_store_reset=; AllowRestrictedItems=true; server_nearest_store_v2={""StoreId"":""773ad0a0-024e-46c5-a94b-df1cf86d25cc"",""UserLat"":""-36.728169397934"",""UserLng"":""174.710536078326"",""StoreLat"":""-36.728207"",""StoreLng"":""174.710519"",""IsSuccess"":true}; SessionCookieIdV2=761bc4b5cdf04a128d076df8c27415e0; ASP.NET_SessionId=qwf4lqzlj12gy5rgldthcee3; shell#lang=en; __RequestVerificationToken=rwi7iIsgFf0AcxSCycWKm2x9mlVcV3GHhFQlHNxaxhEOTeibLWbA9pAjnWejCylD-Qi_6YJDVe7tlBvLqiOKvMxATXI1; sxa_site=New World; fs-new-feature-onboarding-closed=false; __cfruid=6bd87a690e1de0592305206d726e1043c82a5b6e-1654386380; __cf_bm=" + cf);
         var response = await _client.GetAsync(url);
 
-        if (response.StatusCode != HttpStatusCode.OK)
+        if (response.StatusCode == HttpStatusCode.OK)
         {
             await browser.CloseAsync();
-            throw new HttpRequestException("403 Forbidden");
+            throw new HttpRequestException();
         }
         
         // convert response to string
         var stringResponse = response.Content.ReadAsStringAsync().Result;
 
-        // await browser.CloseAsync();
+        await browser.CloseAsync();
 
         // price info
         var isAvailable = true;

@@ -60,8 +60,10 @@ public class Program
         var taskCompletionSource = new TaskCompletionSource();
         
         // store to be used for price retriever
-        var storeName = Environment.GetEnvironmentVariable("STORE");
+        // var storeName = Environment.GetEnvironmentVariable("STORE");
 
+        var storeName = "new world";
+        
         // Add all store products to queue, will not be null as will always be called with argument
         var store = storeRepository.GetByName(storeName!);
 
@@ -84,7 +86,8 @@ public class Program
                     _ => TimeSpan.FromMilliseconds(r.Next(30000, 35000)),
                     (exception, timespan) =>
                     {
-                        Console.WriteLine($"Failed to retrieve price with error: {exception}, retrying in {timespan}");
+                        Console.WriteLine($"Failed to retrieve price with error: {exception.Message}, " +
+                                          $"retrying in {timespan}");
                     });
                 
             // Retrieve price of store product, will not be null
@@ -92,7 +95,7 @@ public class Program
 
             var price = await policy.ExecuteAsync(async () =>
             {
-                PriceModel priceModel = null!;
+                PriceModel priceModel;
                 try
                 {
                     priceModel = await priceRetriever.RetrievePrice(sp.StoreProductCode);
@@ -100,6 +103,7 @@ public class Program
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error retrieving price : {ex.Message}, {ex}");
+                    throw;
                 }
 
                 return priceModel;
