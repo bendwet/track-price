@@ -111,7 +111,6 @@ public class NewWorldPriceRetriever: IPriceRetriever
         }
         else
         {
-            Console.WriteLine("Test");
             var priceInfo = page.DocumentNode
                 .Descendants()
                 .First(n => n.HasClass("js-product-card-footer"))
