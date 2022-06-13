@@ -113,6 +113,7 @@ public class Program
             var policy = Policy
                 .Handle<HttpRequestException>()
                 .Or<TimeoutException>()
+                .Or<PuppeteerSharp.NavigationException>()
                 .WaitAndRetryAsync(5,
                     _ => TimeSpan.FromMilliseconds(r.Next(30000, 35000)),
                     (exception, timespan) =>
