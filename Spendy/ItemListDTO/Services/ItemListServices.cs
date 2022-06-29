@@ -89,49 +89,6 @@ public class ItemListService: IItemListService
                     LEFT JOIN product_out_of_stock pos ON pos.product_id = p.product_id")
             .ToList();
 
-        // var items1 = _context.Items
-        //     .FromSqlRaw(@"
-        //     SELECT 
-        //         prices.price_date
-        //         , MIN(prices.price_sale) as lowest_product_price
-        //         , prices.is_onsale
-        //         , prices.price_quantity
-        //         , prices.is_available
-        //         , products.product_id
-        //         , products.product_name 
-        //     FROM 
-        //         pricedb.prices 
-        //         INNER JOIN products ON prices.product_id = products.product_id
-        //     WHERE 
-        //         prices.price_date = (SELECT max(prices.price_date) FROM pricedb.prices)
-        //     GROUP BY 
-        //         product_id")
-        //     .ToList();
-        
         return items;
     }
-    
-    // public void GetItems()
-    // {
-    //     var maxPrice = _context.Prices.Max(x => x.PriceDate);
-    //     var prices = _context
-    //         .Prices
-    //         .Include(x => x.Product)
-    //         .Include(x => x.Store)
-    //         .Where(x => x.PriceDate == maxPrice)
-    //         .Select(x => new {x.Store.StoreName, x.Product.ProductName, x.SalePrice})
-    //         .GroupBy(x => new {x.StoreName, x.ProductName})
-    //         .ToList();
-    //
-    //     foreach (var groupedPrice in prices)
-    //     {
-    //         var minPrice = groupedPrice.Min(x => x.SalePrice);
-    //         var minPriceStore = groupedPrice.Where(x => x.SalePrice == minPrice).First();
-    //         
-    //         Console.WriteLine($"Store={minPriceStore.StoreName}, product={minPriceStore.ProductName}, price={minPriceStore.SalePrice}");
-    //     }
-    //
-    //
-    // }
-    
 }
