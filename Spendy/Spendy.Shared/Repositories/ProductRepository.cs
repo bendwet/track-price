@@ -3,7 +3,15 @@ using Spendy.Shared.Models;
 
 namespace Spendy.Shared.Repositories;
 
-public class ProductRepository
+public interface IProductRepository
+{
+    public void Save(Product product);
+    public void Update(Product product);
+    public Product? GetByName(string productName);
+    public List<Product> GetAllProducts();
+}
+
+public class ProductRepository: IProductRepository
 {
     private readonly SpendyContext _context;
 
@@ -11,6 +19,14 @@ public class ProductRepository
     {
         _context = context;
     }
+
+    public List<Product> GetAllProducts()
+    {
+        var products = _context.Products
+            .ToList();
+        return products;
+    }
+
     // Return product with given name or return null is product does not exist
     public Product? GetByName(string productName)
     {

@@ -152,9 +152,9 @@ public class PaknsavePriceRetriever: IPriceRetriever
 
                 var packSize = int.Parse(Regex.Match(priceQuantity, "([0-9]+)").ToString());
                 var volume = int.Parse(Regex.Match(priceQuantity, "(?<=x )([0-9]+)").ToString());
-                var unitOfMeasure = Regex.Match(priceQuantity, "(?<=(x [0-9]+))([a-zA-Z])").ToString();
+                var unitOfMeasure = Regex.Match(priceQuantity, "(?<=(x [0-9]+))([a-zA-Z]+)").ToString();
                 
-                var totalQuantity = packSize * volume + unitOfMeasure;
+                var totalQuantity = volume + unitOfMeasure;
                 
                 priceQuantity = totalQuantity;
             }

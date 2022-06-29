@@ -9,6 +9,8 @@ public class SpendyContext : DbContext
     public DbSet<Product> Products => Set<Product>();
     public DbSet<StoreProduct> StoreProducts => Set<StoreProduct>();
     public DbSet<Price> Prices => Set<Price>();
+    public DbSet<Item> Items => Set<Item>();
+
 
     public SpendyContext(DbContextOptions<SpendyContext> options) : base(options)
     {
@@ -50,6 +52,9 @@ public class SpendyContext : DbContext
         modelBuilder.Entity<Price>()
             .HasKey(x => x.PriceId);
         
+        // entity type for DTO query
+        modelBuilder.Entity<Item>().HasNoKey();
+
         // modelBuilder.Entity<Price>()
         //     .HasOne(x => x.Product)
         //     .WithMany(x => x.Prices)

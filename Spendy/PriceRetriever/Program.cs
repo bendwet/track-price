@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Headers;
 using Polly;
@@ -8,6 +7,7 @@ using PriceRetriever.Interfaces;
 using Spendy.Shared;
 using Spendy.Shared.Models;
 using Spendy.Shared.Repositories;
+using PuppeteerSharp;
 
 namespace PriceRetriever;
 
@@ -33,6 +33,11 @@ public class Program
             .AddScoped<CountdownPriceRetriever>()
             .AddScoped<NewWorldPriceRetriever>()
             .AddScoped<PaknsavePriceRetriever>()
+            .AddScoped<BrowserFetcher>()
+            .AddScoped<IPriceRepository, PriceRepository>()
+            .AddScoped<IStoreRepository, StoreRepository>()
+            .AddScoped<IStoreProductRepository, StoreProductRepository>()
+            .AddScoped<IProductRepository, ProductRepository>()
             .AddScoped<PriceRetrieverResolver>(serviceProvider => key =>
             {
                 return key switch
