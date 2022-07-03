@@ -2,7 +2,6 @@
 using Spendy.Shared.Data;
 using Spendy.Shared.Models;
 
-
 namespace ItemListDTO.Services;
 
 public interface IItemListService
@@ -28,19 +27,22 @@ public class ItemListService: IItemListService
         var items = _context.Items
             .FromSqlRaw(@"
             WITH
-                last_date as (
+                last_date_per_product as (
                     SELECT 
-                        MAX(price_date) as max_date
+                        prices.product_id
+                        , MAX(price_date) as max_date
                     FROM
-                        pricedb.prices    
+                        prices
+                    GROUP BY
+                        prices.product_id    
                 )
                 , product_out_of_stock as (
                     SELECT
                         p.product_id
                     FROM
-                        pricedb.prices p
-                    WHERE
-                        p.price_date = (SELECT MAX(p.price_date) FROM prices p)
+                        prices p
+                        INNER JOIN last_date_per_product ldpp on ldpp.product_id = p.product_id
+                            AND p.price_date = ldpp.max_date
                     GROUP BY
                         product_id
                     HAVING
@@ -58,8 +60,9 @@ public class ItemListService: IItemListService
                         , p.price_date
                         , RANK() OVER (PARTITION BY p.product_id ORDER BY p.price_sale ASC) as price_rank
                     FROM
-                        pricedb.prices p
-                        INNER JOIN last_date ld ON ld.max_date = p.price_date
+                        prices p
+                        INNER JOIN last_date_per_product ldpp ON ldpp.product_id = p.product_id
+                            AND p.price_date = ldpp.max_date
                         INNER JOIN products ON p.product_id = products.product_id
                     WHERE
                         p.is_available = true
@@ -88,7 +91,7 @@ public class ItemListService: IItemListService
                     LEFT JOIN lowest_price_per_product_day lpd ON lpd.product_id = p.product_id
                     LEFT JOIN product_out_of_stock pos ON pos.product_id = p.product_id")
             .ToList();
-
+        
         return items;
     }
 }
