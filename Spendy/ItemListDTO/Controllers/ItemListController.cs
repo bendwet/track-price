@@ -5,7 +5,7 @@ using Spendy.Shared.Models;
 namespace ItemListDTO.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("items")]
 public class ItemListController: ControllerBase
 {
     private readonly IItemListService _itemListService;
@@ -14,8 +14,13 @@ public class ItemListController: ControllerBase
     {
         _itemListService = itemListService;
     }
-
+    
+    [Route("")]
     [HttpGet]
-    public ActionResult<List<Item>> GetAll() => _itemListService.GetItems();
+    public ActionResult<List<Item>> GetItems() => new JsonResult(_itemListService.GetItems());
+    
+    [Route("{productId:int}")]
+    [HttpGet]
+    public ActionResult<List<Item>> GetItemByProductId(int productId) => new JsonResult(_itemListService.GetItemByProductId(productId));
 
 }
