@@ -1,6 +1,8 @@
 using ItemListDTO.Services;
 using Spendy.Shared;
 
+
+
 IConfiguration config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
@@ -8,6 +10,16 @@ IConfiguration config = new ConfigurationBuilder()
 var connectionString = config.GetConnectionString("SpendyConnection");
 
 var builder = WebApplication.CreateBuilder(args);
+
+// enable CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.SetIsOriginAllowed(origin => new Uri(origin).IsLoopback);
+        });
+});
 
 // Add services to the container.
 builder.Services.AddSpendyServices(connectionString);
@@ -27,6 +39,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
