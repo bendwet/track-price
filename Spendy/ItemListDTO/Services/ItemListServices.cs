@@ -11,6 +11,7 @@ public interface IItemListService
 {
     public List<Item> GetItems();
     public List<ProductIdItem> GetItemByProductId(int productId);
+    public List<LowestPriceDateItem> GetLowestPriceItemPerDate(int productId);
 }
 
 
@@ -18,27 +19,15 @@ public class ItemListService: IItemListService
 {
 
     private readonly SpendyContext _context;
-    // private static List<Item> ItemList { get; }
 
     public ItemListService(SpendyContext context)
     {
         _context = context;
     }
     
+    // get all items with latest date
     public List<Item> GetItems()
-    {   
-        // raw sql query instead of linq as easy to understand
-        // string sql;
-        //
-        // var assembly = Assembly.GetExecutingAssembly();
-        // var resourceName = "Spendy.Shared.Models.GetItems.sql";
-        //
-        // using (var stream = assembly.GetManifestResourceStream(resourceName))
-        // using (var reader = new StreamReader(stream))
-        // {
-	       //  sql = reader.ReadToEnd();
-        // }
-
+    {
         var sql = ResourceReader.ReadEmbeddedResource("Spendy.Shared.Models.GetItems.sql");
         
         var items = _context.Items
@@ -46,14 +35,33 @@ public class ItemListService: IItemListService
         
         return items;
     }
-
+    
+    // get items by product id with latest date
     public List<ProductIdItem> GetItemByProductId(int productId)
-    {   
+    {
         var sql = ResourceReader.ReadEmbeddedResource("Spendy.Shared.Models.GetItemsByProductId.sql");
         
         var items = _context.ProductIdItems
             .FromSqlRaw(sql, new MySqlParameter("productId", productId))
             .ToList();
+        return items;
+    }
+    
+    // get lowest price of item for each date by product id
+    public List<LowestPriceDateItem> GetLowestPriceItemPerDate(int productId)
+    {
+        var items = _context.Prices
+            .Select(p => new LowestPriceDateItem
+            {
+                ProductId = p.ProductId,
+                SalePrice = p.SalePrice,
+                IsAvailable = p.IsAvailable,
+                PriceDate = p.PriceDate
+            })
+            .Where(p => p.ProductId == productId 
+                        && p.IsAvailable == true)
+            .ToList();
+
         return items;
     }
 }
