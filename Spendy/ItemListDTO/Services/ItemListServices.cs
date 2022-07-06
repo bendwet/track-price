@@ -49,17 +49,11 @@ public class ItemListService: IItemListService
     
     // get lowest price of item for each date by product id
     public List<LowestPriceDateItem> GetLowestPriceItemPerDate(int productId)
-    {
-        var items = _context.Prices
-            .Select(p => new LowestPriceDateItem
-            {
-                ProductId = p.ProductId,
-                SalePrice = p.SalePrice,
-                IsAvailable = p.IsAvailable,
-                PriceDate = p.PriceDate
-            })
-            .Where(p => p.ProductId == productId 
-                        && p.IsAvailable == true)
+    {   
+        var sql = ResourceReader.ReadEmbeddedResource("Spendy.Shared.Models.GetLowestPriceItemPerDate.sql");
+        
+        var items = _context.LowestPriceDateItems
+            .FromSqlRaw(sql, new MySqlParameter("productId", productId))
             .ToList();
 
         return items;

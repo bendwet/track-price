@@ -19,6 +19,8 @@
       <EmbeddedResource Include="Models\GetItems.sql" />
       <None Remove="Models\GetItemsByProductId.sql" />
       <EmbeddedResource Include="Models\GetItemsByProductId.sql" />
+      <None Remove="Models\GetLowestPriceItemPerDate.sql" />
+      <EmbeddedResource Include="Models\GetLowestPriceItemPerDate.sql" />
     </ItemGroup>
 
 </Project>
