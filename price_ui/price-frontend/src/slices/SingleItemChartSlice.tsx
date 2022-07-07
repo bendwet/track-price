@@ -6,7 +6,7 @@ import ProductModel from '../components/ProductModel';
 export const getPriceById = createAsyncThunk(
   'databaseProductApi/getPriceById',
   async(productId: string) => {
-    const response: Array<ProductModel> = await fetch(`http://127.0.0.1:5000/product/price/${productId}`)
+    const response: Array<ProductModel> = await fetch(`https://localhost:7135/items/${productId}/lowest-price`)
 		.then(
       (data) => data.json()
     );
