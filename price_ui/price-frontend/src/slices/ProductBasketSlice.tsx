@@ -24,7 +24,7 @@ export const filterProduct = createAsyncThunk(
       if (searchTerm === '') {
         return products;
       // else return products with filtered items 
-      } else if (product.product_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      } else if (product.productName.toLowerCase().includes(searchTerm.toLowerCase())) {
         return products;
       }
     });

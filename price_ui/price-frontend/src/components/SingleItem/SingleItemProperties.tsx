@@ -9,12 +9,12 @@ export default function SingleItemProperties() {
   return (
     <div>
       <div className='SingleItemTitle'>
-       <h1>{selectedProduct.product_name}</h1>
+       <h1>{selectedProduct.productName}</h1>
       </div>
       <div className='SinleItemProperties'>
         <ul>
           <li key='Quantity'>
-            Quantity: {selectedProduct.unit_of_measure_size}{selectedProduct.unit_of_measure}
+            Quantity: {selectedProduct.priceQuantity}
           </li>
         </ul>
       </div>
