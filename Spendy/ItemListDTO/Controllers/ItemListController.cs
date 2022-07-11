@@ -27,7 +27,7 @@ public class ItemListController: ControllerBase
         new JsonResult(_itemListService.GetItemByProductId(productId));
     
     // get lowest price item for each date for specific product id
-    [Route("{productId:int}/lowest-price")]
+    [Route("{productId:int}/price-history")]
     [HttpGet]
     public ActionResult<List<LowestPriceHistoryItem>> GetLowestPriceItemPerDate(int productId) =>
         new JsonResult(_itemListService.GetLowestPriceItemPerDate(productId));
