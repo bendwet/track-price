@@ -1,11 +1,13 @@
 ﻿SELECT
     p.product_id
-     , p.price_sale
+     , MIN(p.price_sale) as price_sale
      , p.is_available
-     , MIN(p.price_date) as price_date
+     , p.price_date
 FROM
     prices p
 WHERE
     p.product_id = @productId
+    AND
+      p.is_available = true
 GROUP BY
     p.price_date;
