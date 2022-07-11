@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from '../../stores/store';
-import ProductModel from '../ProductModel';
+import Item from '../Models/Item';
 
 export default function SingleItemProperties() {
 

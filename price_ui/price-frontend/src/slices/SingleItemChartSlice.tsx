@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import ProductModel from '../components/ProductModel';
+import Item from '../components/Models/Item';
 
 
 // get price from database
 export const getPriceById = createAsyncThunk(
   'databaseProductApi/getPriceById',
   async(productId: string) => {
-    const response: Array<ProductModel> = await fetch(`https://localhost:7135/items/${productId}/lowest-price`)
+    const response: Array<Item> = await fetch(`https://localhost:7135/items/${productId}/lowest-price`)
 		.then(
       (data) => data.json()
     );
@@ -18,11 +18,11 @@ export const getPriceById = createAsyncThunk(
 export const singleItemChartSlice = createSlice({
 	name: 'lowestPriceHistoryChart',
 	initialState: {
-		lowestPriceHistory: [] as Array<ProductModel>
+		lowestPriceHistory: [] as Array<Item>
 	},
 	reducers: {	
 		reset(state) {
-			state.lowestPriceHistory = [] as Array<ProductModel>;
+			state.lowestPriceHistory = [] as Array<Item>;
 		}
 	},
 	extraReducers: (builder) => {

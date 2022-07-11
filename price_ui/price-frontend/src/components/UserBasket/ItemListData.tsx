@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../stores/store';
 import { getProduct } from '../../slices/ProductBasketSlice';
-import ProductModel from '../ProductModel';
+import Item from '../Models/Item';
 import {Link} from 'react-router-dom';
 import { reset } from '../../slices/ProductBasketSlice';
 
@@ -25,12 +25,12 @@ function ItemListData() {
       <div className='ItemListData'>
         <h1>{ JSON.stringify(status) }</h1>
         <ul className='ItemDisplay'>
-        { filteredProducts.map((product: ProductModel, index: number) => 
-          <Link className='ItemLink' key={index} to={`/Item/${product.productId}`}>
+        { filteredProducts.map((item: Item, index: number) => 
+          <Link className='ItemLink' key={index} to={`/Item/${item.productId}`}>
             <li className='Items'>
-                <span className='ProductName'>{product.productName}</span>
-                <span> {product.priceQuantity}</span>
-                <span> ${product.salePrice?.toFixed(2)}</span>
+                <span className='ProductName'>{item.productName}</span>
+                <span> {item.priceQuantity}</span>
+                <span> ${item.salePrice?.toFixed(2)}</span>
             </li>
           </Link>
           )}

@@ -3,7 +3,7 @@ import { getPriceById } from '../../slices/SingleItemChartSlice';
 import { reset } from '../../slices/SingleItemChartSlice';
 import { useParams } from 'react-router-dom';
 import { useLayoutEffect } from 'react';
-import ProductModel from '../ProductModel';
+import LowestPriceDateItem from '../Models/LowestPriceDateItem';
 import { RootState } from '../../stores/store';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -26,10 +26,10 @@ export default function SingleItemChart() {
 				domainPadding={{y: [0, 5]}}
 				containerComponent={
 					<VictoryVoronoiContainer
-						labels={({ datum }) => `${datum.x} \n $${datum.y.toFixed(2)}`}
+						labels={({ datum }) => `${datum.priceDate} \n $${datum.salePrice.toFixed(2)}`}
 						labelComponent={
-						<VictoryTooltip 
-						constrainToVisibleArea
+							<VictoryTooltip 
+							constrainToVisibleArea
 						/>}
 					/>
 				}
@@ -39,6 +39,8 @@ export default function SingleItemChart() {
 					labels: {fontSize: 30}
 				}} 
 					data={lowestPriceHistory}
+					x="priceDate"
+					y="salePrice"
 				/>
 			</VictoryGroup>
 		</div>

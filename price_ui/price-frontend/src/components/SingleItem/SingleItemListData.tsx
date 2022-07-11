@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from '../../stores/store';
 import { getProductById } from '../../slices/SingleItemSlice';
-import ProductModel from '../ProductModel';
+import SingleItem from '../Models/SingleItem';
 import { useParams } from 'react-router-dom';
 import { reset } from '../../slices/SingleItemSlice';
 
@@ -14,12 +14,12 @@ export default function SingleItemListData() {
   return (
     <div className='SingleProductContainer'>
 			<ul className='SingleItemDisplay'>
-				{ singleProduct.map((product: ProductModel, index: number) => 
+				{ singleProduct.map((item: SingleItem, index: number) => 
 					<li className='SingleProduct' key={index}>
-						<span className='SingleProductStoreName'>{product.store_name} </span>
-						<span className='SingleProductName'>{product.product_name}</span>
-						<span className='SingleProductQuantity'> {product.unit_of_measure_size}{product.unit_of_measure}</span>
-						<span className='SingleProductPrice'> ${product.price_sale?.toFixed(2)}</span>
+						<span className='SingleProductStoreName'>{item.storeName} </span>
+						<span className='SingleProductName'>{item.productName}</span>
+						<span className='SingleProductQuantity'> {item.priceQuantity}</span>
+						<span className='SingleProductPrice'> ${item.salePrice?.toFixed(2)}</span>
 					</li>
 				)}
 			</ul>

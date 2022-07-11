@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import ProductModel from '../components/ProductModel';
+import SingleItem from '../components/Models/SingleItem';
 
 
 // get products from database
 export const getProductById = createAsyncThunk(
   'databaseProductApi/getProductById',
   async(productId: string) => {
-    const response: Array<ProductModel> = await fetch(`https://localhost:7135/items/${productId}`)
+    const response: Array<SingleItem> = await fetch(`https://localhost:7135/items/${productId}`)
 		.then(
       (data) => data.json()
     );
@@ -18,19 +18,19 @@ export const getProductById = createAsyncThunk(
 export const singleItemSlice = createSlice({
 	name: 'singleProduct',
 	initialState: {
-		singleProduct: [] as Array<ProductModel>,
-		selectedProduct: {} as ProductModel
+		singleProduct: [] as Array<SingleItem>,
+		selectedProduct: {} as SingleItem
 	},
 	reducers: {	
 		reset(state) {
-			state.singleProduct = [] as Array<ProductModel>;
+			state.singleProduct = [] as Array<SingleItem>;
 		}
 	},
 	extraReducers: (builder) => {
 		builder
 		.addCase(getProductById.fulfilled, (state, action) => {
 			state.singleProduct = action.payload;
-			// set selectedProduct = the first object of retruned ProductModel array
+			// set selectedProduct = the first object of returned Item array
 			state.selectedProduct = action.payload[0]
 		})
 	}
