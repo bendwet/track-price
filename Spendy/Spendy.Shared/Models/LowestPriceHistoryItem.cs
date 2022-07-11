@@ -2,7 +2,7 @@
 
 namespace Spendy.Shared.Models;
 
-public class LowestPriceDateItem
+public class LowestPriceHistoryItem
 {   
     [Column("product_id")]
     public int ProductId { get; set; }

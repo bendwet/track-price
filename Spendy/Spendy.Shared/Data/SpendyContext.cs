@@ -11,7 +11,7 @@ public class SpendyContext : DbContext
     public DbSet<Price> Prices => Set<Price>();
     public DbSet<Item> Items => Set<Item>();
     public DbSet<ProductIdItem> ProductIdItems => Set<ProductIdItem>();
-    public DbSet<LowestPriceDateItem> LowestPriceDateItems => Set<LowestPriceDateItem>();
+    public DbSet<LowestPriceHistoryItem> LowestPriceDateItems => Set<LowestPriceHistoryItem>();
 
     public SpendyContext(DbContextOptions<SpendyContext> options) : base(options)
     {
@@ -60,7 +60,7 @@ public class SpendyContext : DbContext
         modelBuilder.Entity<ProductIdItem>().HasNoKey();
         
         // entity type for lowest price per date per product id DTO
-        modelBuilder.Entity<LowestPriceDateItem>().HasNoKey();
+        modelBuilder.Entity<LowestPriceHistoryItem>().HasNoKey();
 
         // modelBuilder.Entity<Price>()
         //     .HasOne(x => x.Product)

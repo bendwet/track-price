@@ -11,7 +11,7 @@ public interface IItemListService
 {
     public List<Item> GetItems();
     public List<ProductIdItem> GetItemByProductId(int productId);
-    public List<LowestPriceDateItem> GetLowestPriceItemPerDate(int productId);
+    public List<LowestPriceHistoryItem> GetLowestPriceItemPerDate(int productId);
 }
 
 
@@ -48,14 +48,14 @@ public class ItemListService: IItemListService
     }
     
     // get lowest price of item for each date by product id
-    public List<LowestPriceDateItem> GetLowestPriceItemPerDate(int productId)
+    public List<LowestPriceHistoryItem> GetLowestPriceItemPerDate(int productId)
     {   
         var sql = ResourceReader.ReadEmbeddedResource("Spendy.Shared.Models.GetLowestPriceItemPerDate.sql");
         
         var items = _context.LowestPriceDateItems
             .FromSqlRaw(sql, new MySqlParameter("productId", productId))
             .ToList();
-
+        
         return items;
     }
 }
