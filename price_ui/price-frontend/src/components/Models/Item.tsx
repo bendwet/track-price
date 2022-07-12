@@ -1,4 +1,4 @@
- // define types for product elements
+ // define types for item elements
  interface Item {
     productName: string;
     priceQuantity: string;

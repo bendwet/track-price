@@ -2,7 +2,7 @@
     p.product_id
      , MIN(p.price_sale) as price_sale
      , p.is_available
-     , p.price_date
+     , DATE(p.price_date) as price_date
 FROM
     prices p
 WHERE
