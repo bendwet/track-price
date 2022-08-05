@@ -18,7 +18,8 @@ public class StoreRepository: IStoreRepository
     public List<Store> GetAllStores()
     {   
         // retrieve all stores from database and return as a list
-        var stores = _context.Stores.ToList();
+        var stores = _context.Stores
+            .ToList();
         return stores;
     }
     

@@ -14,4 +14,13 @@
       <PackageReference Include="PuppeteerSharp" Version="7.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Models\GetItems.sql" />
+      <EmbeddedResource Include="Models\GetItems.sql" />
+      <None Remove="Models\GetItemsByProductId.sql" />
+      <EmbeddedResource Include="Models\GetItemsByProductId.sql" />
+      <None Remove="Models\GetLowestPriceItemPerDate.sql" />
+      <EmbeddedResource Include="Models\GetLowestPriceItemPerDate.sql" />
+    </ItemGroup>
+
 </Project>

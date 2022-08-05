@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import ProductModel from '../components/ProductModel';
+import LowestPriceHistoryItem from '../components/Models/LowestPriceHistoryItem';
 
 
 // get price from database
-export const getPriceById = createAsyncThunk(
-  'databaseProductApi/getPriceById',
+export const getLowestPriceItemPerDate = createAsyncThunk(
+  'databaseProductApi/getLowestPriceHistory',
   async(productId: string) => {
-    const response: Array<ProductModel> = await fetch(`http://127.0.0.1:5000/product/price/${productId}`)
+    const response: Array<LowestPriceHistoryItem> = await fetch(`https://localhost:7135/items/${productId}/price-history`)
 		.then(
       (data) => data.json()
     );
@@ -18,16 +18,16 @@ export const getPriceById = createAsyncThunk(
 export const singleItemChartSlice = createSlice({
 	name: 'lowestPriceHistoryChart',
 	initialState: {
-		lowestPriceHistory: [] as Array<ProductModel>
+		lowestPriceHistory: [] as Array<LowestPriceHistoryItem>
 	},
 	reducers: {	
 		reset(state) {
-			state.lowestPriceHistory = [] as Array<ProductModel>;
+			state.lowestPriceHistory = [] as Array<LowestPriceHistoryItem>;
 		}
 	},
 	extraReducers: (builder) => {
 		builder
-		.addCase(getPriceById.fulfilled, (state, action) => {
+		.addCase(getLowestPriceItemPerDate.fulfilled, (state, action) => {
 			state.lowestPriceHistory = action.payload;
 		})
 	}

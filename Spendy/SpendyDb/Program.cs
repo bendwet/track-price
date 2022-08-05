@@ -24,9 +24,5 @@ public class Program
         serviceCollection.AddSpendyServices(connectionString);
         
         serviceCollection.AddLogging(x => x.AddConsole());
-            
-        var services = serviceCollection.BuildServiceProvider();
-        var context = services.GetRequiredService<IStoreRepository>();
-        context.GetAllStores();
     }
 }
