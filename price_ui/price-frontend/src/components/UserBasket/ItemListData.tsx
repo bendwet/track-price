@@ -12,8 +12,12 @@ function ItemListData() {
   
   // update state of products on page load
 	useLayoutEffect(() => {
-    dispatch(reset())
-		dispatch(getItem())
+    // Check if filteredItems already has data in the store
+    if(!filteredItems.length)
+    {
+      dispatch(reset())
+      dispatch(getItem())
+    }
 	}, [dispatch]);
 
   
