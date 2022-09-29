@@ -4,17 +4,17 @@ import Item from '../Models/Item';
 
 export default function SingleItemProperties() {
 
-  const { selectedProduct } = useSelector((state: RootState) => state.singleProduct);
+  const { selectedItem } = useSelector((state: RootState) => state.singleItem);
 	
   return (
     <div>
       <div className='SingleItemTitle'>
-       <h1>{selectedProduct.productName}</h1>
+       <h1>{selectedItem.productName}</h1>
       </div>
       <div className='SinleItemProperties'>
         <ul>
           <li key='Quantity'>
-            Quantity: {selectedProduct.priceQuantity}
+            Quantity: {selectedItem.priceQuantity}
           </li>
         </ul>
       </div>

@@ -3,8 +3,8 @@ import Item from '../components/Models/Item';
 
 
 // get products from database
-export const getProduct = createAsyncThunk(
-  'databaseProductApi/getProduct',
+export const getItem = createAsyncThunk(
+  'databaseProductApi/getItem',
   async() => {
     const response: Array<Item> = await fetch('https://localhost:7135/items').then(
       (data) => data.json()
@@ -14,8 +14,8 @@ export const getProduct = createAsyncThunk(
 );
 
 // filter products by search
-export const filterProduct = createAsyncThunk(
-  'filterProducts',
+export const filterItem = createAsyncThunk(
+  'filterItems',
   async (values: Array<Array<Item>|string>) => {
    const products = values[0] as Array<Item>;
    const searchTerm = values[1] as string;
@@ -32,46 +32,46 @@ export const filterProduct = createAsyncThunk(
   }
 )
 
-export const productBasketSlice = createSlice({
-	name: 'productBasket',
+export const itemBasketSlice = createSlice({
+	name: 'itemBasket',
 	initialState: {
-    products: [] as Array<Item>,
-    filteredProducts: [] as Array<Item>,
+    items: [] as Array<Item>,
+    filteredItems: [] as Array<Item>,
 		status: ''
   },
   reducers: {
     reset(state) {
-      state.products = [] as Array<Item>
-      state.filteredProducts = [] as Array<Item>
+      state.items = [] as Array<Item>
+      state.filteredItems = [] as Array<Item>
       state.status = ''
     }
   },
   // extra reducers handle async requests
   extraReducers: (builder) => {
     builder
-    .addCase(getProduct.fulfilled, (state, action) => {
+    .addCase(getItem.fulfilled, (state, action) => {
 			state.status = 'success';
-      state.products = action.payload;
-      state.filteredProducts = action.payload;
+      state.items = action.payload;
+      state.filteredItems = action.payload;
     })
 
-		.addCase(getProduct.pending, (state) => {
+		.addCase(getItem.pending, (state) => {
 			state.status = 'loading';
-      state.products = [];
-      state.filteredProducts = [];
+      state.items = [];
+      state.filteredItems = [];
 		})
 
-		.addCase(getProduct.rejected, (state) => {
+		.addCase(getItem.rejected, (state) => {
 			state.status = 'failed';
-      state.products = [];
-      state.filteredProducts = [];
+      state.items = [];
+      state.filteredItems = [];
 		})
 
-    .addCase(filterProduct.fulfilled, (state, action) => {
-      state.filteredProducts = action.payload;
+    .addCase(filterItem.fulfilled, (state, action) => {
+      state.filteredItems = action.payload;
     })
   }
 });
 
-export const { reset } = productBasketSlice.actions;
-export default productBasketSlice.reducer;
+export const { reset } = itemBasketSlice.actions;
+export default itemBasketSlice.reducer;
