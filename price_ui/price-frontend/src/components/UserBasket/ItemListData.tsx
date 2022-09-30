@@ -30,7 +30,7 @@ function ItemListData() {
         <h1>{ JSON.stringify(status) }</h1>
         <ul className='ItemDisplay'>
         { filteredItems.map((item: Item, index: number) => 
-          <Link className='ItemLink' key={index} to={`/Item/${item.productId}`}>
+          <Link className='ItemLink' key={index} to={`/item/${item.productId}`}>
             <li className='Items'>
                 <span className='ProductName'>{item.productName}</span>
                 <span> {item.priceQuantity}</span>

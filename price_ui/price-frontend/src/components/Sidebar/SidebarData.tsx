@@ -8,7 +8,7 @@ export const SidebarData = [
     },
     {
         title: 'Item Basket',
-        path: '/ItemBasket',
+        path: '/itembasket',
         className: 'SidebarText'
     },
 ]
