@@ -26,6 +26,7 @@ export default function SingleItemChart() {
 				domainPadding={{y: [0, 5]}}
 				containerComponent={
 					<VictoryVoronoiContainer
+						// remove extra info from date time
 						labels={({ datum }: {datum: LowestPriceHistoryItem}) => `${(datum.priceDate).split("T")[0]} \n $${datum.salePrice.toFixed(2)}`}
 						labelComponent={
 						<VictoryTooltip 
