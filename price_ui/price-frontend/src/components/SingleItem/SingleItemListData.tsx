@@ -4,7 +4,7 @@ import { RootState } from '../../stores/store';
 import { getItemById } from '../../slices/SingleItemSlice';
 import SingleItem from '../Models/SingleItem';
 import { useParams } from 'react-router-dom';
-import { reset } from '../../slices/SingleItemSlice';
+// import { reset } from '../../slices/SingleItemSlice';
 
 
 export default function SingleItemListData() {

@@ -4,7 +4,6 @@ import { useLayoutEffect } from 'react';
 import { getItemById } from '../../slices/SingleItemSlice';
 import { useDispatch } from "react-redux";
 import { useParams } from 'react-router-dom';
-import { reset } from '../../slices/SingleItemSlice';
 
 export default function SingleItemInfo() {
 
@@ -12,9 +11,8 @@ export default function SingleItemInfo() {
 	const { productId } = useParams(); 
 
 	useLayoutEffect(() => {
-		dispatch(reset())
 		dispatch(getItemById(productId as string))
-		}, [dispatch]);
+		}, [dispatch, productId]);
 
   return (
     <div>

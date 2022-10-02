@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../stores/store';
 import { getItem } from '../../slices/ProductBasketSlice';
@@ -18,7 +18,7 @@ function ItemListData() {
       dispatch(reset())
       dispatch(getItem())
     }
-	}, [dispatch]);
+	}, [dispatch, filteredItems.length]);
 
   
   return (

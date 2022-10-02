@@ -4,7 +4,7 @@ import LowestPriceHistoryItem from '../components/Models/LowestPriceHistoryItem'
 
 // get price from database
 export const getLowestPriceItemPerDate = createAsyncThunk(
-  'databaseProductApi/getLowestPriceHistory',
+  'databaseProductApi/LowestPriceHistory',
   async(productId: string) => {
     const response: Array<LowestPriceHistoryItem> = await fetch(`https://localhost:7135/items/${productId}/price-history`)
 		.then(

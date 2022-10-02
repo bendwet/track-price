@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import itemBasketSlice from '../slices/ProductBasketSlice'
 import singleItemSlice from '../slices/SingleItemSlice'
 import singleItemChartSlice from '../slices/SingleItemChartSlice'
+import signUpSlice from '../slices/SignUpSlice'
 
 export const store = configureStore({
   reducer: {
     items: itemBasketSlice,
     singleItem: singleItemSlice,
-    lowestPriceHistory: singleItemChartSlice
+    lowestPriceHistory: singleItemChartSlice,
+    signup: signUpSlice
   }
 })
 

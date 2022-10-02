@@ -14,9 +14,8 @@ export default function SingleItemChart() {
 	const { lowestPriceHistory } = useSelector((state: RootState) => state.lowestPriceHistory)
 
 	useLayoutEffect(() => {
-		dispatch(reset())
 		dispatch(getLowestPriceItemPerDate(productId as string))
-	}, [dispatch]); 
+	}, [dispatch,  productId]); 
 
   return (
     <div className='SingleItemChart'>

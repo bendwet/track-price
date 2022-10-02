@@ -1,6 +1,6 @@
 import React from "react";
 import UserPool from "../UserPool";
-import { createAsyncThunk ,createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk ,createSlice, PayloadAction } from "@reduxjs/toolkit";
 import User from "../components/Models/User";
 
 export const signUp = createAsyncThunk(
@@ -13,15 +13,24 @@ export const signUp = createAsyncThunk(
             console.log(data)
         })
     }
-)
+);
 
 
 export const signUpSlice = createSlice({
     name: 'signup',
     initialState: {
         isLoggedIn: false,
+        email: '',
+        password: ''
     },
     reducers : {
+        setEmail(state, userInput: PayloadAction<string>) {
+            state.email = userInput.payload;
+        },
+        setPassword(state, userInput: PayloadAction<string>) {
+            state.password = userInput.payload;
+        }
+
     },
 
     extraReducers: (builder) => {
@@ -31,7 +40,7 @@ export const signUpSlice = createSlice({
         })
     }
 
-
 });
 
+export const { setEmail, setPassword } = signUpSlice.actions
 export default signUpSlice.reducer;

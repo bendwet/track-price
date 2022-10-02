@@ -22,9 +22,9 @@ export const singleItemSlice = createSlice({
 		selectedItem: {} as SingleItem
 	},
 	reducers: {	
-		reset(state) {
-			state.singleItem = [] as Array<SingleItem>;
-		}
+		// reset(state) {
+		// 	state.singleItem = [] as Array<SingleItem>;
+		// }
 	},
 	extraReducers: (builder) => {
 		builder
@@ -37,5 +37,5 @@ export const singleItemSlice = createSlice({
 
 });
 
-export const { reset } = singleItemSlice.actions;
+// export const { reset } = singleItemSlice.actions;
 export default singleItemSlice.reducer;
