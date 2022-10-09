@@ -12,7 +12,7 @@ export const SidebarData = [
         className: 'SidebarText'
     },
     {
-        title: 'Sign Up',
+        title: 'Login',
         path: '/signup',
         className: 'SidebarText'
     }
