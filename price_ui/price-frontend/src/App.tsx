@@ -5,7 +5,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import ItemBasket from './pages/ItemBasket';
 import Home from './pages/Home';
 import Item from './pages/Item';
-import SignUp from './pages/SignUp';
+
 
 function App() {
   return (
@@ -21,7 +21,6 @@ function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/itembasket" element={<ItemBasket/>}/>
           <Route path="/item/:productId" element={<Item/>}/>
-          <Route path="/signup" element={<SignUp/>}/>
         </Routes>
       </BrowserRouter>
     </div>

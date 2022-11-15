@@ -11,9 +11,4 @@ export const SidebarData = [
         path: '/itembasket',
         className: 'SidebarText'
     },
-    {
-        title: 'Login',
-        path: '/signup',
-        className: 'SidebarText'
-    }
 ]
