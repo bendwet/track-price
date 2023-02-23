@@ -135,3 +135,6 @@ dmypy.json
 /Spendy/SpendyBackend/appsettings.json
 
 .env
+
+# Frontend
+/node_modules
