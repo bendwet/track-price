@@ -2,18 +2,9 @@ import React from 'react';
 import '../../css/sidebar.css';
 import { SidebarData } from './SidebarData';
 import {Link} from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { authenticateUser } from '../../slices/AuthSlice';
-import auth from '../UserAuthentication/CognitoAuthentication';
+import SignInButton from '../UserAuthentication/SignInButton';
 
 function Sidebar() {
-
-  const dispatch = useDispatch()
-  
-  const handleSignIn = () => {
-    dispatch(authenticateUser());
-  };
-
   return (
     <div className='Sidebar'>
       <div className='SidebarIcon'>
@@ -29,7 +20,7 @@ function Sidebar() {
                     <Link to={item.path}>{item.title}</Link>
                   </li>
                 )})}
-              <button onClick={handleSignIn}>Sign In</button>
+              <SignInButton/>
           </ul>
       </nav>
     </div>
